@@ -1,0 +1,18 @@
+import { User } from '@modules/user/models/user.model'
+import { ROLES } from '@modules/user/user.types'
+
+export interface JwtValidatePayload {
+  id: string
+}
+
+export interface AuthTokenData {
+  id: string
+  role: ROLES
+}
+
+export interface PreparedRequest extends Request {
+  cookies: Record<string, string | undefined>
+  user?: CurrentUser
+}
+
+export type CurrentUser = Omit<User, 'password'>
