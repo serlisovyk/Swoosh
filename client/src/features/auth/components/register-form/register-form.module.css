@@ -1,0 +1,30 @@
+.wrapper {
+  width: 100%;
+  max-width: 470px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.button {
+  width: 100%;
+}
+
+.checkbox {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--gray);
+}
+
+.checkboxLink {
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  color: var(--gray);
+
+  &:hover {
+    color: var(--primary);
+  }
+}

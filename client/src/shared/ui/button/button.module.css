@@ -1,0 +1,91 @@
+.button {
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:active:not(:disabled) {
+    opacity: 0.8;
+  }
+}
+
+.content {
+  padding: 20px 40px;
+  transition: var(--transition);
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: var(--transition);
+  margin-left: auto;
+}
+
+.primary {
+  background-color: var(--primary);
+  color: var(--white);
+
+  & .icon {
+    background-color: var(--primary-dark);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--primary-dark);
+
+    & .icon {
+      background-color: var(--primary);
+    }
+  }
+}
+
+.dark {
+  background-color: var(--dark-black);
+  color: var(--white);
+
+  & .icon {
+    background-color: var(--light-black);
+  }
+
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    background-color: var(--light-black);
+
+    & .icon {
+      background-color: var(--dark-black);
+    }
+  }
+}
+
+.darkReverse {
+  background-color: var(--light-black);
+  color: var(--white);
+
+  & .icon {
+    background-color: var(--dark-black);
+  }
+
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    background-color: var(--dark-black);
+
+    & .icon {
+      background-color: var(--light-black);
+    }
+  }
+}

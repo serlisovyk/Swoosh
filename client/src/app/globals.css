@@ -3,7 +3,37 @@
 :root {
   --light-black: #1e1e1e;
   --dark-black: #000;
+  --white: #fff;
   --primary: #ff6915;
   --primary-dark: #fb5a00;
   --blue: #3f71bc;
+  --gray: #515151;
+  --error: #ff1515;
+  --input-text: #c1c1c1;
+  --input-border: #d6d6d6;
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: var(--font-ibm-plex-sans), sans-serif;
+  background-color: var(--white);
+  color: var(--dark-black);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: 15px;
 }

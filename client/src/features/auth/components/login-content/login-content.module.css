@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  gap: 30px;
+
+  @media (width <= 479px) {
+    display: block;
+  }
+}
+
+.icon {
+  color: var(--primary);
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.description {
+  max-width: 570px;
+  line-height: 175%;
+  color: var(--gray);
+  margin-bottom: 10px;
+}
