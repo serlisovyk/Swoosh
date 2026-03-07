@@ -1,0 +1,9 @@
+@import 'normalize.css/normalize.css';
+
+:root {
+  --light-black: #1e1e1e;
+  --dark-black: #000;
+  --primary: #ff6915;
+  --primary-dark: #fb5a00;
+  --blue: #3f71bc;
+}
