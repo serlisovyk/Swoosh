@@ -38,6 +38,7 @@ export function RegisterForm() {
           required
         />
 
+        {/* TODO: create cookie privacy policy page */}
         <Checkbox id="terms" required className={styles.checkbox}>
           Я соглашаюсь на обработку персональных данных в соответствии с{' '}
           <Link href="#!" target="_blank" className={styles.checkboxLink}>

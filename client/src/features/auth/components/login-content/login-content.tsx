@@ -2,6 +2,7 @@
 
 import { Button, Heading } from '@shared/ui'
 import { ArrowRight, UserPlus2 } from 'lucide-react'
+import { ROUTES } from '@shared/config'
 import styles from './login-content.module.css'
 
 export function LoginContent() {
@@ -23,7 +24,7 @@ export function LoginContent() {
           легким.
         </div>
 
-        <Button variant="primary" icon={ArrowRight}>
+        <Button variant="primary" icon={ArrowRight} href={ROUTES.REGISTER}>
           Зарегистрироваться
         </Button>
       </div>

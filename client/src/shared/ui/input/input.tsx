@@ -27,9 +27,7 @@ export function Input({
       {label && (
         <label
           htmlFor={id}
-          className={cn(styles.label, {
-            [styles.visuallyHidden]: isVisibleLabel,
-          })}
+          className={cn(styles.label, { visuallyHidden: isVisibleLabel })}
         >
           {label}
 
