@@ -10,6 +10,7 @@ export function Input({
   label,
   required,
   className,
+  error,
   id,
   isVisibleLabel = false,
   type = 'text',
@@ -40,6 +41,7 @@ export function Input({
           id={id}
           type={inputType}
           required={required}
+          aria-invalid={!!error}
           className={cn(styles.input, className)}
           {...props}
         />
@@ -54,6 +56,8 @@ export function Input({
           </button>
         )}
       </div>
+
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   )
 }

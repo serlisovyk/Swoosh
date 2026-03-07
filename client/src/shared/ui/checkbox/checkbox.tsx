@@ -8,6 +8,7 @@ import styles from './checkbox.module.css'
 
 export function Checkbox({
   children,
+  error,
   className,
   id,
   onChange,
@@ -39,6 +40,8 @@ export function Checkbox({
           {children}
         </label>
       )}
+
+      {error && <span className={styles.error}>{error}</span>}
     </div>
   )
 }

@@ -3,43 +3,37 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Button, Checkbox, Input } from '@shared/ui'
+import { useRegisterForm } from '../../hooks'
+import { registerFormFields } from '../../config'
+import { RegisterFormData } from '../../types'
 import styles from './register-form.module.css'
 
 export function RegisterForm() {
+  const { register, handleSubmit, errors, isFormValid } = useRegisterForm()
+
+  const onSubmit = (data: RegisterFormData) => console.log(data)
+
   return (
     <div className={styles.wrapper}>
-      <form className={styles.form}>
-        <Input
-          type="email"
-          label="Email"
-          placeholder="Введите почту для авторизации"
-          required
-        />
-
-        <Input label="Имя" placeholder="Введите ваше имя" required />
-
-        <Input
-          label="Номер телефона"
-          placeholder="Введите ваш номер телефона"
-          required
-        />
-
-        <Input
-          type="password"
-          label="Пароль"
-          placeholder="Придумайте пароль"
-          required
-        />
-
-        <Input
-          type="password"
-          label="Повторите пароль"
-          placeholder="Повторите пароль"
-          required
-        />
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        {/* TODO: Create Field component for group form items */}
+        {registerFormFields.map(({ name, ...field }) => (
+          <Input
+            key={name}
+            {...field}
+            error={errors[name]?.message}
+            {...register(name)}
+          />
+        ))}
 
         {/* TODO: create cookie privacy policy page */}
-        <Checkbox id="terms" required className={styles.checkbox}>
+        <Checkbox
+          id="terms"
+          required
+          className={styles.checkbox}
+          error={errors.terms?.message}
+          {...register('terms')}
+        >
           Я соглашаюсь на обработку персональных данных в соответствии с{' '}
           <Link href="#!" target="_blank" className={styles.checkboxLink}>
             политикой конфиденциальности
@@ -51,6 +45,7 @@ export function RegisterForm() {
           variant="darkReverse"
           icon={ArrowRight}
           className={styles.button}
+          disabled={!isFormValid}
         >
           Создать аккаунт
         </Button>

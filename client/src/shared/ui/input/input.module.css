@@ -38,6 +38,10 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  &:has(.error) {
+    border-color: var(--error);
+  }
 }
 
 .label {
@@ -66,4 +70,10 @@
 
 .toggleButton:hover {
   color: var(--primary);
+}
+
+.error {
+  color: var(--error);
+  font-size: 14px;
+  margin-top: 4px;
 }
