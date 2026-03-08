@@ -6,14 +6,14 @@ import { toast } from 'sonner'
 import { AxiosError } from 'axios'
 import { API_QUERY_KEYS, getErrorMessage, API_ROUTES } from '@shared/api'
 import { updateProfile } from '../services'
-import { ProfileEditFormData } from '../types'
+import { UpdateProfileDto } from '../types'
 
 export function useUpdateProfileMutation() {
   const router = useRouter()
   const queryClient = useQueryClient()
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (dto: ProfileEditFormData) => updateProfile(dto),
+    mutationFn: (dto: UpdateProfileDto) => updateProfile(dto),
     onSuccess: () => {
       toast.success('Профиль успешно обновлен!')
       queryClient.invalidateQueries({ queryKey: [API_QUERY_KEYS.ME] })
@@ -25,4 +25,21 @@ export function useUpdateProfileMutation() {
   })
 
   return { updateProfile: mutateAsync, isLoading: isPending }
+}
+
+export function useChangePasswordMutation() {
+  const router = useRouter()
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (dto: UpdateProfileDto) => updateProfile(dto),
+    onSuccess: () => {
+      toast.success('Пароль успешно изменен!')
+      router.replace(API_ROUTES.PROFILE)
+    },
+    onError: (error: unknown) => {
+      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+    },
+  })
+
+  return { changePassword: mutateAsync, isLoading: isPending }
 }

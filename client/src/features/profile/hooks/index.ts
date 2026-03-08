@@ -1,1 +1,1 @@
-export { useProfileEditForm } from './use-profile-edit-form.hook'
+export * from './profile-form.hooks'

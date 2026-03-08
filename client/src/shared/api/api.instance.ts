@@ -24,9 +24,17 @@ API.interceptors.response.use(
     const status = error.response?.status
     const url = original?.url ?? ''
 
+    const isAuthRequest =
+      url.includes(API_ROUTES.LOGIN) || url.includes(API_ROUTES.REGISTER)
+
     if (!original) throw error
 
-    if (status !== 401 || original._retry || url.includes(API_ROUTES.REFRESH)) {
+    if (
+      status !== 401 ||
+      original._retry ||
+      url.includes(API_ROUTES.REFRESH) ||
+      isAuthRequest
+    ) {
       throw error
     }
 

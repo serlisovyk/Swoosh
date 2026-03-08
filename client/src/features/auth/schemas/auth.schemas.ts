@@ -4,6 +4,7 @@ import {
   passwordSchema,
   nameSchema,
   phoneSchema,
+  withMatchingPasswords,
 } from '@shared/form'
 
 const confirmPasswordSchema = z.string({
@@ -19,16 +20,14 @@ export const loginSchema = z.object({
   password: passwordSchema,
 })
 
-export const registerSchema = z
-  .object({
+export const registerSchema = withMatchingPasswords(
+  z.object({
     email: emailSchema,
     password: passwordSchema,
     name: nameSchema,
     phone: phoneSchema,
     confirmPassword: confirmPasswordSchema,
     terms: termsSchema,
-  })
-  .refine(({ password, confirmPassword }) => password === confirmPassword, {
-    message: 'Пароли не совпадают',
-    path: ['confirmPassword'],
-  })
+  }),
+  { passwordField: 'password' },
+)

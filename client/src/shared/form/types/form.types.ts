@@ -5,3 +5,8 @@ export interface BaseFormFields {
   placeholder: string
   required: boolean
 }
+
+export interface MatchPasswordsOptions {
+  passwordField: string
+  confirmPasswordField?: string
+}
