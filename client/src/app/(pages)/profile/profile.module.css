@@ -1,0 +1,7 @@
+.welcome {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 120%;
+  color: var(--light-black);
+  margin-bottom: 20px;
+}

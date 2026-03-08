@@ -8,10 +8,13 @@
   --primary-dark: #fb5a00;
   --blue: #3f71bc;
   --gray: #515151;
+  --gray-light: #c7c7c7;
   --error: #ff1515;
   --input-text: #c1c1c1;
   --input-border: #d6d6d6;
-  --transition: all 0.3s ease;
+  --border-color: #eaeaea;
+  --profile-background-active: #1d1d27;
+  --transition: all 0.2s ease;
 }
 
 body {

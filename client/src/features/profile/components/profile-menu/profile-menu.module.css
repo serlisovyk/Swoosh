@@ -1,0 +1,19 @@
+.menu {
+  max-width: 325px;
+  display: flex;
+  flex-direction: column;
+
+  &.menuCompact {
+    max-width: none;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    @media (max-width: 1399px) {
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 992px) {
+      display: none;
+    }
+  }
+}

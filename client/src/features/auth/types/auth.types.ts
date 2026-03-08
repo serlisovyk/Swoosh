@@ -30,10 +30,8 @@ export interface User {
   _id: string
   email: string
   role: ROLE
-  name?: string
-  phone?: string
-  createdAt?: string
-  updatedAt?: string
+  name: string
+  phone: string
 }
 
 const ROLE = {

@@ -1,31 +1,38 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { useGetMeQuery } from '@features/auth'
-import { useLogoutMutation } from '@features/auth/queries'
-import { Button } from '@shared/ui'
+import { ProfileMenu } from '@features/profile'
+import { ROUTES } from '@shared/config'
+import styles from './profile.module.css'
 
 export default function ProfilePage() {
+  const router = useRouter()
+
   const { user, isLoading, error } = useGetMeQuery()
 
-  const { logout, isLoading: isLogoutLoading } = useLogoutMutation()
-
-  if (isLoading || isLogoutLoading) {
-    return <p>Loading...</p>
-  }
+  // TODO: Create skeleton ui component
+  if (isLoading) return <p>Loading...</p>
 
   if (error) {
-    return <p>Error: {error.message}</p>
+    toast.error('Не удалось загрузить данные пользователя')
+    router.replace(ROUTES.HOME)
+    return
   }
 
-  console.log('User:', user)
+  if (!user) {
+    toast.error('Пользователь не найден')
+    router.replace(ROUTES.HOME)
+    return
+  }
 
   return (
     <div>
-      <h1>Profile Page</h1>
-      <p>This is the profile page.</p>
-      <Button onClick={() => logout()} disabled={isLogoutLoading}>
-        {isLogoutLoading ? 'Logging out...' : 'Logout'}
-      </Button>
+      <div className={styles.welcome}>
+        Добро Пожаловать, {user.name || 'Гость'}!
+      </div>
+      <ProfileMenu isCompact={true} />
     </div>
   )
 }
