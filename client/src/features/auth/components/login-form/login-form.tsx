@@ -2,15 +2,18 @@
 
 import { ArrowRight } from 'lucide-react'
 import { Button, Input } from '@shared/ui'
+import { useLoginMutation } from '../../queries'
 import { useLoginForm } from '../../hooks'
 import { loginFormFields } from '../../config'
 import { LoginFormData } from '../../types'
 import styles from './login-form.module.css'
 
 export function LoginForm() {
-  const { register, handleSubmit, errors, isFormValid } = useLoginForm()
+  const { register, handleSubmit, errors } = useLoginForm()
 
-  const onSubmit = (data: LoginFormData) => console.log(data)
+  const { login, isLoading } = useLoginMutation()
+
+  const onSubmit = async (data: LoginFormData) => await login(data)
 
   return (
     <div className={styles.wrapper}>
@@ -29,9 +32,9 @@ export function LoginForm() {
           variant="darkReverse"
           icon={ArrowRight}
           className={styles.button}
-          disabled={!isFormValid}
+          disabled={isLoading}
         >
-          Войти в кабинет
+          {isLoading ? 'Вход...' : 'Войти в кабинет'}
         </Button>
       </form>
     </div>

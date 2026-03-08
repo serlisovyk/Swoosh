@@ -39,7 +39,7 @@
     cursor: not-allowed;
   }
 
-  &:has(.error) {
+  &[aria-invalid='true'] {
     border-color: var(--error);
   }
 }

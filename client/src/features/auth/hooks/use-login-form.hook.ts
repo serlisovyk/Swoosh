@@ -8,17 +8,12 @@ export function useLoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<LoginFormData>({
     mode: 'onSubmit',
     defaultValues: LOGIN_FORM_DEFAULT_VALUES,
     resolver: zodResolver(loginSchema),
   })
 
-  return {
-    register,
-    handleSubmit,
-    errors,
-    isFormValid: isValid,
-  }
+  return { register, handleSubmit, errors }
 }

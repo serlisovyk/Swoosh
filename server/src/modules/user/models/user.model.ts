@@ -1,10 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { ROLES } from '../user.types'
-import { Types } from 'mongoose'
 
 @Schema({ timestamps: true })
 export class User {
-  @Prop({ type: Types.ObjectId, required: true })
   _id!: string
 
   @Prop({ required: true, unique: true, index: true })

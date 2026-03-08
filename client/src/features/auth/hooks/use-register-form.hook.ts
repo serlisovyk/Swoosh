@@ -8,17 +8,12 @@ export function useRegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<RegisterFormData>({
     mode: 'onSubmit',
     defaultValues: REGISTER_FORM_DEFAULT_VALUES,
     resolver: zodResolver(registerSchema),
   })
 
-  return {
-    register,
-    handleSubmit,
-    errors,
-    isFormValid: isValid,
-  }
+  return { register, handleSubmit, errors }
 }

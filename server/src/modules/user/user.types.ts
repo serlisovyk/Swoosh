@@ -8,4 +8,4 @@ export const ROLES = {
 
 export type ROLES = (typeof ROLES)[keyof typeof ROLES]
 
-export type UserModel = Model<User & Document>
+export type UserModel = Model<User>

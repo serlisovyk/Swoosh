@@ -19,3 +19,26 @@ interface BaseFormFields {
   placeholder: string
   required: boolean
 }
+
+export type RegisterDto = Omit<RegisterFormData, 'confirmPassword' | 'terms'>
+
+export interface AuthResponse {
+  user: User
+}
+
+export interface User {
+  _id: string
+  email: string
+  role: ROLE
+  name?: string
+  phone?: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+const ROLE = {
+  USER: 'USER',
+  ADMIN: 'ADMIN',
+} as const
+
+export type ROLE = (typeof ROLE)[keyof typeof ROLE]

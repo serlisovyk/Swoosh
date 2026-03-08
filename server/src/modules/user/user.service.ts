@@ -11,12 +11,14 @@ import { ROLES, type UserModel } from './user.types'
 export class UserService {
   constructor(@InjectModel(User.name) private readonly userModel: UserModel) {}
 
+  private readonly selectGetFields = '-createdAt -updatedAt -__v'
+
   getById(id: string) {
-    return this.userModel.findById(id).lean()
+    return this.userModel.findById(id).select(this.selectGetFields).lean()
   }
 
   getByEmail(email: string) {
-    return this.userModel.findOne({ email }).lean()
+    return this.userModel.findOne({ email }).select(this.selectGetFields).lean()
   }
 
   async create(dto: RegisterDto) {

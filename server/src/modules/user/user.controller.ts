@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common'
 import { Auth } from '@modules/auth/decorators/auth.decorator'
 import { CurrentUser } from '@modules/auth/decorators/user.decorator'
+import { noop } from '@shared/utils'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserService } from './user.service'
 import { USER_NOT_FOUND_ERROR } from './user.constants'
@@ -23,8 +24,9 @@ export class UserController {
 
     if (!user) throw new NotFoundException(USER_NOT_FOUND_ERROR)
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...safe } = user
+
+    noop(password)
 
     return safe
   }
