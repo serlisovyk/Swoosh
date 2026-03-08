@@ -2,6 +2,7 @@
 
 import { ArrowRight } from 'lucide-react'
 import { Button, Input } from '@shared/ui'
+import { noop } from '@shared/utils'
 import { useChangePasswordMutation } from '../../queries'
 import { useChangePasswordForm } from '../../hooks'
 import { changePasswordFormFields } from '../../config'
@@ -14,7 +15,11 @@ export function ChangePasswordForm() {
   const { changePassword, isLoading } = useChangePasswordMutation()
 
   const onSubmit = async (data: ChangePasswordFormData) => {
-    await changePassword({ password: data.newPassword })
+    const { confirmPassword, ...changePasswordData } = data
+
+    noop(confirmPassword)
+
+    await changePassword(changePasswordData)
   }
 
   return (

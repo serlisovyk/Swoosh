@@ -2,10 +2,11 @@ import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator'
 import {
   EMAIL_STRING_ERROR,
   EMAIL_FORMAT_ERROR,
-  PASSWORD_STRING_ERROR,
-  PASSWORD_LENGTH_ERROR,
+  NEW_PASSWORD_STRING_ERROR,
+  NEW_PASSWORD_LENGTH_ERROR,
   NAME_STRING_ERROR,
   PHONE_STRING_ERROR,
+  CURRENT_PASSWORD_STRING_ERROR,
 } from '../user.constants'
 
 export class UpdateUserDto {
@@ -19,9 +20,13 @@ export class UpdateUserDto {
   email?: string
 
   @IsOptional()
-  @IsString({ message: PASSWORD_STRING_ERROR })
-  @MinLength(6, { message: PASSWORD_LENGTH_ERROR })
-  password?: string
+  @IsString({ message: NEW_PASSWORD_STRING_ERROR })
+  @MinLength(6, { message: NEW_PASSWORD_LENGTH_ERROR })
+  newPassword?: string
+
+  @IsOptional()
+  @IsString({ message: CURRENT_PASSWORD_STRING_ERROR })
+  currentPassword?: string
 
   @IsOptional()
   @IsString({ message: PHONE_STRING_ERROR })

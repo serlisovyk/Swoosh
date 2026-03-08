@@ -28,7 +28,8 @@ export interface UpdateProfileDto {
   email?: string
   name?: string
   phone?: string
-  password?: string
+  newPassword?: string
+  currentPassword?: string
 }
 
 export type ProfileEditFormData = z.infer<typeof profileEditSchema>
