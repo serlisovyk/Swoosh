@@ -33,6 +33,7 @@ export default function ProfilePage() {
         Добро Пожаловать, {user.name || 'Гость'}!
       </div>
       <ProfileMenu isCompact={true} />
+      {/* TODO: add orders list */}
     </div>
   )
 }

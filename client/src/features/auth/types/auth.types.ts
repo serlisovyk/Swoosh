@@ -1,4 +1,5 @@
 import z from 'zod'
+import { BaseFormFields } from '@shared/form'
 import { loginSchema, registerSchema } from '../schemas'
 
 export type LoginFormData = z.infer<typeof loginSchema>
@@ -11,13 +12,6 @@ export interface LoginFormField extends BaseFormFields {
 
 export interface RegisterFormField extends BaseFormFields {
   name: keyof RegisterFormData
-}
-
-interface BaseFormFields {
-  type: string
-  label: string
-  placeholder: string
-  required: boolean
 }
 
 export type RegisterDto = Omit<RegisterFormData, 'confirmPassword' | 'terms'>

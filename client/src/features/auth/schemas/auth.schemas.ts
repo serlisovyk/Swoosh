@@ -1,20 +1,10 @@
 import z from 'zod'
-
-const emailSchema = z
-  .string({ message: 'Почта обязателен' })
-  .pipe(z.email({ message: 'Неверный формат почты' }))
-
-const passwordSchema = z
-  .string({ message: 'Пароль обязателен' })
-  .min(6, { message: 'Пароль должен быть не менее 6 символов' })
-
-const nameSchema = z
-  .string({ message: 'Имя обязательно' })
-  .min(2, { message: 'Имя должно быть не менее 2 символов' })
-
-const phoneSchema = z
-  .string({ message: 'Телефон обязателен' })
-  .min(8, { message: 'Телефон должен быть не менее 8 символов' })
+import {
+  emailSchema,
+  passwordSchema,
+  nameSchema,
+  phoneSchema,
+} from '@shared/form'
 
 const confirmPasswordSchema = z.string({
   message: 'Подтверждение пароля обязательно',

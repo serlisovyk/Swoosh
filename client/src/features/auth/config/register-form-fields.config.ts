@@ -3,6 +3,7 @@ import { RegisterFormField } from '../types'
 export const registerFormFields: RegisterFormField[] = [
   {
     name: 'email',
+    id: 'email',
     type: 'email',
     label: 'Email',
     placeholder: 'Введите почту для авторизации',
@@ -10,6 +11,7 @@ export const registerFormFields: RegisterFormField[] = [
   },
   {
     name: 'name',
+    id: 'name',
     type: 'text',
     label: 'Имя',
     placeholder: 'Введите ваше имя',
@@ -17,6 +19,7 @@ export const registerFormFields: RegisterFormField[] = [
   },
   {
     name: 'phone',
+    id: 'phone',
     type: 'tel',
     label: 'Номер телефона',
     placeholder: 'Введите ваш номер телефона',
@@ -24,6 +27,7 @@ export const registerFormFields: RegisterFormField[] = [
   },
   {
     name: 'password',
+    id: 'password',
     type: 'password',
     label: 'Пароль',
     placeholder: 'Придумайте пароль',
@@ -31,6 +35,7 @@ export const registerFormFields: RegisterFormField[] = [
   },
   {
     name: 'confirmPassword',
+    id: 'confirmPassword',
     type: 'password',
     label: 'Повторите пароль',
     placeholder: 'Повторите пароль',
