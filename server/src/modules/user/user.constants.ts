@@ -17,3 +17,10 @@ export const CURRENT_PASSWORD_REQUIRED_ERROR =
 export const WRONG_CURRENT_PASSWORD_ERROR = 'Неверный текущий пароль'
 export const CURRENT_PASSWORD_STRING_ERROR =
   'Текущий пароль должен быть строкой'
+export const ADDRESS_COMPANY_STRING_ERROR = 'Компания должна быть строкой'
+export const ADDRESS_REGION_STRING_ERROR = 'Регион должен быть строкой'
+export const ADDRESS_CITY_STRING_ERROR = 'Город должен быть строкой'
+export const ADDRESS_STREET_STRING_ERROR = 'Улица должна быть строкой'
+export const ADDRESS_ZIP_STRING_ERROR = 'Почтовый индекс должен быть строкой'
+export const ADDRESS_BUILDING_NUMBER_STRING_ERROR =
+  'Номер дома/квартира должна быть строкой'

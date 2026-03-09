@@ -1,11 +1,11 @@
 .heading {
   margin-bottom: 50px;
 
-  @media (max-width: 767px) {
+  @media (width <= 767px) {
     margin-bottom: 30px;
   }
 
-  @media (max-width: 479px) {
+  @media (width <= 479px) {
     margin-bottom: 20px;
   }
 }
@@ -14,7 +14,11 @@
   display: flex;
   gap: 20px;
 
-  @media (max-width: 767px) {
+  > div {
+    width: 100%;
+  }
+
+  @media (width <= 767px) {
     flex-direction: column;
   }
 }

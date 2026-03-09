@@ -2,13 +2,37 @@
   font-weight: 500;
   color: var(--dark-black);
   margin: 0 0 40px 0;
+
+  @media (width <= 767px) {
+    margin: 0 0 20px 0;
+  }
 }
 
 .h1 {
   font-size: 45px;
-  line-height: 107%;
+  line-height: 110%;
+
+  @media (width <= 767px) {
+    font-size: 25px;
+    line-height: 120%;
+  }
 }
 
 .h2 {
   font-size: 28px;
+
+  @media (width <= 767px) {
+    font-size: 20px;
+    line-height: 150%;
+  }
+}
+
+.h3 {
+  font-size: 20px;
+  line-height: 120%;
+
+  @media (width <= 767px) {
+    font-size: 18px;
+    line-height: 150%;
+  }
 }

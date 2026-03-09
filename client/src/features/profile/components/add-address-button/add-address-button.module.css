@@ -1,0 +1,8 @@
+.link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 140%;
+  text-decoration: none;
+  color: var(--primary-dark);
+}

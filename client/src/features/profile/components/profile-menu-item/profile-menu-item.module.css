@@ -58,7 +58,7 @@
     color: var(--white);
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     padding: 20px;
     font-size: 12px;
   }

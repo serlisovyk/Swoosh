@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { Address } from './user-address.model'
 import { ROLES } from '../user.types'
 
 @Schema({ timestamps: true })
@@ -24,6 +25,9 @@ export class User {
     index: true,
   })
   role!: ROLES
+
+  @Prop({ type: Address, default: {} })
+  address?: Address
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

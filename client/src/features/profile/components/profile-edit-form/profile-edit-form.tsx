@@ -10,7 +10,10 @@ import styles from './profile-edit-form.module.css'
 
 export function ProfileEditForm() {
   const { register, handleSubmit, errors } = useProfileEditForm()
-  const { updateProfile, isLoading } = useUpdateProfileMutation()
+
+  const { updateProfile, isLoading } = useUpdateProfileMutation({
+    toastMessage: 'Профиль успешно обновлен!',
+  })
 
   const onSubmit = async (data: ProfileEditFormData) => {
     await updateProfile(data)

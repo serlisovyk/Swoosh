@@ -1,0 +1,61 @@
+import type { ProfileAddressFormField } from '../types'
+
+export const profileAddressFormFields: ProfileAddressFormField[] = [
+  {
+    name: 'name',
+    id: 'name',
+    type: 'text',
+    label: 'Ваше имя',
+    placeholder: 'Как вас зовут',
+    required: true,
+  },
+  {
+    name: 'company',
+    id: 'company',
+    type: 'text',
+    label: 'Название компании',
+    placeholder: 'Введите название вашей компании',
+    required: false,
+  },
+  {
+    name: 'region',
+    id: 'region',
+    type: 'text',
+    label: 'Область / Регион',
+    placeholder: 'Область',
+    required: true,
+  },
+  {
+    name: 'city',
+    id: 'city',
+    type: 'text',
+    label: 'Город',
+    placeholder: 'Введите название вашего города',
+    required: true,
+  },
+  {
+    name: 'street',
+    id: 'street',
+    type: 'text',
+    label: 'Улица',
+    placeholder: 'Введите название улицы',
+    required: true,
+    isFullWidth: true,
+  },
+  {
+    name: 'zip',
+    id: 'zip',
+    type: 'text',
+    label: 'Индекс',
+    placeholder: 'Введите индекс',
+    required: true,
+  },
+  {
+    name: 'buildingNumber',
+    id: 'buildingNumber',
+    type: 'text',
+    label: 'Номер дома / Квартира',
+    placeholder: 'Например 37/2',
+    required: true,
+  },
+]

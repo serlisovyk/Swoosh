@@ -53,7 +53,7 @@ export class UserService {
 
     const updatedUser = await this.userModel
       .findByIdAndUpdate(userId, data, {
-        new: true,
+        returnDocument: 'after',
         runValidators: true,
       })
       .select('-password')

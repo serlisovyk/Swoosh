@@ -15,6 +15,8 @@ export default function ProfilePage() {
   // TODO: Create skeleton ui component
   if (isLoading) return <p>Loading...</p>
 
+  // TODO: create some guard on layout level to prevent this case,
+  // because if user is not authenticated he should not be able to see this page at all
   if (error) {
     toast.error('Не удалось загрузить данные пользователя')
     router.replace(ROUTES.HOME)
@@ -34,6 +36,7 @@ export default function ProfilePage() {
       </div>
       <ProfileMenu isCompact={true} />
       {/* TODO: add orders list */}
+      Orders
     </div>
   )
 }

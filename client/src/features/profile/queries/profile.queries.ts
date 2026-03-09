@@ -6,18 +6,21 @@ import { toast } from 'sonner'
 import { AxiosError } from 'axios'
 import { API_QUERY_KEYS, getErrorMessage, API_ROUTES } from '@shared/api'
 import { updateProfile } from '../services'
-import { UpdateProfileDto } from '../types'
+import { UpdateProfileDto, UseUpdateProfileMutationOptions } from '../types'
 
-export function useUpdateProfileMutation() {
+export function useUpdateProfileMutation({
+  toastMessage,
+  route = API_ROUTES.PROFILE,
+}: UseUpdateProfileMutationOptions) {
   const router = useRouter()
   const queryClient = useQueryClient()
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (dto: UpdateProfileDto) => updateProfile(dto),
     onSuccess: () => {
-      toast.success('Профиль успешно обновлен!')
+      if (toastMessage) toast.success(toastMessage)
       queryClient.invalidateQueries({ queryKey: [API_QUERY_KEYS.ME] })
-      router.replace(API_ROUTES.PROFILE)
+      router.replace(route)
     },
     onError: (error: unknown) => {
       if (error instanceof AxiosError) toast.error(getErrorMessage(error))
@@ -25,21 +28,4 @@ export function useUpdateProfileMutation() {
   })
 
   return { updateProfile: mutateAsync, isLoading: isPending }
-}
-
-export function useChangePasswordMutation() {
-  const router = useRouter()
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: (dto: UpdateProfileDto) => updateProfile(dto),
-    onSuccess: () => {
-      toast.success('Пароль успешно изменен!')
-      router.replace(API_ROUTES.PROFILE)
-    },
-    onError: (error: unknown) => {
-      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
-    },
-  })
-
-  return { changePassword: mutateAsync, isLoading: isPending }
 }

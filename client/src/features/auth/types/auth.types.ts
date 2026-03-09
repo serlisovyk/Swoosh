@@ -26,6 +26,16 @@ export interface User {
   role: ROLE
   name: string
   phone: string
+  address?: UserAddress | null
+}
+
+export interface UserAddress {
+  company: string
+  region: string
+  city: string
+  street: string
+  zip: string
+  buildingNumber: string
 }
 
 const ROLE = {

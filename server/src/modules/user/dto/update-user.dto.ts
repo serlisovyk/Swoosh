@@ -1,4 +1,5 @@
 import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator'
+import { UpdateAddressDto } from './update-user-address.dto'
 import {
   EMAIL_STRING_ERROR,
   EMAIL_FORMAT_ERROR,
@@ -31,4 +32,7 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString({ message: PHONE_STRING_ERROR })
   phone?: string
+
+  @IsOptional()
+  address?: UpdateAddressDto
 }
