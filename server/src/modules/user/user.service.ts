@@ -7,6 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose'
 import { hash, verify } from 'argon2'
 import { RegisterDto } from '@modules/auth/dto/register.dto'
+import { THIRTY_MINUTES_IN_MS } from '@shared/constants'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './models/user.model'
 import {
@@ -95,5 +96,29 @@ export class UserService {
     if (!isPasswordValid) {
       throw new UnauthorizedException(WRONG_CURRENT_PASSWORD_ERROR)
     }
+  }
+
+  findByPasswordResetToken(token: string) {
+    return this.userModel
+      .findOne({
+        resetPasswordToken: token,
+        resetPasswordTokenExpiresAt: { $gt: new Date() },
+      })
+      .lean()
+  }
+
+  setPasswordResetToken(userId: string, token: string) {
+    return this.userModel.findByIdAndUpdate(userId, {
+      resetPasswordToken: token,
+      resetPasswordTokenExpiresAt: new Date(Date.now() + THIRTY_MINUTES_IN_MS),
+    })
+  }
+
+  async resetPassword(userId: string, newPassword: string) {
+    return this.userModel.findByIdAndUpdate(userId, {
+      password: await hash(newPassword),
+      resetPasswordToken: null,
+      resetPasswordTokenExpiresAt: null,
+    })
   }
 }

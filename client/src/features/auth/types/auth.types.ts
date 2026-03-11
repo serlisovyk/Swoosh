@@ -1,10 +1,19 @@
 import z from 'zod'
 import { BaseFormFields } from '@shared/form'
-import { loginSchema, registerSchema } from '../schemas'
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+} from '../schemas'
 
 export type LoginFormData = z.infer<typeof loginSchema>
 
 export type RegisterFormData = z.infer<typeof registerSchema>
+
+export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>
+
+export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>
 
 export interface LoginFormField extends BaseFormFields {
   name: keyof LoginFormData
@@ -14,7 +23,24 @@ export interface RegisterFormField extends BaseFormFields {
   name: keyof RegisterFormData
 }
 
+export interface ForgotPasswordFormField extends BaseFormFields {
+  name: keyof ForgotPasswordFormData
+}
+
+export interface ResetPasswordFormField extends BaseFormFields {
+  name: keyof ResetPasswordFormData
+}
+
 export type RegisterDto = Omit<RegisterFormData, 'confirmPassword' | 'terms'>
+
+export interface RequestPasswordResetDto {
+  email: string
+}
+
+export interface ResetPasswordDto {
+  token: string
+  newPassword: string
+}
 
 export interface AuthResponse {
   user: User

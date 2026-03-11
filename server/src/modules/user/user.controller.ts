@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  HttpStatus,
   NotFoundException,
   Put,
 } from '@nestjs/common'
@@ -31,7 +32,7 @@ export class UserController {
     return safe
   }
 
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   @Auth()
   @Put()
   async updateProfile(

@@ -1,10 +1,11 @@
 'use client'
 
 import { useGetMeQuery } from '@features/auth'
-import { AddressHeader } from '../address-header'
-import { AddAddressButton } from '../add-address-button'
-import { AddressInfo } from '../address-info'
-import { AddressActions } from '../address-actions'
+import { Heading } from '@shared/ui'
+import { AddressHeader } from './address-header'
+import { AddAddressButton } from './add-address-button'
+import { AddressInfo } from './address-info'
+import { AddressActions } from './address-actions'
 import styles from './profile-address.module.css'
 
 export function ProfileAddress() {
@@ -18,12 +19,16 @@ export function ProfileAddress() {
     !address || Object.values(address).some((value) => !value)
 
   return (
-    <div className={styles.wrapper}>
-      <AddressHeader name={name} isAddressEmpty={isAddressEmpty} />
+    <div>
+      <Heading level={2}>Мой адрес</Heading>
 
-      {isAddressEmpty ? <AddAddressButton /> : <AddressInfo />}
+      <div className={styles.wrapper}>
+        <AddressHeader name={name} isAddressEmpty={isAddressEmpty} />
 
-      {!isAddressEmpty && <AddressActions />}
+        {isAddressEmpty ? <AddAddressButton /> : <AddressInfo />}
+
+        {!isAddressEmpty && <AddressActions />}
+      </div>
     </div>
   )
 }

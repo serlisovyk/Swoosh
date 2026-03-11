@@ -1,11 +1,5 @@
-import { ProfileEditForm } from '@features/profile'
-import { Heading } from '@shared/ui'
+import { ProfileEdit } from '@features/profile'
 
-export default function EditProfilePage() {
-  return (
-    <div>
-      <Heading level={2}>Редактировать профиль</Heading>
-      <ProfileEditForm />
-    </div>
-  )
+export default function ProfileEditPage() {
+  return <ProfileEdit />
 }

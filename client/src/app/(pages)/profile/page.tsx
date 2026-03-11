@@ -3,9 +3,8 @@
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { useGetMeQuery } from '@features/auth'
-import { ProfileMenu } from '@features/profile'
+import { ProfileMain } from '@features/profile'
 import { ROUTES } from '@shared/config'
-import styles from './profile.module.css'
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -29,14 +28,5 @@ export default function ProfilePage() {
     return
   }
 
-  return (
-    <div>
-      <div className={styles.welcome}>
-        Добро Пожаловать, {user.name || 'Гость'}!
-      </div>
-      <ProfileMenu isCompact={true} />
-      {/* TODO: add orders list */}
-      Orders
-    </div>
-  )
+  return <ProfileMain />
 }

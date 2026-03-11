@@ -1,0 +1,21 @@
+.wrapper {
+  width: 100%;
+  max-width: 470px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.button {
+  width: 100%;
+}
+
+.forgotPasswordLink {
+  text-align: center;
+  color: var(--dark-black);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+}

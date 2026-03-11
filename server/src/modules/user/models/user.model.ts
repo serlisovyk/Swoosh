@@ -12,6 +12,12 @@ export class User {
   @Prop({ required: true })
   password!: string
 
+  @Prop({ type: String, default: null })
+  resetPasswordToken?: string | null
+
+  @Prop({ type: Date, default: null })
+  resetPasswordTokenExpiresAt?: Date | null
+
   @Prop({ default: '' })
   name?: string
 

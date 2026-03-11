@@ -6,7 +6,14 @@ import { toast } from 'sonner'
 import { AxiosError } from 'axios'
 import { API_QUERY_KEYS, getErrorMessage } from '@shared/api'
 import { ROUTES } from '@shared/config'
-import { getMe, login, register, logout } from '../services'
+import {
+  getMe,
+  login,
+  register,
+  logout,
+  requestPasswordReset,
+  resetPassword,
+} from '../services'
 import { LoginFormData, RegisterDto, User } from '../types'
 
 export function useGetMeQuery() {
@@ -79,4 +86,39 @@ export function useLogoutMutation() {
   })
 
   return { logout: mutateAsync, isLoading: isPending }
+}
+
+export function useRequestPasswordResetMutation() {
+  const { mutateAsync, isPending, isSuccess } = useMutation({
+    mutationFn: requestPasswordReset,
+    onSuccess: () => {
+      toast.success('Ссылка для восстановления отправлена на почту')
+    },
+    onError: (error: unknown) => {
+      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+    },
+  })
+
+  return {
+    requestPasswordReset: mutateAsync,
+    isLoading: isPending,
+    isSuccess,
+  }
+}
+
+export function useResetPasswordMutation() {
+  const router = useRouter()
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: resetPassword,
+    onSuccess: () => {
+      toast.success('Пароль успешно изменен!')
+      router.replace(ROUTES.LOGIN)
+    },
+    onError: (error: unknown) => {
+      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+    },
+  })
+
+  return { resetPassword: mutateAsync, isLoading: isPending }
 }

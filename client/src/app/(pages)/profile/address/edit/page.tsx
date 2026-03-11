@@ -1,11 +1,5 @@
-import { ProfileAddressForm } from '@features/profile'
-import { Heading } from '@shared/ui'
+import { ProfileAddressEdit } from '@features/profile'
 
-export default function EditAddressProfilePage() {
-  return (
-    <div>
-      <Heading level={2}>Редактирование адреса</Heading>
-      <ProfileAddressForm />
-    </div>
-  )
+export default function ProfileAddressEditPage() {
+  return <ProfileAddressEdit />
 }

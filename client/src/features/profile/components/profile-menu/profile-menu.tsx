@@ -1,7 +1,7 @@
 'use client'
 
 import cn from 'clsx'
-import { ProfileMenuItem } from '../profile-menu-item'
+import { ProfileMenuItem } from './profile-menu-item'
 import { LogoutButton } from '../logout-button'
 import { profileMenuItems } from '../../data'
 import { ProfileMenuProps } from '../../types'

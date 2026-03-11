@@ -31,3 +31,15 @@ export const registerSchema = withMatchingPasswords(
   }),
   { passwordField: 'password' },
 )
+
+export const forgotPasswordSchema = z.object({
+  email: emailSchema,
+})
+
+export const resetPasswordSchema = withMatchingPasswords(
+  z.object({
+    newPassword: passwordSchema,
+    confirmPassword: confirmPasswordSchema,
+  }),
+  { passwordField: 'newPassword' },
+)

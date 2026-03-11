@@ -14,3 +14,11 @@ export const PASSWORD_MIN_LENGTH_ERROR =
   'Пароль должен быть не менее 6 символов'
 export const NAME_STRING_ERROR = 'Имя должно быть строкой'
 export const PHONE_STRING_ERROR = 'Телефон должен быть строкой'
+
+export const TOKEN_NOT_EMPTY_ERROR = 'Токен не должен быть пустым'
+export const TOKEN_STRING_ERROR = 'Токен должен быть строкой'
+export const INVALID_OR_EXPIRED_PASSWORD_RESET_TOKEN_ERROR =
+  'Недействительная или просроченная ссылка для сброса пароля'
+
+export const RESET_PASSWORD_URL = '/auth/reset-password'
+export const RESET_PASSWORD_SUBJECT = 'Сброс пароля'

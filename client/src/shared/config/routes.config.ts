@@ -5,6 +5,8 @@ class Routes {
 
   readonly LOGIN = this.AUTH + '/login'
   readonly REGISTER = this.AUTH + '/register'
+  readonly FORGOT_PASSWORD = this.AUTH + '/forgot-password'
+  readonly RESET_PASSWORD = this.AUTH + '/reset-password'
 
   readonly PROFILE = '/profile'
   readonly EDIT_PROFILE = this.PROFILE + '/edit'

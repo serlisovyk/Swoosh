@@ -1,6 +1,8 @@
-export { LoginForm } from './components/login-form'
-export { LoginContent } from './components/login-content'
-export { RegisterForm } from './components/register-form'
-export { RegisterContent } from './components/register-content'
+export { Login } from './components/login'
+export { Register } from './components/register'
+export { ForgotPassword } from './components/forgot-password'
+export { ResetPassword } from './components/reset-password'
+
 export { useGetMeQuery } from './queries'
+
 export type { User } from './types'
