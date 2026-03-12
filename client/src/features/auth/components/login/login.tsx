@@ -6,7 +6,7 @@ import styles from './login.module.css'
 export function Login() {
   return (
     <div className="container">
-      <Heading level={1} className={styles.title}>
+      <Heading as="h1" className={styles.title}>
         Авторизация
       </Heading>
 

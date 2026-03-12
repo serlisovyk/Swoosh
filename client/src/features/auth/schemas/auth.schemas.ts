@@ -6,6 +6,7 @@ import {
   phoneSchema,
   withMatchingPasswords,
 } from '@shared/form'
+import { TOKEN_REGEX, invalidResetPasswordTokenMessage } from '../constants'
 
 const confirmPasswordSchema = z.string({
   message: 'Подтверждение пароля обязательно',
@@ -14,6 +15,16 @@ const confirmPasswordSchema = z.string({
 const termsSchema = z.literal(true, {
   message: 'Вы должны принять условия',
 })
+
+export const resetPasswordTokenSchema = z.preprocess(
+  (value) => (typeof value === 'string' ? value.trim() : ''),
+  z
+    .string()
+    .min(1, { message: invalidResetPasswordTokenMessage })
+    .regex(TOKEN_REGEX, {
+      message: invalidResetPasswordTokenMessage,
+    }),
+)
 
 export const loginSchema = z.object({
   email: emailSchema,

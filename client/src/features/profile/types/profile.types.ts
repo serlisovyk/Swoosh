@@ -1,5 +1,6 @@
 import z from 'zod'
 import { LucideIcon } from 'lucide-react'
+import { MouseEventHandler } from 'react'
 import { User } from '@features/auth'
 import { BaseFormFields } from '@shared/form'
 import {
@@ -14,6 +15,7 @@ export interface ProfileMenuProps {
 
 export interface LogoutButtonProps {
   isCompact?: boolean
+  onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
 export interface ProfileMenuItemProps {
@@ -22,11 +24,17 @@ export interface ProfileMenuItemProps {
   text: string
   icon: LucideIcon
   isCompact?: boolean
+  onClick?: MouseEventHandler<HTMLAnchorElement>
 }
 
 export interface AddressHeaderProps {
   name: string
   isAddressEmpty: boolean
+}
+
+export interface ProfileMenuDrawerButtonProps {
+  isCompact: boolean
+  openDrawer: () => void
 }
 
 export interface UseUpdateProfileMutationOptions {

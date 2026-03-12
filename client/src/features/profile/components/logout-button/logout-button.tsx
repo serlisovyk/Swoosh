@@ -1,13 +1,20 @@
 import cn from 'clsx'
+import { MouseEvent } from 'react'
 import { LogOut } from 'lucide-react'
 import { useLogoutMutation } from '@features/auth/queries'
 import { LogoutButtonProps } from '../../types'
 import styles from '../profile-menu/profile-menu-item/profile-menu-item.module.css'
 
-export function LogoutButton({ isCompact = false }: LogoutButtonProps) {
+export function LogoutButton({
+  isCompact = false,
+  onClick,
+}: LogoutButtonProps) {
   const { logout, isLoading } = useLogoutMutation()
 
-  const handleLogout = async () => await logout()
+  const handleLogout = async (event: MouseEvent<HTMLButtonElement>) => {
+    onClick?.(event)
+    await logout()
+  }
 
   return (
     <button

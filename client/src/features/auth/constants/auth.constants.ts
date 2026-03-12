@@ -19,3 +19,8 @@ export const RESET_PASSWORD_FORM_DEFAULT_VALUES = {
   newPassword: '',
   confirmPassword: '',
 }
+
+export const TOKEN_REGEX = /^[a-f0-9]{64}$/i
+
+export const invalidResetPasswordTokenMessage =
+  'Недействительная или просроченная ссылка для сброса пароля'

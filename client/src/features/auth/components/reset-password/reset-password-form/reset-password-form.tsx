@@ -1,29 +1,30 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
 import { ArrowRight } from 'lucide-react'
 import { Button, Input } from '@shared/ui'
 import { useResetPasswordMutation } from '../../../queries'
-import { useResetPasswordForm } from '../../../hooks'
+import {
+  useParseResetPasswordToken,
+  useResetPasswordForm,
+} from '../../../hooks'
 import { resetPasswordFormFields } from '../../../config'
 import { ResetPasswordFormData } from '../../../types'
 import styles from './reset-password-form.module.css'
 
 export function ResetPasswordForm() {
-  const searchParams = useSearchParams()
-
-  // TODO: add zod schema validation
-  const token = searchParams.get('token')?.trim() ?? ''
+  const { token, tokenSuccess, tokenError } = useParseResetPasswordToken()
 
   const { register, handleSubmit, errors, setError } = useResetPasswordForm()
 
   const { resetPassword, isLoading } = useResetPasswordMutation()
 
   const onSubmit = async ({ newPassword }: ResetPasswordFormData) => {
-    if (!token) {
+    if (!tokenSuccess || !token) {
       setError('confirmPassword', {
         type: 'manual',
-        message: 'Ссылка для сброса пароля недействительна',
+        message:
+          tokenError?.issues[0]?.message ||
+          'Ссылка для сброса пароля недействительна',
       })
 
       return

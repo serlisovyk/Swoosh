@@ -4,7 +4,7 @@ import { ProfileAddressForm } from './profile-address-form'
 export function ProfileAddressEdit() {
   return (
     <div>
-      <Heading level={2}>Редактирование адреса</Heading>
+      <Heading as="h2">Редактирование адреса</Heading>
       <ProfileAddressForm />
     </div>
   )

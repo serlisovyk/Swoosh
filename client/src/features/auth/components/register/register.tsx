@@ -6,7 +6,7 @@ import styles from './register.module.css'
 export function Register() {
   return (
     <div className="container">
-      <Heading level={1} className={styles.title}>
+      <Heading as="h1" className={styles.title}>
         Регистрация
       </Heading>
 

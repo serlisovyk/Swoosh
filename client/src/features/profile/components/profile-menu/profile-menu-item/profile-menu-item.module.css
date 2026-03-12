@@ -59,7 +59,7 @@
   }
 
   @media (width <= 480px) {
-    padding: 20px;
-    font-size: 12px;
+    padding: 16px;
+    font-size: 14px;
   }
 }

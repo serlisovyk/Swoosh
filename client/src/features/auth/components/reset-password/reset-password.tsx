@@ -5,7 +5,7 @@ import styles from './reset-password.module.css'
 export function ResetPassword() {
   return (
     <div className="container">
-      <Heading level={1} className={styles.title}>
+      <Heading as="h1" className={styles.title}>
         Восстановление пароля
       </Heading>
 

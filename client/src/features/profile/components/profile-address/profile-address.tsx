@@ -1,7 +1,7 @@
 'use client'
 
 import { useGetMeQuery } from '@features/auth'
-import { Heading } from '@shared/ui'
+import { Heading, Skeleton } from '@shared/ui'
 import { AddressHeader } from './address-header'
 import { AddAddressButton } from './add-address-button'
 import { AddressInfo } from './address-info'
@@ -9,7 +9,9 @@ import { AddressActions } from './address-actions'
 import styles from './profile-address.module.css'
 
 export function ProfileAddress() {
-  const { user } = useGetMeQuery()
+  const { user, isLoading } = useGetMeQuery()
+
+  if (isLoading) return <Skeleton count={6} />
 
   if (!user) return null
 
@@ -20,7 +22,7 @@ export function ProfileAddress() {
 
   return (
     <div>
-      <Heading level={2}>Мой адрес</Heading>
+      <Heading as="h2">Мой адрес</Heading>
 
       <div className={styles.wrapper}>
         <AddressHeader name={name} isAddressEmpty={isAddressEmpty} />

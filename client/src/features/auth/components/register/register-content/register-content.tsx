@@ -12,7 +12,7 @@ export function RegisterContent() {
         <UserPlus2 size={40} className={styles.icon} />
       </div>
       <div>
-        <Heading level={2} className={styles.title}>
+        <Heading as="h2" className={styles.title}>
           Уже есть аккаунт?
         </Heading>
 

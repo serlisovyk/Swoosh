@@ -13,6 +13,7 @@ export function ProfileMenuItem({
   text,
   icon: Icon,
   isCompact = false,
+  onClick,
 }: ProfileMenuItemProps) {
   const pathname = usePathname()
 
@@ -20,6 +21,7 @@ export function ProfileMenuItem({
     <Link
       key={id}
       href={href}
+      onClick={onClick}
       className={cn(styles.item, {
         [styles.itemActive]: !!match(href)(pathname),
         [styles.itemCompact]: isCompact,

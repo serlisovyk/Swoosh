@@ -3,17 +3,63 @@
   display: flex;
   flex-direction: column;
 
-  &.menuCompact {
-    max-width: none;
-    flex-direction: row;
-    flex-wrap: nowrap;
-
-    @media (width <= 1399px) {
-      flex-wrap: wrap;
-    }
-
-    @media (width <= 992px) {
-      display: none;
-    }
+  @media (width <= 992px) {
+    display: none;
   }
+}
+
+.menuCompact {
+  max-width: none;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  @media (width <= 1399px) {
+    flex-wrap: wrap;
+  }
+
+  @media (width <= 992px) {
+    display: none;
+  }
+}
+
+.mobileMenuButton {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  color: var(--light-black);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover {
+    background-color: var(--profile-background-active);
+    border-color: var(--profile-background-active);
+    color: var(--white);
+  }
+
+  @media (width <= 992px) {
+    display: inline-flex;
+    justify-content: center;
+    align-self: center;
+  }
+}
+
+.mobileMenuButtonHidden {
+  display: none;
+}
+
+.drawerContent {
+  padding: 0 20px 20px;
+}
+
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 }
