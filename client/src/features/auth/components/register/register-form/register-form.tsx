@@ -6,6 +6,7 @@ import { Button, Checkbox, Input } from '@shared/ui'
 import { useRegisterForm } from '../../../hooks'
 import { registerFormFields } from '../../../config'
 import { RegisterFormData } from '../../../types'
+import { ROUTES } from '@shared/config'
 import styles from './register-form.module.css'
 import { useRegisterMutation } from '../../../queries'
 import { noop } from '@shared/utils'
@@ -33,7 +34,6 @@ export function RegisterForm() {
           />
         ))}
 
-        {/* TODO: create cookie privacy policy page */}
         <Checkbox
           id="terms"
           required
@@ -42,7 +42,11 @@ export function RegisterForm() {
           {...register('terms')}
         >
           Я соглашаюсь на обработку персональных данных в соответствии с{' '}
-          <Link href="#!" target="_blank" className={styles.checkboxLink}>
+          <Link
+            href={ROUTES.PRIVACY_POLICY}
+            target="_blank"
+            className={styles.checkboxLink}
+          >
             политикой конфиденциальности
           </Link>
         </Checkbox>

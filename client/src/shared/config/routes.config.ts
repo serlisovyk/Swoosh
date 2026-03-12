@@ -17,6 +17,7 @@ class Routes {
   readonly ADDRESS_EDIT = this.ADDRESS + '/edit'
 
   readonly WISHLIST = '/wishlist'
+  readonly PRIVACY_POLICY = '/privacy-policy'
 }
 
 export const ROUTES = new Routes()
