@@ -25,3 +25,7 @@ export const ADDRESS_PROFILE_FORM_DEFAULT_VALUES: ProfileAddressFormData = {
   zip: '',
   buildingNumber: '',
 }
+
+export const PROFILE_BREADCRUMBS = [
+  { label: 'Личный кабинет', href: '/profile' },
+]
