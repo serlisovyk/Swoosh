@@ -12,4 +12,8 @@ coverage/
 .env
 !.env.sample
 
+tsconfig.build.tsbuildinfo
+
 .next
+
+.next-env.d.ts
