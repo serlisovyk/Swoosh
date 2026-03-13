@@ -1,7 +1,7 @@
 import z from 'zod'
 
 export const emailSchema = z
-  .string({ message: 'Почта обязателен' })
+  .string({ message: 'Почта обязателена' })
   .pipe(z.email({ message: 'Неверный формат почты' }))
 
 export const passwordSchema = z
