@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'product_categories' })
 export class ProductCategory {
   _id!: string
 
