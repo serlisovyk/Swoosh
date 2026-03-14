@@ -3,7 +3,8 @@ import { ConfigService } from '@nestjs/config'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
-import { setupValidation, setupSwagger } from '@shared/config'
+import { setupSwagger } from '@common/swagger'
+import { setupValidation } from '@shared/config'
 import { AppModule } from './app.module'
 
 async function bootstrap() {

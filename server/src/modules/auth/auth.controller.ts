@@ -13,15 +13,24 @@ import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import { AuthService } from './auth.service'
 import {
+  AuthLoginDocs,
+  AuthLogoutDocs,
+  AuthNewTokensDocs,
+  AuthRegisterDocs,
+  AuthTagDocs,
+} from './auth.swagger'
+import {
   REFRESH_TOKEN_COOKIE_NAME,
   REFRESH_TOKEN_MISSING_ERROR,
 } from './auth.constants'
 import type { PreparedRequest } from './auth.types'
 
+@AuthTagDocs()
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @AuthRegisterDocs()
   @HttpCode(HttpStatus.CREATED)
   @Post('register')
   async register(
@@ -36,6 +45,7 @@ export class AuthController {
     return response
   }
 
+  @AuthLoginDocs()
   @HttpCode(HttpStatus.CREATED)
   @Post('login')
   async login(
@@ -50,6 +60,7 @@ export class AuthController {
     return response
   }
 
+  @AuthNewTokensDocs()
   @Post('new-tokens')
   async newTokens(
     @Req() req: PreparedRequest,
@@ -71,6 +82,7 @@ export class AuthController {
     return response
   }
 
+  @AuthLogoutDocs()
   @Post('logout')
   logout(
     @Req() req: PreparedRequest,

@@ -17,21 +17,33 @@ import { CreateProductDto } from './dto/create-product.dto'
 import { FindAllProductsDto } from './dto/find-all-products.dto'
 import { UpdateProductDto } from './dto/update-product.dto'
 import { ProductsService } from './products.service'
+import {
+  ProductsCreateDocs,
+  ProductsDeleteDocs,
+  ProductsFindAllDocs,
+  ProductsFindByIdDocs,
+  ProductsTagDocs,
+  ProductsUpdateDocs,
+} from './products.swagger'
 
+@ProductsTagDocs()
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @ProductsFindAllDocs()
   @Get()
   findAll(@Query() dto: FindAllProductsDto) {
     return this.productsService.findAll(dto)
   }
 
+  @ProductsFindByIdDocs()
   @Get(':id')
   findById(@Param('id', ParseObjectIdPipe) id: string) {
     return this.productsService.findById(id)
   }
 
+  @ProductsCreateDocs()
   @HttpCode(HttpStatus.CREATED)
   @Auth(ROLES.ADMIN)
   @Post()
@@ -39,6 +51,7 @@ export class ProductsController {
     return this.productsService.create(dto)
   }
 
+  @ProductsUpdateDocs()
   @Auth(ROLES.ADMIN)
   @Put(':id')
   update(
@@ -48,6 +61,7 @@ export class ProductsController {
     return this.productsService.update(id, dto)
   }
 
+  @ProductsDeleteDocs()
   @Auth(ROLES.ADMIN)
   @Delete(':id')
   remove(@Param('id', ParseObjectIdPipe) id: string) {

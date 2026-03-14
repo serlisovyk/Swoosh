@@ -1,6 +1,14 @@
 import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator'
 import { UpdateAddressDto } from './update-user-address.dto'
 import {
+  UserAddressOptionalPropertyDocs,
+  UserCurrentPasswordPropertyDocs,
+  UserEmailPropertyDocs,
+  UserNamePropertyDocs,
+  UserNewPasswordPropertyDocs,
+  UserPhonePropertyDocs,
+} from '../user.swagger'
+import {
   EMAIL_STRING_ERROR,
   EMAIL_FORMAT_ERROR,
   NEW_PASSWORD_STRING_ERROR,
@@ -11,28 +19,34 @@ import {
 } from '../user.constants'
 
 export class UpdateUserDto {
+  @UserNamePropertyDocs()
   @IsOptional()
   @IsString({ message: NAME_STRING_ERROR })
   name?: string
 
+  @UserEmailPropertyDocs()
   @IsOptional()
   @IsString({ message: EMAIL_STRING_ERROR })
   @IsEmail({}, { message: EMAIL_FORMAT_ERROR })
   email?: string
 
+  @UserNewPasswordPropertyDocs()
   @IsOptional()
   @IsString({ message: NEW_PASSWORD_STRING_ERROR })
   @MinLength(6, { message: NEW_PASSWORD_LENGTH_ERROR })
   newPassword?: string
 
+  @UserCurrentPasswordPropertyDocs()
   @IsOptional()
   @IsString({ message: CURRENT_PASSWORD_STRING_ERROR })
   currentPassword?: string
 
+  @UserPhonePropertyDocs()
   @IsOptional()
   @IsString({ message: PHONE_STRING_ERROR })
   phone?: string
 
+  @UserAddressOptionalPropertyDocs(UpdateAddressDto)
   @IsOptional()
   address?: UpdateAddressDto
 }

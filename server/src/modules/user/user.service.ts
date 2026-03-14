@@ -21,14 +21,27 @@ import { ROLES, type UserModel } from './user.types'
 export class UserService {
   constructor(@InjectModel(User.name) private readonly userModel: UserModel) {}
 
-  private readonly selectGetFields = '-createdAt -updatedAt -__v'
+  private readonly baseSelectFields =
+    '-resetPasswordToken -resetPasswordTokenExpiresAt -createdAt -updatedAt -__v'
+
+  private readonly publicSelectFields = `-password ${this.baseSelectFields}`
 
   getById(id: string) {
-    return this.userModel.findById(id).select(this.selectGetFields).lean()
+    return this.userModel.findById(id).select(this.publicSelectFields).lean()
   }
 
   getByEmail(email: string) {
-    return this.userModel.findOne({ email }).select(this.selectGetFields).lean()
+    return this.userModel
+      .findOne({ email })
+      .select(this.publicSelectFields)
+      .lean()
+  }
+
+  getByEmailWithPassword(email: string) {
+    return this.userModel
+      .findOne({ email })
+      .select(this.baseSelectFields)
+      .lean()
   }
 
   async create(dto: RegisterDto) {
@@ -46,7 +59,7 @@ export class UserService {
       password: await hash(dto.password),
     })
 
-    return newUser.toObject()
+    return this.getById(newUser._id)
   }
 
   async update(userId: string, dto: UpdateUserDto) {
@@ -57,7 +70,7 @@ export class UserService {
         returnDocument: 'after',
         runValidators: true,
       })
-      .select('-password')
+      .select(this.publicSelectFields)
       .lean()
 
     return updatedUser

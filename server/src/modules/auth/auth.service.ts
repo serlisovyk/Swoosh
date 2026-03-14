@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common'
@@ -8,18 +9,19 @@ import { JwtService } from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
 import { verify } from 'argon2'
+import { StringValue } from 'ms'
+import { isDev, noop } from '@shared/utils'
 import { UserService } from '../user/user.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
-import { StringValue } from 'ms'
 import {
   ACCESS_TOKEN_COOKIE_NAME,
+  FAILED_TO_CREATE_USER_ERROR,
   INVALID_PASSWORD_ERROR,
   INVALID_REFRESH_TOKEN_ERROR,
   REFRESH_TOKEN_COOKIE_NAME,
   USER_NOT_FOUND_ERROR,
 } from './auth.constants'
-import { isDev } from '@shared/utils'
 import { ONE_DAY_IN_MS, ONE_HOUR_IN_MS } from '@shared/constants'
 import { AuthTokenData } from './auth.types'
 
@@ -33,6 +35,10 @@ export class AuthService {
 
   async register(dto: RegisterDto) {
     const createdUser = await this.userService.create(dto)
+
+    if (!createdUser) {
+      throw new InternalServerErrorException(FAILED_TO_CREATE_USER_ERROR)
+    }
 
     const tokens = this.generateTokens({
       id: String(createdUser._id),
@@ -115,7 +121,7 @@ export class AuthService {
   private async validateUser(data: LoginDto) {
     const { email, password } = data
 
-    const user = await this.userService.getByEmail(email)
+    const user = await this.userService.getByEmailWithPassword(email)
     if (!user) throw new NotFoundException(USER_NOT_FOUND_ERROR)
 
     const isPasswordValid = await verify(user.password, password)
@@ -124,7 +130,11 @@ export class AuthService {
       throw new UnauthorizedException(INVALID_PASSWORD_ERROR)
     }
 
-    return user
+    const { password: userPassword, ...safeUser } = user
+
+    noop(userPassword)
+
+    return safeUser
   }
 
   private generateTokens(data: AuthTokenData) {

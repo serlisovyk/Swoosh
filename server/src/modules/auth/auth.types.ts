@@ -15,4 +15,9 @@ export interface PreparedRequest extends Request {
   user?: CurrentUser
 }
 
-export type CurrentUser = Omit<User, 'password'>
+export type CurrentUser = Omit<User, UserPasswordFields>
+
+type UserPasswordFields =
+  | 'password'
+  | 'resetPasswordToken'
+  | 'resetPasswordTokenExpiresAt'

@@ -9,29 +9,31 @@ import {
 } from '@nestjs/common'
 import { Auth } from '@modules/auth/decorators/auth.decorator'
 import { CurrentUser } from '@modules/auth/decorators/user.decorator'
-import { noop } from '@shared/utils'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserService } from './user.service'
+import {
+  UserGetProfileDocs,
+  UserTagDocs,
+  UserUpdateProfileDocs,
+} from './user.swagger'
 import { USER_NOT_FOUND_ERROR } from './user.constants'
 
+@UserTagDocs()
 @Controller('/profile')
 export class UserController {
   constructor(private readonly usersService: UserService) {}
 
+  @UserGetProfileDocs()
   @Auth()
   @Get()
   async getProfile(@CurrentUser('_id') id: string) {
     const user = await this.usersService.getById(id)
-
     if (!user) throw new NotFoundException(USER_NOT_FOUND_ERROR)
 
-    const { password, ...safe } = user
-
-    noop(password)
-
-    return safe
+    return user
   }
 
+  @UserUpdateProfileDocs()
   @HttpCode(HttpStatus.OK)
   @Auth()
   @Put()

@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { UserService } from '@modules/user/user.service'
-import { noop } from '@shared/utils'
 import { extractAccessTokenFromCookie } from './auth.utils'
 import { JwtValidatePayload } from './auth.types'
 
@@ -23,10 +22,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.userService.getById(id)
     if (!user) return null
 
-    const { password, ...result } = user
-
-    noop(password)
-
-    return result
+    return user
   }
 }

@@ -15,6 +15,20 @@ import {
 import { trimStringValue, trimStringArrayValue } from '@shared/utils'
 import { CreateProductColorDto } from './create-product-color.dto'
 import {
+  ProductsCategoryIdPropertyDocs,
+  ProductsColorsPropertyDocs,
+  ProductsDescriptionPropertyDocs,
+  ProductsImagesPropertyDocs,
+  ProductsIsHitPropertyDocs,
+  ProductsIsNewPropertyDocs,
+  ProductsMaterialPropertyDocs,
+  ProductsOldPricePropertyDocs,
+  ProductsPricePropertyDocs,
+  ProductsSaleCFPropertyDocs,
+  ProductsSizesPropertyDocs,
+  ProductsTitlePropertyDocs,
+} from '../products.swagger'
+import {
   PRODUCT_CATEGORY_ID_ERROR,
   PRODUCT_COLORS_ARRAY_ERROR,
   PRODUCT_COLORS_MIN_SIZE_ERROR,
@@ -44,23 +58,27 @@ import {
 } from '../products.constants'
 
 export class CreateProductDto {
+  @ProductsTitlePropertyDocs()
   @Type(() => String)
   @Transform(({ value }: { value: unknown }) => trimStringValue(value))
   @IsString({ message: PRODUCT_TITLE_STRING_ERROR })
   @IsNotEmpty({ message: PRODUCT_TITLE_EMPTY_ERROR })
   title!: string
 
+  @ProductsPricePropertyDocs()
   @Type(() => Number)
   @IsNumber({}, { message: PRODUCT_PRICE_NUMBER_ERROR })
   @Min(0, { message: PRODUCT_PRICE_MIN_ERROR })
   price!: number
 
+  @ProductsDescriptionPropertyDocs()
   @Type(() => String)
   @Transform(({ value }: { value: unknown }) => trimStringValue(value))
   @IsString({ message: PRODUCT_DESCRIPTION_STRING_ERROR })
   @IsNotEmpty({ message: PRODUCT_DESCRIPTION_EMPTY_ERROR })
   description!: string
 
+  @ProductsImagesPropertyDocs()
   @Transform(({ value }: { value: unknown }) => trimStringArrayValue(value))
   @IsArray({ message: PRODUCT_IMAGES_ARRAY_ERROR })
   @ArrayMinSize(1, { message: PRODUCT_IMAGES_MIN_SIZE_ERROR })
@@ -69,18 +87,21 @@ export class CreateProductDto {
   @ArrayUnique({ message: PRODUCT_IMAGES_UNIQUE_ERROR })
   images!: string[]
 
+  @ProductsOldPricePropertyDocs()
   @IsOptional()
   @Type(() => Number)
   @IsNumber({}, { message: PRODUCT_OLD_PRICE_NUMBER_ERROR })
   @Min(0, { message: PRODUCT_OLD_PRICE_MIN_ERROR })
   oldPrice?: number
 
+  @ProductsSaleCFPropertyDocs()
   @IsOptional()
   @Type(() => Number)
   @IsNumber({}, { message: PRODUCT_SALE_CF_NUMBER_ERROR })
   @Min(0, { message: PRODUCT_SALE_CF_MIN_ERROR })
   saleCF?: number
 
+  @ProductsSizesPropertyDocs()
   @IsArray({ message: PRODUCT_SIZES_ARRAY_ERROR })
   @ArrayMinSize(1, { message: PRODUCT_SIZES_MIN_SIZE_ERROR })
   @Type(() => Number)
@@ -88,6 +109,7 @@ export class CreateProductDto {
   @ArrayUnique({ message: PRODUCT_SIZES_UNIQUE_ERROR })
   sizes!: number[]
 
+  @ProductsMaterialPropertyDocs()
   @IsOptional()
   @Type(() => String)
   @Transform(({ value }: { value: unknown }) => trimStringValue(value))
@@ -95,20 +117,24 @@ export class CreateProductDto {
   @IsNotEmpty({ message: PRODUCT_MATERIAL_EMPTY_ERROR })
   material?: string
 
+  @ProductsIsHitPropertyDocs()
   @IsOptional()
   @IsBoolean({ message: PRODUCT_IS_HIT_BOOLEAN_ERROR })
   isHit?: boolean
 
+  @ProductsIsNewPropertyDocs()
   @IsOptional()
   @IsBoolean({ message: PRODUCT_IS_NEW_BOOLEAN_ERROR })
   isNew?: boolean
 
+  @ProductsColorsPropertyDocs(CreateProductColorDto)
   @IsArray({ message: PRODUCT_COLORS_ARRAY_ERROR })
   @ArrayMinSize(1, { message: PRODUCT_COLORS_MIN_SIZE_ERROR })
   @ValidateNested({ each: true })
   @Type(() => CreateProductColorDto)
   colors!: CreateProductColorDto[]
 
+  @ProductsCategoryIdPropertyDocs()
   @Type(() => String)
   @Transform(({ value }: { value: unknown }) => trimStringValue(value))
   @IsMongoId({ message: PRODUCT_CATEGORY_ID_ERROR })

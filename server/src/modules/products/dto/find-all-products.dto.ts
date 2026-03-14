@@ -12,6 +12,14 @@ import {
 } from 'class-validator'
 import { toNumberArrayQueryParam, toStringArrayQueryParam } from '@shared/utils'
 import {
+  ProductsQueryColorNamePropertyDocs,
+  ProductsQueryLimitPropertyDocs,
+  ProductsQueryMaterialPropertyDocs,
+  ProductsQueryPricePropertyDocs,
+  ProductsQuerySizePropertyDocs,
+  ProductsQuerySortPropertyDocs,
+} from '../products.swagger'
+import {
   PRODUCT_QUERY_COLOR_NAME_ARRAY_ERROR,
   PRODUCT_QUERY_COLOR_NAME_STRING_ERROR,
   PRODUCT_QUERY_LIMIT_MAX_ERROR,
@@ -29,6 +37,7 @@ import {
 } from '../products.constants'
 
 export class FindAllProductsDto {
+  @ProductsQuerySizePropertyDocs()
   @IsOptional()
   @Transform(({ value }) => toNumberArrayQueryParam(value))
   @IsArray({ message: PRODUCT_QUERY_SIZE_ARRAY_ERROR })
@@ -36,6 +45,7 @@ export class FindAllProductsDto {
   @ArrayUnique()
   size?: number[]
 
+  @ProductsQueryPricePropertyDocs()
   @IsOptional()
   @Transform(({ value }) => toNumberArrayQueryParam(value))
   @IsArray({ message: PRODUCT_QUERY_PRICE_ARRAY_ERROR })
@@ -43,6 +53,7 @@ export class FindAllProductsDto {
   @ArrayMaxSize(2, { message: PRODUCT_QUERY_PRICE_MAX_SIZE_ERROR })
   price?: number[]
 
+  @ProductsQueryColorNamePropertyDocs()
   @IsOptional()
   @Transform(({ value }) => toStringArrayQueryParam(value))
   @IsArray({ message: PRODUCT_QUERY_COLOR_NAME_ARRAY_ERROR })
@@ -50,6 +61,7 @@ export class FindAllProductsDto {
   @ArrayUnique()
   colorName?: string[]
 
+  @ProductsQueryMaterialPropertyDocs()
   @IsOptional()
   @Transform(({ value }) => toStringArrayQueryParam(value))
   @IsArray({ message: PRODUCT_QUERY_MATERIAL_ARRAY_ERROR })
@@ -57,6 +69,7 @@ export class FindAllProductsDto {
   @ArrayUnique()
   material?: string[]
 
+  @ProductsQueryLimitPropertyDocs()
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: PRODUCT_QUERY_LIMIT_NUMBER_ERROR })
@@ -64,6 +77,7 @@ export class FindAllProductsDto {
   @Max(100, { message: PRODUCT_QUERY_LIMIT_MAX_ERROR })
   limit?: number
 
+  @ProductsQuerySortPropertyDocs()
   @IsOptional()
   @IsEnum(PRODUCT_SORT_OPTIONS, { message: PRODUCT_QUERY_SORT_ERROR })
   sort?: PRODUCT_SORT_OPTIONS

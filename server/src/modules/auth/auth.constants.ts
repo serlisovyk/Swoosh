@@ -3,6 +3,7 @@ export const ACCESS_TOKEN_COOKIE_NAME = 'accessToken' as const
 
 export const INVALID_PASSWORD_ERROR = 'Неверный пароль'
 export const USER_NOT_FOUND_ERROR = 'Пользователь с таким email не найден'
+export const FAILED_TO_CREATE_USER_ERROR = 'Не удалось создать пользователя'
 
 export const INVALID_REFRESH_TOKEN_ERROR = 'Неверный refresh токен'
 
@@ -22,3 +23,9 @@ export const INVALID_OR_EXPIRED_PASSWORD_RESET_TOKEN_ERROR =
 
 export const RESET_PASSWORD_URL = '/auth/reset-password'
 export const RESET_PASSWORD_SUBJECT = 'Сброс пароля'
+
+export const AUTH_EMAIL_EXAMPLE = 'john.swoosh@example.com'
+export const AUTH_PASSWORD_EXAMPLE = 'secret123'
+export const AUTH_NAME_EXAMPLE = 'John Doe'
+export const AUTH_PHONE_EXAMPLE = '+380991112233'
+export const AUTH_RESET_TOKEN_EXAMPLE = 'reset-token-example-123'

@@ -104,3 +104,12 @@ export const updateProductOptions = {
   returnDocument: 'after' as const,
   runValidators: true,
 }
+
+export const PRODUCT_ID_EXAMPLE = '65f1e8d3f9a2b56789c12346'
+
+export const PRODUCT_CATEGORY_ID_EXAMPLE = '65f1e8d3f9a2b56789c12345'
+
+export const PRODUCT_IMAGE_EXAMPLES = [
+  'https://image-example.com/products/air-max-pulse/front.webp',
+  'https://image-example.com/products/air-max-pulse/side.webp',
+]
