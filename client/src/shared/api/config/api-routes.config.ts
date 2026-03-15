@@ -9,6 +9,7 @@ class ApiRoutes {
   readonly REFRESH = `${this.AUTH}/new-tokens`
 
   readonly PROFILE = '/profile'
+  readonly PRODUCTS = '/products'
 }
 
 export const API_ROUTES = new ApiRoutes()

@@ -1,5 +1,6 @@
 class Routes {
   readonly HOME = '/'
+  readonly CATALOG = '/catalog'
 
   private readonly AUTH = '/auth'
 
