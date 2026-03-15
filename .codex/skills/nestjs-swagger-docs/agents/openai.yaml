@@ -1,0 +1,4 @@
+interface:
+  display_name: "NestJS Swagger Docs"
+  short_description: "Document NestJS APIs with clean Swagger"
+  default_prompt: "Use $nestjs-swagger-docs to add or refactor Swagger documentation for a NestJS backend module."

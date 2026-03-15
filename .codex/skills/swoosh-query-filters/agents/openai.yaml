@@ -1,0 +1,4 @@
+interface:
+  display_name: "Swoosh Query Filters"
+  short_description: "Build Swoosh query filters and list DTOs"
+  default_prompt: "Use $swoosh-query-filters to add or refactor filtered list query handling in the Swoosh backend."

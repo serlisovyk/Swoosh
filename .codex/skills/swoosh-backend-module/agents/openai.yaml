@@ -1,0 +1,4 @@
+interface:
+  display_name: "Swoosh Backend Module"
+  short_description: "Build Swoosh backend modules consistently"
+  default_prompt: "Use $swoosh-backend-module to create or refactor a backend module in the Swoosh project style."
