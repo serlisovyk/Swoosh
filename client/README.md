@@ -49,6 +49,7 @@ src/
 |-- features/                   # business features
 |   |-- auth/                   # authentication
 |   |-- privacy-policy/         # privacy policy page content
+|   |-- product/                # product browsing and catalog UI
 |   `-- profile/                # user profile
 `-- shared/                     # reusable code across features
     |-- api/                    # axios instance, routes, query keys, helpers

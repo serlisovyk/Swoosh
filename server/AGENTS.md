@@ -34,6 +34,14 @@ Prefer the existing NestJS pattern:
 - If you change request or response contracts, check whether Swagger docs also need an update
 - Keep Swagger-related code near the module or shared Swagger setup already used by the backend
 
+## Skills
+
+- Use `swoosh-backend-module` for backend module structure and house-style alignment
+- Use `nestjs-swagger-docs` for Swagger and OpenAPI documentation changes
+- Use `swoosh-query-filters` for list, search, and query-filter pipelines
+- Use `swoosh-backend-review` for backend code review focused on regressions, contract safety, and docs or skill drift
+- If a change materially reshapes one of those backend patterns, update the corresponding repo-local skill under `.codex/skills`
+
 ## Verification
 
 - Run backend checks from `server`

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Swoosh React Query API"
+  short_description: "Build Swoosh API and query flows"
+  default_prompt: "Use $swoosh-react-query-api to add or refactor API services and React Query flows in the Swoosh client."

@@ -1,0 +1,3 @@
+display_name: Swoosh Backend Review
+short_description: Review Swoosh backend changes with the project rubric
+default_prompt: Use $swoosh-backend-review to review backend changes in the Swoosh server for regressions, architecture fit, and stale docs or skills.

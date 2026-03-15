@@ -23,6 +23,7 @@ Read the root `README.md` first, then the local README and local `AGENTS.md` in 
 ## Skills
 
 - Use repo-local skills from `.codex/skills` when the task clearly matches them
+- If a change materially reshapes a stable project pattern, update the relevant repo-local skill when it becomes stale
 - Keep `AGENTS.md` focused on stable repo rules, not long step-by-step workflows
 
 ## Verification
@@ -36,3 +37,4 @@ Read the root `README.md` first, then the local README and local `AGENTS.md` in 
 - Keep README files concise and human-readable
 - Put setup and repo overview in README files
 - Put working rules and coding expectations in `AGENTS.md`
+- After meaningful changes to setup, architecture, or workflow conventions, update the relevant README, `AGENTS.md`, and repo-local skills if they are now outdated

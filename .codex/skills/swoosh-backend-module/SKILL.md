@@ -13,6 +13,7 @@ Build backend features in the Swoosh NestJS style instead of default Nest scaffo
 
 - If the task includes Swagger or OpenAPI work, also use `$nestjs-swagger-docs`.
 - If the task includes filtered list endpoints, query DTO transforms, or filter builders, also use `$swoosh-query-filters`.
+- If the task is reviewing an existing backend change, also use `$swoosh-backend-review`.
 - Treat this skill as the main structural guide for the module, and use the others only for the parts they specialize in.
 
 ## Workflow

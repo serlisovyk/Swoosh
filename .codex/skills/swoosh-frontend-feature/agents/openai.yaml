@@ -1,0 +1,4 @@
+interface:
+  display_name: "Swoosh Frontend Feature"
+  short_description: "Build Swoosh frontend features consistently"
+  default_prompt: "Use $swoosh-frontend-feature to create or refactor a frontend feature in the Swoosh client style."

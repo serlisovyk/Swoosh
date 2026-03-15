@@ -1,0 +1,3 @@
+display_name: Swoosh Frontend Review
+short_description: Review Swoosh frontend changes with the project rubric
+default_prompt: Use $swoosh-frontend-review to review frontend changes in the Swoosh client for regressions, architecture fit, and stale docs or skills.

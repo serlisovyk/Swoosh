@@ -1,0 +1,4 @@
+interface:
+  display_name: "Swoosh Form Flow"
+  short_description: "Build Swoosh forms with RHF and Zod"
+  default_prompt: "Use $swoosh-form-flow to add or refactor a form flow in the Swoosh client."

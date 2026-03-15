@@ -13,6 +13,7 @@ Implement filtered list endpoints in the Swoosh backend using the current projec
 
 - If the query work is part of creating or reorganizing a whole feature module, also use `$swoosh-backend-module`.
 - If query parameters or list responses must be documented in Swagger, also use `$nestjs-swagger-docs`.
+- If the task is reviewing an existing filter or list flow, also use `$swoosh-backend-review`.
 - Keep this skill focused on the query pipeline itself: DTO, transforms, filter builder, and service query execution.
 
 ## Workflow
