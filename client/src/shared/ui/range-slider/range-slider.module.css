@@ -1,0 +1,129 @@
+.wrapper {
+  width: 100%;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: max-content clamp(180px, 26vw, 310px) max-content;
+  align-items: center;
+  gap: 22px;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.label {
+  line-height: 70%;
+  white-space: nowrap;
+}
+
+.slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.track {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background-color: var(--gray-light);
+  border-radius: 50%;
+}
+
+.range {
+  position: absolute;
+  height: 100%;
+  background-color: var(--dark-black);
+  border-radius: inherit;
+}
+
+.thumb {
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: var(--white);
+  border: 2px solid var(--dark-black);
+  box-sizing: border-box;
+  border-radius: 50%;
+  transition: var(--transition);
+  cursor: pointer;
+
+  &:hover {
+    scale: 1.2;
+  }
+}
+
+.inputs {
+  display: flex;
+  gap: 18px;
+}
+
+.inputWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 72px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.currency {
+  line-height: 70%;
+  color: var(--gray-dark);
+}
+
+.input {
+  width: 48px;
+  padding: 0;
+  font-family: inherit;
+  line-height: 70%;
+  color: var(--gray-dark);
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: right;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.input[type='number'] {
+  appearance: textfield;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: max-content clamp(160px, 34vw, 260px);
+  }
+
+  .inputs {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 767px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .slider {
+    min-width: 0;
+  }
+
+  .inputs {
+    justify-content: stretch;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .inputWrapper {
+    flex: 1;
+    min-width: 0;
+    max-width: 92px;
+  }
+}
