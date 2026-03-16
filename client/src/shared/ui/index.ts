@@ -1,5 +1,6 @@
 export { Button } from './button'
 export { Input } from './input'
+export { Select } from './select'
 export { Heading } from './heading'
 export { Checkbox } from './checkbox'
 export { Skeleton } from './skeleton'
