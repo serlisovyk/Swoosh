@@ -9,7 +9,7 @@ export function getProductBadge(product: Product): ProductBadge | null {
     }
   }
 
-  if (product.isNew) {
+  if (product.isNewArrival) {
     return {
       text: 'Новинка',
       tone: 'neutral',

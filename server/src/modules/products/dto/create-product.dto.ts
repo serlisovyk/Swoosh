@@ -20,7 +20,7 @@ import {
   ProductsDescriptionPropertyDocs,
   ProductsImagesPropertyDocs,
   ProductsIsHitPropertyDocs,
-  ProductsIsNewPropertyDocs,
+  ProductsIsNewArrivalPropertyDocs,
   ProductsMaterialPropertyDocs,
   ProductsOldPricePropertyDocs,
   ProductsPricePropertyDocs,
@@ -40,7 +40,7 @@ import {
   PRODUCT_IMAGES_MIN_SIZE_ERROR,
   PRODUCT_IMAGES_UNIQUE_ERROR,
   PRODUCT_IS_HIT_BOOLEAN_ERROR,
-  PRODUCT_IS_NEW_BOOLEAN_ERROR,
+  PRODUCT_IS_NEW_ARRIVAL_BOOLEAN_ERROR,
   PRODUCT_MATERIAL_EMPTY_ERROR,
   PRODUCT_MATERIAL_STRING_ERROR,
   PRODUCT_OLD_PRICE_MIN_ERROR,
@@ -122,10 +122,10 @@ export class CreateProductDto {
   @IsBoolean({ message: PRODUCT_IS_HIT_BOOLEAN_ERROR })
   isHit?: boolean
 
-  @ProductsIsNewPropertyDocs()
+  @ProductsIsNewArrivalPropertyDocs()
   @IsOptional()
-  @IsBoolean({ message: PRODUCT_IS_NEW_BOOLEAN_ERROR })
-  isNew?: boolean
+  @IsBoolean({ message: PRODUCT_IS_NEW_ARRIVAL_BOOLEAN_ERROR })
+  isNewArrival?: boolean
 
   @ProductsColorsPropertyDocs(CreateProductColorDto)
   @IsArray({ message: PRODUCT_COLORS_ARRAY_ERROR })

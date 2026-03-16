@@ -35,7 +35,7 @@ export class Product {
   isHit!: boolean
 
   @Prop({ default: false })
-  isNew!: boolean
+  isNewArrival!: boolean
 
   @Prop({ type: [ProductColorSchema], default: [] })
   colors!: ProductColor[]

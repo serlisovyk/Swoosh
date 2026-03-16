@@ -118,12 +118,12 @@ export const ProductsIsHitRequiredPropertyDocs = createPropertyDocsDecorator({
   example: true,
 })
 
-export const ProductsIsNewPropertyDocs = createOptionalPropertyDocsDecorator({
+export const ProductsIsNewArrivalPropertyDocs = createOptionalPropertyDocsDecorator({
   description: 'Marks the product as a new arrival.',
   example: true,
 })
 
-export const ProductsIsNewRequiredPropertyDocs = createPropertyDocsDecorator({
+export const ProductsIsNewArrivalRequiredPropertyDocs = createPropertyDocsDecorator({
   description: 'Whether the product is marked as a new arrival.',
   example: true,
 })
@@ -300,8 +300,8 @@ export class ProductsResponseDocs {
   @ProductsIsHitRequiredPropertyDocs()
   isHit!: boolean
 
-  @ProductsIsNewRequiredPropertyDocs()
-  isNew!: boolean
+  @ProductsIsNewArrivalRequiredPropertyDocs()
+  isNewArrival!: boolean
 
   @ProductsColorsPropertyDocs(ProductsColorResponseDocs)
   colors!: ProductsColorResponseDocs[]

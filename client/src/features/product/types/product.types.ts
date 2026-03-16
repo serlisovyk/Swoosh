@@ -26,7 +26,7 @@ export interface Product {
   material: string
   saleCF: number
   isHit: boolean
-  isNew: boolean
+  isNewArrival: boolean
   colors: ProductColor[]
   category: ProductCategory
   createdAt: string

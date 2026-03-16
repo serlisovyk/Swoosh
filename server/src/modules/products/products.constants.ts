@@ -34,8 +34,8 @@ export const PRODUCT_MATERIAL_STRING_ERROR = 'Материал должен бы
 export const PRODUCT_MATERIAL_EMPTY_ERROR = 'Материал не должен быть пустым'
 export const PRODUCT_IS_HIT_BOOLEAN_ERROR =
   'Поле isHit должно быть булевым значением'
-export const PRODUCT_IS_NEW_BOOLEAN_ERROR =
-  'Поле isNew должно быть булевым значением'
+export const PRODUCT_IS_NEW_ARRIVAL_BOOLEAN_ERROR =
+  'Поле isNewArrival должно быть булевым значением'
 export const PRODUCT_COLORS_ARRAY_ERROR = 'Цвета товара должны быть массивом'
 export const PRODUCT_COLORS_MIN_SIZE_ERROR =
   'Нужно указать хотя бы один цвет товара'
