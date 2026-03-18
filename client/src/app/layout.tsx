@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { IBM_Plex_Sans } from 'next/font/google'
 import { PropsWithChildren } from 'react'
-import { Providers } from './providers'
+import { Providers } from '@shared/providers'
+import { Footer } from '@shared/layout'
 import './globals.css'
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -19,7 +20,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="ru">
       <body className={ibmPlexSans.variable}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   )

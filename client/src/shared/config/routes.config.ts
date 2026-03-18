@@ -18,6 +18,12 @@ class Routes {
   readonly ADDRESS_EDIT = this.ADDRESS + '/edit'
 
   readonly WISHLIST = '/wishlist'
+  readonly CART = '/cart'
+
+  readonly ABOUT = '/about'
+  readonly BLOG = '/blog'
+  readonly DELIVERY = '/delivery'
+  readonly CONTACT = '/contact'
   readonly PRIVACY_POLICY = '/privacy-policy'
 }
 

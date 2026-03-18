@@ -1,0 +1,42 @@
+.wrapper {
+  display: flex;
+  gap: 10rem;
+
+  @media (width <= 991px) {
+    gap: 6rem;
+  }
+
+  @media (width <= 479px) {
+    gap: 40px;
+  }
+}
+
+.title {
+  font-weight: 700;
+  line-height: 80%;
+  text-transform: uppercase;
+  color: var(--white-light);
+}
+
+.list {
+  padding: 0;
+}
+
+.listItem {
+  line-height: 80%;
+  list-style: none;
+
+  &:not(:last-child) {
+    margin-bottom: 24px;
+  }
+}
+
+.link {
+  color: var(--white);
+  text-decoration: none;
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--primary);
+  }
+}

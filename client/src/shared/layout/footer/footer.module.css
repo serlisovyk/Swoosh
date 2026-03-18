@@ -1,0 +1,18 @@
+.footer {
+  background-color: var(--light-black);
+  padding-block: 40px;
+}
+
+.content {
+  display: flex;
+  gap: 10rem;
+
+  @media (width <= 991px) {
+    gap: 4rem;
+  }
+
+  @media (width <= 767px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

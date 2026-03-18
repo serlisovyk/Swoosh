@@ -1,0 +1,13 @@
+.logo {
+  margin-bottom: 40px;
+}
+
+.socials {
+  display: flex;
+  gap: 12px;
+}
+
+.link {
+  background: var(--lighter-black);
+  padding: 12px;
+}
