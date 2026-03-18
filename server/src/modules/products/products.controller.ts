@@ -21,6 +21,7 @@ import {
   ProductsCreateDocs,
   ProductsDeleteDocs,
   ProductsFindAllDocs,
+  ProductsFindFiltersDocs,
   ProductsFindByIdDocs,
   ProductsTagDocs,
   ProductsUpdateDocs,
@@ -35,6 +36,12 @@ export class ProductsController {
   @Get()
   findAll(@Query() dto: FindAllProductsDto) {
     return this.productsService.findAll(dto)
+  }
+
+  @ProductsFindFiltersDocs()
+  @Get('filters')
+  findFilters() {
+    return this.productsService.findFiltersMetadata()
   }
 
   @ProductsFindByIdDocs()

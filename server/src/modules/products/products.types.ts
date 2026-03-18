@@ -10,3 +10,15 @@ export interface ProductListQueryOptions {
   limit: number
   sort: Record<string, 1 | -1>
 }
+
+export interface ProductFiltersMetadata {
+  sizes: number[]
+  materials: string[]
+  colors: string[]
+  priceRange: [number, number]
+}
+
+export interface ProductPriceRangeStats {
+  minPrice: number
+  maxPrice: number
+}

@@ -1,0 +1,43 @@
+.bar {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  overflow: hidden;
+
+  @media (width <= 1024px) {
+    flex-wrap: wrap;
+  }
+}
+
+.pending {
+  opacity: 0.75;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 20px;
+  border-right: 1px solid var(--border-color);
+
+  @media (width <= 1024px) {
+    flex: 1 1 50%;
+    min-height: 68px;
+  }
+
+  @media (width <= 767px) {
+    flex-basis: 100%;
+    padding: 16px;
+  }
+}
+
+.priceItem {
+  flex: 1 1 420px;
+  min-width: 0;
+
+  @media (width <= 767px) {
+    min-width: 0;
+  }
+}

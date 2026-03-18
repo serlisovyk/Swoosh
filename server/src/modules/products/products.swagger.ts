@@ -118,15 +118,17 @@ export const ProductsIsHitRequiredPropertyDocs = createPropertyDocsDecorator({
   example: true,
 })
 
-export const ProductsIsNewArrivalPropertyDocs = createOptionalPropertyDocsDecorator({
-  description: 'Marks the product as a new arrival.',
-  example: true,
-})
+export const ProductsIsNewArrivalPropertyDocs =
+  createOptionalPropertyDocsDecorator({
+    description: 'Marks the product as a new arrival.',
+    example: true,
+  })
 
-export const ProductsIsNewArrivalRequiredPropertyDocs = createPropertyDocsDecorator({
-  description: 'Whether the product is marked as a new arrival.',
-  example: true,
-})
+export const ProductsIsNewArrivalRequiredPropertyDocs =
+  createPropertyDocsDecorator({
+    description: 'Whether the product is marked as a new arrival.',
+    example: true,
+  })
 
 export function ProductsColorsPropertyDocs(model: Type<unknown>) {
   return ApiProperty({
@@ -189,6 +191,34 @@ export const ProductsQuerySortPropertyDocs =
     enumName: 'ProductSortOptions',
     example: PRODUCT_SORT_OPTIONS.NEWEST,
   })
+
+export const ProductsFilterSizesPropertyDocs = createPropertyDocsDecorator({
+  description: 'Available product sizes for the catalog filters.',
+  example: [40, 41, 42, 43],
+  type: [Number],
+})
+
+export const ProductsFilterMaterialsPropertyDocs = createPropertyDocsDecorator({
+  description: 'Available product materials for the catalog filters.',
+  example: ['Leather', 'Mesh', 'Textile'],
+  type: [String],
+})
+
+export const ProductsFilterColorsPropertyDocs = createPropertyDocsDecorator({
+  description: 'Available product colors for the catalog filters.',
+  example: ['Black', 'White', 'Gray'],
+  type: [String],
+})
+
+export const ProductsFilterPriceRangePropertyDocs = createPropertyDocsDecorator(
+  {
+    description: 'Min and max product prices available in the catalog.',
+    example: [132, 219],
+    type: [Number],
+    minItems: 2,
+    maxItems: 2,
+  },
+)
 
 export const ProductsResponseIdPropertyDocs = createPropertyDocsDecorator({
   description: 'Product identifier.',
@@ -324,6 +354,20 @@ export class ProductsListResponseDocs {
   total!: number
 }
 
+export class ProductsFiltersMetadataResponseDocs {
+  @ProductsFilterSizesPropertyDocs()
+  sizes!: number[]
+
+  @ProductsFilterMaterialsPropertyDocs()
+  materials!: string[]
+
+  @ProductsFilterColorsPropertyDocs()
+  colors!: string[]
+
+  @ProductsFilterPriceRangePropertyDocs()
+  priceRange!: [number, number]
+}
+
 export function ProductsFindAllDocs() {
   return applyDecorators(
     ApiOperation({
@@ -337,6 +381,21 @@ export function ProductsFindAllDocs() {
     }),
     ApiBadRequestResponse({
       description: 'One or more query parameters are invalid.',
+    }),
+  )
+}
+
+export function ProductsFindFiltersDocs() {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Get products filters metadata',
+      description:
+        'Returns filter values and price bounds used by the catalog filters.',
+      security: [],
+    }),
+    ApiOkResponse({
+      description: 'Product filters metadata returned successfully.',
+      type: ProductsFiltersMetadataResponseDocs,
     }),
   )
 }

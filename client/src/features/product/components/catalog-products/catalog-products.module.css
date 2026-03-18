@@ -1,14 +1,21 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  gap: 32px;
 }
 
 .heading {
-  margin-bottom: 30px;
+  margin: 0;
+}
 
-  @media (width <= 767px) {
-    margin-bottom: 16px;
-  }
+.error {
+  color: var(--error);
+}
+
+.empty {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.3;
 }
 
 .grid {

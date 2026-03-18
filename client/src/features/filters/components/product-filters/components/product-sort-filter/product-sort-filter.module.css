@@ -1,0 +1,33 @@
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+
+  @media (width <= 767px) {
+    justify-content: space-between;
+  }
+}
+
+.label {
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.wrapper {
+  min-width: 188px;
+  max-width: 100%;
+  padding: 12px 14px;
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+}
+
+.wrapper :global(label) {
+  display: none;
+}
+
+.select {
+  width: 100%;
+  min-width: 0;
+}

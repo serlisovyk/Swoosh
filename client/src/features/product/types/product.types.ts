@@ -38,13 +38,17 @@ export interface ProductsListResponse {
   total: number
 }
 
+export type ProductSortOption = 'newest' | 'oldest' | 'priceAsc' | 'priceDesc'
+
+export type ProductPriceRange = [number, number]
+
 export interface GetProductsParams {
   size?: number[]
-  price?: number[]
+  price?: ProductPriceRange
   colorName?: string[]
   material?: string[]
   limit?: number
-  sort?: string
+  sort?: ProductSortOption
 }
 
 export interface ProductCardProps {

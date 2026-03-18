@@ -11,7 +11,12 @@ import {
   PRODUCT_NOT_FOUND_ERROR,
   updateProductOptions,
 } from './products.constants'
-import type { ProductCategoryModel, ProductModel } from './products.types'
+import type {
+  ProductCategoryModel,
+  ProductFiltersMetadata,
+  ProductModel,
+  ProductPriceRangeStats,
+} from './products.types'
 
 @Injectable()
 export class ProductsService {
@@ -41,6 +46,52 @@ export class ProductsService {
     const [products, total] = await Promise.all([data, count])
 
     return { products, total }
+  }
+
+  async findFiltersMetadata(): Promise<ProductFiltersMetadata> {
+    const getSizes = this.productModel.distinct('sizes')
+
+    const getMaterials = this.productModel.distinct('material', {
+      material: { $nin: ['', null] },
+    })
+
+    const getColors = this.productModel.distinct('colors.name', {
+      'colors.name': { $nin: ['', null] },
+    })
+
+    const getPriceStats = this.productModel.aggregate<ProductPriceRangeStats>([
+      {
+        $group: {
+          _id: null,
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          minPrice: 1,
+          maxPrice: 1,
+        },
+      },
+    ])
+
+    const [sizes, materials, colors, [priceStats]] = await Promise.all([
+      getSizes,
+      getMaterials,
+      getColors,
+      getPriceStats,
+    ])
+
+    const minPrice = priceStats?.minPrice ?? 0
+    const maxPrice = priceStats?.maxPrice ?? minPrice
+
+    return {
+      sizes,
+      materials,
+      colors,
+      priceRange: [minPrice, maxPrice],
+    }
   }
 
   async findById(id: string) {

@@ -1,13 +1,14 @@
 .wrapper {
   width: 100%;
+  min-width: 0;
 }
 
 .layout {
   display: grid;
-  grid-template-columns: max-content clamp(180px, 26vw, 310px) max-content;
+  grid-template-columns: max-content minmax(0, 1fr) auto;
   align-items: center;
   gap: 22px;
-  width: fit-content;
+  width: 100%;
   max-width: 100%;
 }
 
@@ -20,6 +21,8 @@
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
+  min-width: 0;
 }
 
 .track {
@@ -56,6 +59,9 @@
 .inputs {
   display: flex;
   gap: 18px;
+  flex-wrap: wrap;
+  min-width: 0;
+  justify-content: flex-end;
 }
 
 .inputWrapper {
@@ -63,6 +69,7 @@
   align-items: center;
   gap: 4px;
   min-width: 72px;
+  max-width: 100%;
   padding-bottom: 4px;
   border-bottom: 1px solid var(--gray-light);
 }
@@ -96,7 +103,7 @@
 
 @media (max-width: 1024px) {
   .layout {
-    grid-template-columns: max-content clamp(160px, 34vw, 260px);
+    grid-template-columns: max-content minmax(0, 1fr);
   }
 
   .inputs {
