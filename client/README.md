@@ -56,6 +56,7 @@ src/
     |-- config/                 # shared config
     |-- constants/              # app constants
     |-- form/                   # common form helpers and types
+    |-- hooks/                  # shared React hooks
     |-- ui/                     # reusable UI components
     `-- utils/                  # shared utilities
 ```

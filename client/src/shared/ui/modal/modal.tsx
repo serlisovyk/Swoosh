@@ -3,20 +3,20 @@
 import { createPortal } from 'react-dom'
 import cn from 'clsx'
 import { X } from 'lucide-react'
-import { IS_CLIENT } from '../../constants'
+import { IS_CLIENT } from '@shared/constants'
 import { useBodyScrollLock, useEscapeKey } from '../../hooks'
-import { DrawerProps } from './types'
-import styles from './drawer.module.css'
+import { ModalProps } from './types'
+import styles from './modal.module.css'
 
-export function Drawer({
+export function Modal({
   isOpen,
   onClose,
   children,
-  title = 'Боковая панель',
-  closeLabel = 'Закрыть панель',
+  title = 'Модальное окно',
+  closeLabel = 'Закрыть модальное окно',
   panelClassName,
   contentClassName,
-}: DrawerProps) {
+}: ModalProps) {
   useBodyScrollLock(isOpen)
 
   useEscapeKey(onClose, isOpen)
@@ -25,16 +25,12 @@ export function Drawer({
 
   return createPortal(
     <div
-      className={cn(styles.root, {
-        [styles.rootOpen]: isOpen,
-      })}
+      className={cn(styles.root, { [styles.rootOpen]: isOpen })}
       role="presentation"
     >
       <button
         type="button"
-        className={cn(styles.overlay, {
-          [styles.overlayVisible]: isOpen,
-        })}
+        className={cn(styles.overlay, { [styles.overlayVisible]: isOpen })}
         onClick={onClose}
         aria-label={closeLabel}
       />
@@ -56,7 +52,7 @@ export function Drawer({
             onClick={onClose}
             aria-label={closeLabel}
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
