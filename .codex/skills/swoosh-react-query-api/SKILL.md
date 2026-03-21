@@ -12,6 +12,7 @@ Build client-side data flows in the Swoosh frontend using the existing shared AP
 ## Use with Other Skills
 
 - If the API work is part of a new or refactored feature, also use `$swoosh-frontend-feature`.
+- If the API work changes login, register, logout, refresh, or current-user behavior, also use `$swoosh-auth-flow`.
 - If the API flow drives a form submission, also use `$swoosh-form-flow`.
 - If the backend contract is being documented or changed, also use `$nestjs-swagger-docs`.
 - If the task is reviewing an existing frontend data flow, also use `$swoosh-frontend-review`.
@@ -48,6 +49,10 @@ Build client-side data flows in the Swoosh frontend using the existing shared AP
 - Check success and error paths.
 - Check cache invalidation and optimistic updates if added.
 - Check that query keys, routes, and return types stay aligned with the feature contract.
+
+## Type Placement
+
+- Keep request and response contracts in feature `types.ts` files or a `types/` folder rather than colocating them with query hooks or components.
 
 ## Preferred Pattern
 

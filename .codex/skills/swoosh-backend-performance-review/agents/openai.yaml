@@ -1,0 +1,3 @@
+display_name: Swoosh Backend Performance Review
+short_description: Review backend performance and client-facing latency risks
+default_prompt: Use $swoosh-backend-performance-review to analyze backend code in Swoosh for latency, database cost, payload bloat, and prioritized performance optimizations.

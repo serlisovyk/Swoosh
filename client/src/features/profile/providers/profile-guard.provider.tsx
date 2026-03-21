@@ -7,6 +7,8 @@ import { useGetMeQuery } from '@features/auth'
 import { ROUTES } from '@shared/config'
 import { Skeleton } from '@shared/ui'
 
+// Check how to create many proxies in different files
+// TODO: Maybe move this into server Next.js proxy
 export function ProfileGuardProvider({ children }: PropsWithChildren) {
   const router = useRouter()
 

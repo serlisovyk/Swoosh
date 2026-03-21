@@ -1,5 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios'
 import { API_ROUTES, API_URL } from './config'
+import { ApiInterceptorOriginalRequest } from './types'
 
 export const API = axios.create({
   baseURL: API_URL,
@@ -8,6 +9,7 @@ export const API = axios.create({
 
 let refreshPromise: Promise<void> | null = null
 
+// TODO: move interceptors to separate file
 API.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config
 })
@@ -15,30 +17,26 @@ API.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 API.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const original = error.config as
-      | (InternalAxiosRequestConfig & {
-          _retry?: boolean
-        })
-      | null
+    const originalRequest = error.config as ApiInterceptorOriginalRequest | null
 
     const status = error.response?.status
-    const url = original?.url ?? ''
+    const url = originalRequest?.url ?? ''
 
     const isAuthRequest =
       url.includes(API_ROUTES.LOGIN) || url.includes(API_ROUTES.REGISTER)
 
-    if (!original) throw error
+    if (!originalRequest) throw error
 
     if (
       status !== 401 ||
-      original._retry ||
+      originalRequest.isRetry ||
       url.includes(API_ROUTES.REFRESH) ||
       isAuthRequest
     ) {
       throw error
     }
 
-    original._retry = true
+    originalRequest.isRetry = true
 
     if (!refreshPromise) {
       refreshPromise = API.post(API_ROUTES.REFRESH)
@@ -48,7 +46,7 @@ API.interceptors.response.use(
 
     try {
       await refreshPromise
-      return API.request(original)
+      return API.request(originalRequest)
     } catch (error) {
       throw error
     }

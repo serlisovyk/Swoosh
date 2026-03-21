@@ -14,6 +14,8 @@ Review Swoosh backend changes like a project-aware reviewer, not a generic style
 - Use `$swoosh-backend-module` when the review involves module structure, DTO layout, models, constants, or module-local organization.
 - Use `$nestjs-swagger-docs` when the change affects request or response contracts, auth docs, or Swagger structure.
 - Use `$swoosh-query-filters` when the change affects list endpoints, query DTO transforms, or filter builders.
+- Use `$swoosh-backend-performance-review` when latency, payload size, or database cost is a primary concern.
+- Use `$swoosh-backend-security-review` when auth, validation, secret handling, or data exposure is a primary concern.
 - Treat this skill as the review rubric, and use the others only to judge whether the implementation still follows the intended pattern.
 
 ## Review Workflow

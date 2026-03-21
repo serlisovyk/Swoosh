@@ -12,6 +12,7 @@ Add or refactor Swagger in NestJS backends without turning controllers and DTOs 
 ## Use with Other Skills
 
 - If the Swagger work is part of creating or reorganizing a Swoosh backend module, also use `$swoosh-backend-module`.
+- If the Swagger work changes auth or cookie-based protected flows, also use `$swoosh-auth-flow`.
 - If the Swagger work covers filtered list endpoints or query DTOs, also use `$swoosh-query-filters`.
 - If the task is reviewing backend contract changes, also use `$swoosh-backend-review`.
 - Keep this skill focused on API documentation structure, auth documentation, and public contract clarity.

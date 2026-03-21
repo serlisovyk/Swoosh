@@ -41,6 +41,8 @@ Build frontend features in the Swoosh client using the existing `app`, `features
 - Services talk to the API layer.
 - Schemas define validation rules.
 - Types define the feature contract.
+- Keep feature-local interfaces and types in dedicated `types.ts` files or a `types/` folder.
+- Avoid defining component contracts inline next to components unless there is a strong local-only reason.
 
 5. Follow the Swoosh naming style.
 - Feature-local files keep the feature prefix, such as `profile.queries.ts` or `product.services.ts`.

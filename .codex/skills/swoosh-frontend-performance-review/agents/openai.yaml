@@ -1,0 +1,3 @@
+display_name: Swoosh Frontend Performance Review
+short_description: Review frontend performance for weak devices and slow networks
+default_prompt: Use $swoosh-frontend-performance-review to analyze frontend code in Swoosh for performance risks, bottlenecks, and prioritized optimizations.

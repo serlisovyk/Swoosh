@@ -29,6 +29,13 @@ Prefer the existing NestJS pattern:
 - Prefer DTO-based validation over ad hoc request checks
 - Reuse shared helpers from `src/shared` when a pattern already exists
 
+## Backend Conventions
+
+- Keep public API contracts explicit
+- Avoid leaking persistence shape into public responses
+- Keep module-local types in dedicated `types.ts` files
+- Do not scatter interfaces and types across controllers, services, and DTO files when a module-level `types.ts` is more appropriate
+
 ## Swagger and docs
 
 - If you change request or response contracts, check whether Swagger docs also need an update
@@ -39,7 +46,10 @@ Prefer the existing NestJS pattern:
 - Use `swoosh-backend-module` for backend module structure and house-style alignment
 - Use `nestjs-swagger-docs` for Swagger and OpenAPI documentation changes
 - Use `swoosh-query-filters` for list, search, and query-filter pipelines
+- Use `swoosh-auth-flow` for auth changes that span cookies, Swagger contracts, frontend auth flow, or current-user behavior
 - Use `swoosh-backend-review` for backend code review focused on regressions, contract safety, and docs or skill drift
+- Use `swoosh-backend-performance-review` for performance-focused backend review on latency, payload size, and database cost
+- Use `swoosh-backend-security-review` for security-focused backend review on auth, validation, config, and data exposure
 - If a change materially reshapes one of those backend patterns, update the corresponding repo-local skill under `.codex/skills`
 
 ## Verification

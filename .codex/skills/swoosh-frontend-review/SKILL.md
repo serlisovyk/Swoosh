@@ -14,6 +14,8 @@ Review Swoosh frontend changes like a project-aware reviewer, not a generic lint
 - Use `$swoosh-frontend-feature` when the review involves feature structure, page composition, or folder layout.
 - Use `$swoosh-form-flow` when the change affects validated forms, field config, or submit UX.
 - Use `$swoosh-react-query-api` when the change affects services, queries, mutations, cache behavior, or auth-aware request flows.
+- Use `$swoosh-frontend-performance-review` when performance on weak devices or slow networks is a primary concern.
+- Use `$swoosh-frontend-security-review` when auth-aware browser behavior, rendering safety, or data exposure is a primary concern.
 - Treat this skill as the review rubric, and use the others only to judge whether the implementation still follows the intended pattern.
 
 ## Review Workflow

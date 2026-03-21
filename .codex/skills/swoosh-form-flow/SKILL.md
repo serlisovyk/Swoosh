@@ -12,6 +12,7 @@ Build forms in the Swoosh client using the current project pattern: Zod schema, 
 ## Use with Other Skills
 
 - If the form is part of a larger feature or page flow, also use `$swoosh-frontend-feature`.
+- If the form is part of the auth flow, also use `$swoosh-auth-flow`.
 - If the form submits data through queries or mutations, also use `$swoosh-react-query-api`.
 - If the task is reviewing an existing form flow, also use `$swoosh-frontend-review`.
 - Keep this skill focused on the form pipeline itself: schema, fields, hooks, component wiring, and submit UX.
@@ -52,6 +53,10 @@ Build forms in the Swoosh client using the current project pattern: Zod schema, 
 - Check schema and DTO shape alignment.
 - Check validation messages and field configs.
 - Check loading, disabled, and error states in the rendered form.
+
+## Type Placement
+
+- Keep form-related contracts in feature `types.ts` files or a `types/` folder instead of scattering them across component files.
 
 ## Preferred Pattern
 
