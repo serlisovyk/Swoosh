@@ -19,13 +19,14 @@ class Routes {
   readonly ADDRESS = this.PROFILE + '/address'
   readonly ADDRESS_EDIT = this.ADDRESS + '/edit'
 
-  readonly WISHLIST = '/wishlist'
+  readonly FAVORITES = '/favorites'
   readonly CART = '/cart'
 
   readonly ABOUT = '/about'
   readonly BLOG = '/blog'
   readonly DELIVERY = '/delivery'
   readonly CONTACT = '/contact'
+  readonly INDIVIDUAL_ORDER = '/individual-order'
   readonly PRIVACY_POLICY = '/privacy-policy'
 }
 

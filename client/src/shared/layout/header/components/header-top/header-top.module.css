@@ -1,0 +1,30 @@
+.headerTop {
+  padding-block: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 40px;
+
+  @media (width <= 991px) {
+    gap: 20px;
+  }
+}
+
+.link {
+  line-height: 80%;
+  text-decoration: none;
+  color: var(--gray-dark);
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--dark-black);
+  }
+}

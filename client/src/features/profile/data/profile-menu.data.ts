@@ -34,9 +34,9 @@ export const profileMenuItems = [
     icon: MapPinHouse,
   },
   {
-    id: 'wishlist',
+    id: 'favorites',
     text: 'Избранные товары',
-    href: ROUTES.WISHLIST,
+    href: ROUTES.FAVORITES,
     icon: Heart,
   },
   {

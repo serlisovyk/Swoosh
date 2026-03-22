@@ -33,7 +33,7 @@ export const FOOTER_LINKS = [
     items: [
       { text: 'Каталог', link: ROUTES.CATALOG },
       { text: 'Личный кабинет', link: ROUTES.PROFILE },
-      { text: 'Избранное', link: ROUTES.WISHLIST },
+      { text: 'Избранное', link: ROUTES.FAVORITES },
       { text: 'Корзина', link: ROUTES.CART },
     ],
   },

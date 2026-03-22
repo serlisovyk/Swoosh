@@ -1,0 +1,16 @@
+.headerAuth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link {
+  line-height: 80%;
+  text-decoration: none;
+  color: var(--gray-dark);
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--dark-black);
+  }
+}
