@@ -4,9 +4,11 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { InjectModel } from '@nestjs/mongoose'
 import { hash, verify } from 'argon2'
 import { RegisterDto } from '@modules/auth/dto/register.dto'
+import { hashToken, hashTokenWithSecret } from '@modules/auth/auth.utils'
 import { THIRTY_MINUTES_IN_MS } from '@shared/constants'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './models/user.model'
@@ -19,7 +21,10 @@ import { ROLES, type UserModel } from './user.types'
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private readonly userModel: UserModel) {}
+  constructor(
+    @InjectModel(User.name) private readonly userModel: UserModel,
+    private readonly configService: ConfigService,
+  ) {}
 
   private readonly baseSelectFields =
     '-resetPasswordToken -resetPasswordTokenExpiresAt -createdAt -updatedAt -__v'
@@ -112,9 +117,16 @@ export class UserService {
   }
 
   findByPasswordResetToken(token: string) {
+    const hashedToken = hashTokenWithSecret(
+      token,
+      this.configService.getOrThrow<string>('RESET_TOKEN_SECRET'),
+    )
+
+    const legacyHashedToken = hashToken(token)
+
     return this.userModel
       .findOne({
-        resetPasswordToken: token,
+        resetPasswordToken: { $in: [hashedToken, legacyHashedToken, token] },
         resetPasswordTokenExpiresAt: { $gt: new Date() },
       })
       .lean()
@@ -122,7 +134,10 @@ export class UserService {
 
   setPasswordResetToken(userId: string, token: string) {
     return this.userModel.findByIdAndUpdate(userId, {
-      resetPasswordToken: token,
+      resetPasswordToken: hashTokenWithSecret(
+        token,
+        this.configService.getOrThrow<string>('RESET_TOKEN_SECRET'),
+      ),
       resetPasswordTokenExpiresAt: new Date(Date.now() + THIRTY_MINUTES_IN_MS),
     })
   }

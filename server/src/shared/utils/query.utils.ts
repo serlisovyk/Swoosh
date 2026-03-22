@@ -24,6 +24,14 @@ export function trimStringValue(value: unknown): unknown {
   return typeof value === 'string' ? value.trim() : value
 }
 
+export function normalizeEmailValue(value: unknown): unknown {
+  const trimmedValue = trimStringValue(value)
+
+  return typeof trimmedValue === 'string'
+    ? trimmedValue.toLowerCase()
+    : trimmedValue
+}
+
 export function trimStringArrayValue(value: unknown): unknown {
   if (!Array.isArray(value)) return value
 

@@ -112,10 +112,7 @@ export function AuthLoginDocs() {
       description: 'Request body validation failed.',
     }),
     ApiUnauthorizedResponse({
-      description: 'Password is invalid.',
-    }),
-    ApiNotFoundResponse({
-      description: 'User with this email was not found.',
+      description: 'Email or password is invalid.',
     }),
   )
 }
@@ -145,15 +142,12 @@ export function AuthLogoutDocs() {
   return applyDecorators(
     ApiOperation({
       summary: 'Log out user',
-      description: 'Clears auth cookies and invalidates the current session.',
+      description: 'Clears auth cookies for the current client session.',
       security: [{ [SWAGGER_REFRESH_TOKEN_AUTH_NAME]: [] }],
     }),
-    ApiCreatedResponse({
+    ApiOkResponse({
       description: 'User logged out successfully.',
       schema: { type: 'boolean', example: true },
-    }),
-    ApiBadRequestResponse({
-      description: 'Refresh token is missing.',
     }),
   )
 }

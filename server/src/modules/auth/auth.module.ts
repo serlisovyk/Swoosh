@@ -5,12 +5,12 @@ import { PassportModule } from '@nestjs/passport'
 import { UserModule } from '@modules/user/user.module'
 import { FavoritesModule } from '@modules/favorites/favorites.module'
 import { EmailModule } from '@common/email/email.module'
-import { getJwtConfig } from '@shared/config'
+import { getJwtConfig } from './jwt.config'
 import { JwtStrategy } from './jwt.strategy'
-import { AuthAccountService } from './auth-account/auth-account.service'
 import { AuthAccountController } from './auth-account/auth-account.controller'
-import { AuthService } from './auth.service'
+import { AuthAccountService } from './auth-account/auth-account.service'
 import { AuthController } from './auth.controller'
+import { AuthService } from './auth.service'
 
 @Module({
   imports: [

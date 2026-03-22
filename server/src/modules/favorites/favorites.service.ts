@@ -157,15 +157,17 @@ export class FavoritesService {
 
     if (!normalizedProductIds.length) return []
 
-    const existenceChecks = await Promise.all(
-      normalizedProductIds.map(async (productId) => ({
-        productId,
-        exists: await this.productModel.exists({ _id: productId }),
-      })),
+    const existingProducts = await this.productModel
+      .find({ _id: { $in: normalizedProductIds } })
+      .select('_id')
+      .lean()
+
+    const existingProductIds = new Set(
+      existingProducts.map((product) => String(product._id)),
     )
 
-    return existenceChecks.flatMap(({ productId, exists }) =>
-      exists ? [productId] : [],
+    return normalizedProductIds.filter((productId) =>
+      existingProductIds.has(productId),
     )
   }
 

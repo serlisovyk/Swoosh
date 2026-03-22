@@ -68,9 +68,9 @@ export class AuthController {
   ) {
     const initialRefreshToken = req.cookies?.[REFRESH_TOKEN_COOKIE_NAME]
 
-    if (!initialRefreshToken) {
-      this.authService.setAuthTokens(res, null, null)
+    this.authService.setAuthTokens(res, null, null)
 
+    if (!initialRefreshToken) {
       throw new BadRequestException(REFRESH_TOKEN_MISSING_ERROR)
     }
 
@@ -83,18 +83,10 @@ export class AuthController {
   }
 
   @AuthLogoutDocs()
+  @HttpCode(HttpStatus.OK)
   @Post('logout')
-  logout(
-    @Req() req: PreparedRequest,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const initialRefreshToken = req.cookies?.[REFRESH_TOKEN_COOKIE_NAME]
-
+  logout(@Res({ passthrough: true }) res: Response) {
     this.authService.setAuthTokens(res, null, null)
-
-    if (!initialRefreshToken) {
-      throw new BadRequestException(REFRESH_TOKEN_MISSING_ERROR)
-    }
 
     return true
   }

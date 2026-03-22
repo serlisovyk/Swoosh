@@ -15,6 +15,7 @@ import {
 import { ProductsListItemsPropertyDocs, ProductsResponseDocs } from '@modules/products/products.swagger'
 import {
   FAVORITES_DEFAULT_LIMIT,
+  FAVORITES_MAX_PRODUCT_IDS,
   FAVORITES_PRODUCT_ID_EXAMPLE,
   FAVORITES_PRODUCT_IDS_EXAMPLE,
 } from './favorites.constants'
@@ -28,6 +29,7 @@ export const FavoritesProductIdsPropertyDocs = createPropertyDocsDecorator({
   type: [String],
   example: FAVORITES_PRODUCT_IDS_EXAMPLE,
   uniqueItems: true,
+  maxItems: FAVORITES_MAX_PRODUCT_IDS,
 })
 
 export const FavoritesOptionalProductIdsPropertyDocs =
@@ -37,6 +39,7 @@ export const FavoritesOptionalProductIdsPropertyDocs =
     type: [String],
     example: FAVORITES_PRODUCT_IDS_EXAMPLE,
     uniqueItems: true,
+    maxItems: FAVORITES_MAX_PRODUCT_IDS,
   })
 
 export const FavoritesTotalPropertyDocs = createPropertyDocsDecorator({

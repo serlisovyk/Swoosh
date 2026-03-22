@@ -18,7 +18,7 @@ import { LoginDto } from './dto/login.dto'
 import {
   ACCESS_TOKEN_COOKIE_NAME,
   FAILED_TO_CREATE_USER_ERROR,
-  INVALID_PASSWORD_ERROR,
+  INVALID_CREDENTIALS_ERROR,
   INVALID_REFRESH_TOKEN_ERROR,
   REFRESH_TOKEN_COOKIE_NAME,
   USER_NOT_FOUND_ERROR,
@@ -111,8 +111,7 @@ export class AuthService {
   }
 
   async getNewTokens(refreshToken: string) {
-    const verifiedUser =
-      await this.jwt.verifyAsync<Pick<AuthTokenData, 'id'>>(refreshToken)
+    const verifiedUser = await this.verifyRefreshToken(refreshToken)
 
     if (!verifiedUser) {
       throw new BadRequestException(INVALID_REFRESH_TOKEN_ERROR)
@@ -130,16 +129,27 @@ export class AuthService {
     return { user, ...tokens }
   }
 
+  private async verifyRefreshToken(refreshToken: string) {
+    return this.jwt
+      .verifyAsync<Pick<AuthTokenData, 'id'>>(refreshToken, {
+        secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
+      })
+      .catch(() => null)
+  }
+
   private async validateUser(data: LoginDto) {
     const { email, password } = data
 
     const user = await this.userService.getByEmailWithPassword(email)
-    if (!user) throw new NotFoundException(USER_NOT_FOUND_ERROR)
+
+    if (!user) {
+      throw new UnauthorizedException(INVALID_CREDENTIALS_ERROR)
+    }
 
     const isPasswordValid = await verify(user.password, password)
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException(INVALID_PASSWORD_ERROR)
+      throw new UnauthorizedException(INVALID_CREDENTIALS_ERROR)
     }
 
     const { password: userPassword, ...safeUser } = user
@@ -180,6 +190,7 @@ export class AuthService {
     })
 
     const refreshToken = this.jwt.sign(data, {
+      secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
       expiresIn: this.configService.get<StringValue>(
         'JWT_REFRESH_TOKEN_EXPIRES_IN',
       ),
