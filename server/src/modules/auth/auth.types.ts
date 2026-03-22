@@ -10,6 +10,8 @@ export interface AuthTokenData {
   role: ROLES
 }
 
+export type AuthFavoriteAwareUser = Pick<CurrentUser, '_id' | 'favoriteProductIds'>
+
 export interface PreparedRequest extends Request {
   cookies: Record<string, string | undefined>
   user?: CurrentUser

@@ -80,7 +80,7 @@ export function AuthRegisterDocs() {
     ApiOperation({
       summary: 'Register a new user',
       description:
-        'Creates a new user account and sets access/refresh tokens in HttpOnly cookies.',
+        'Creates a new user account, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
       security: [],
     }),
     ApiCreatedResponse({
@@ -101,7 +101,7 @@ export function AuthLoginDocs() {
     ApiOperation({
       summary: 'Log in user',
       description:
-        'Authenticates a user and sets access/refresh tokens in HttpOnly cookies.',
+        'Authenticates a user, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
       security: [],
     }),
     ApiCreatedResponse({

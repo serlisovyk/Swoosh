@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
-// import { AppThrottlerModule } from '@common/throttler'
+import { AppThrottlerModule } from '@common/throttler'
 import { getMongoConfig } from '@shared/config'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { ProductsModule } from './modules/products/products.module'
+import { FavoritesModule } from './modules/favorites/favorites.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    //TODO : Add throttler module for rate limiting
-    // AppThrottlerModule,
+    AppThrottlerModule,
     MongooseModule.forRootAsync({
       useFactory: getMongoConfig,
       inject: [ConfigService],
@@ -19,6 +19,7 @@ import { ProductsModule } from './modules/products/products.module'
     UserModule,
     AuthModule,
     ProductsModule,
+    FavoritesModule,
   ],
 })
 export class AppModule {}

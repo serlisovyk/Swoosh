@@ -1,19 +1,19 @@
 import { API, API_ROUTES } from '@shared/api'
 import {
   AuthResponse,
-  LoginFormData,
+  LoginPayload,
   RequestPasswordResetDto,
-  RegisterDto,
+  RegisterPayload,
   ResetPasswordDto,
   User,
 } from '../types'
 
-export async function login(dto: LoginFormData): Promise<AuthResponse> {
+export async function login(dto: LoginPayload): Promise<AuthResponse> {
   const { data } = await API.post<AuthResponse>(API_ROUTES.LOGIN, dto)
   return data
 }
 
-export async function register(dto: RegisterDto): Promise<AuthResponse> {
+export async function register(dto: RegisterPayload): Promise<AuthResponse> {
   const { data } = await API.post<AuthResponse>(API_ROUTES.REGISTER, dto)
   return data
 }

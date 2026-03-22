@@ -13,6 +13,9 @@ class ApiRoutes {
   readonly PRODUCT_FILTERS = `${this.PRODUCTS}/filters`
 
   readonly PROFILE = '/profile'
+
+  readonly FAVORITES = '/favorites'
+  readonly FAVORITE = (productId: string) => `${this.FAVORITES}/${productId}`
 }
 
 export const API_ROUTES = new ApiRoutes()

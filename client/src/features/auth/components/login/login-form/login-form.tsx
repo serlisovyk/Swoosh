@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { useFavoriteProductIds } from '@features/favorites'
 import { Button, Input } from '@shared/ui'
 import { ROUTES } from '@shared/config'
 import { useLoginMutation } from '../../../queries'
 import { useLoginForm } from '../../../hooks'
 import { loginFormFields } from '../../../config'
-import { LoginFormData } from '../../../types'
+import { LoginFormData, LoginPayload } from '../../../types'
 import styles from './login-form.module.css'
 
 export function LoginForm() {
@@ -15,7 +16,16 @@ export function LoginForm() {
 
   const { login, isLoading } = useLoginMutation()
 
-  const onSubmit = async (data: LoginFormData) => await login(data)
+  const favoriteProductIds = useFavoriteProductIds()
+
+  const onSubmit = async (data: LoginFormData) => {
+    const payload: LoginPayload = {
+      ...data,
+      favoriteProductIds,
+    }
+
+    await login(payload)
+  }
 
   return (
     <div className={styles.wrapper}>

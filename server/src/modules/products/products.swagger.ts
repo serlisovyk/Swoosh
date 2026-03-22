@@ -192,6 +192,14 @@ export const ProductsQuerySortPropertyDocs =
     example: PRODUCT_SORT_OPTIONS.NEWEST,
   })
 
+export const ProductsQueryIdsPropertyDocs =
+  createOptionalPropertyDocsDecorator({
+    description:
+      'Specific product ids to load. Accepts repeated query params or a comma-separated string.',
+    example: [PRODUCT_ID_EXAMPLE, PRODUCT_CATEGORY_ID_EXAMPLE],
+    type: [String],
+  })
+
 export const ProductsFilterSizesPropertyDocs = createPropertyDocsDecorator({
   description: 'Available product sizes for the catalog filters.',
   example: [40, 41, 42, 43],
@@ -372,7 +380,8 @@ export function ProductsFindAllDocs() {
   return applyDecorators(
     ApiOperation({
       summary: 'Get products list',
-      description: 'Returns a filtered list of products with the total count.',
+      description:
+        'Returns a filtered list of products with the total count. When ids are provided, the response preserves the same order as in the query.',
       security: [],
     }),
     ApiOkResponse({

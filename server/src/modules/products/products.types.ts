@@ -7,6 +7,7 @@ export type ProductCategoryModel = Model<ProductCategory>
 
 export interface ProductListQueryOptions {
   filters: Record<string, unknown>
+  ids?: string[]
   limit: number
   sort: Record<string, 1 | -1>
 }

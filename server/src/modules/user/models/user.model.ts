@@ -1,4 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { Schema as MongooseSchema } from 'mongoose'
+import { Product } from '@modules/products/models/product.model'
 import { Address } from './user-address.model'
 import { ROLES } from '../user.types'
 
@@ -31,6 +33,13 @@ export class User {
     index: true,
   })
   role!: ROLES
+
+  @Prop({
+    type: [MongooseSchema.Types.ObjectId],
+    ref: Product.name,
+    default: [],
+  })
+  favoriteProductIds!: string[]
 
   @Prop({ type: Address, default: {} })
   address?: Address

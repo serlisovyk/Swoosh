@@ -31,7 +31,11 @@ export class ProductsService {
   private readonly categorySelectFields = '-__v'
 
   async findAll(dto: FindAllProductsDto) {
-    const { filters, limit, sort } = buildProductListQueryOptions(dto)
+    const { filters, ids, limit, sort } = buildProductListQueryOptions(dto)
+
+    if (ids?.length) {
+      return this.findAllByIds(ids, filters)
+    }
 
     const data = this.productModel
       .find(filters)
@@ -159,5 +163,33 @@ export class ProductsService {
     }
 
     return category
+  }
+
+  private async findAllByIds(
+    productIds: string[],
+    filters: Record<string, unknown>,
+  ) {
+    const products = await this.productModel
+      .find({
+        ...filters,
+        _id: { $in: productIds },
+      })
+      .select(this.productSelectFields)
+      .populate('category', this.categorySelectFields)
+      .lean()
+
+    const productsMap = new Map(
+      products.map((product) => [String(product._id), product]),
+    )
+
+    const orderedProducts = productIds.flatMap((productId) => {
+      const product = productsMap.get(productId)
+      return product ? [product] : []
+    })
+
+    return {
+      products: orderedProducts,
+      total: orderedProducts.length,
+    }
   }
 }

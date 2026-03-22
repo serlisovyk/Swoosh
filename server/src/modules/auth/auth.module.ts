@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { UserModule } from '@modules/user/user.module'
+import { FavoritesModule } from '@modules/favorites/favorites.module'
 import { EmailModule } from '@common/email/email.module'
 import { getJwtConfig } from '@shared/config'
 import { JwtStrategy } from './jwt.strategy'
@@ -19,6 +20,7 @@ import { AuthController } from './auth.controller'
       inject: [ConfigService],
     }),
     UserModule,
+    FavoritesModule,
     EmailModule,
   ],
   controllers: [AuthController, AuthAccountController],

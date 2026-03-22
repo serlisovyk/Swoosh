@@ -1,6 +1,16 @@
 .footer {
   background-color: var(--light-black);
   padding-block: 40px;
+  margin-top: 120px;
+
+  @media (width <= 991px) {
+    margin-top: 80px;
+  }
+
+  @media (width <= 767px) {
+    padding-block: 20px;
+    margin-top: 40px;
+  }
 }
 
 .content {

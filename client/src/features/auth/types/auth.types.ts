@@ -33,6 +33,12 @@ export interface ResetPasswordFormField extends BaseFormFields {
 
 export type RegisterDto = Omit<RegisterFormData, 'confirmPassword' | 'terms'>
 
+export type LoginDto = LoginFormData
+
+export type LoginPayload = LoginFormData & FavoritesSyncPayload
+
+export type RegisterPayload = RegisterDto & FavoritesSyncPayload
+
 export interface RequestPasswordResetDto {
   email: string
 }
@@ -52,6 +58,7 @@ export interface User {
   role: ROLE
   name: string
   phone: string
+  favoriteProductIds: string[]
   address?: UserAddress | null
 }
 
@@ -70,3 +77,7 @@ const ROLE = {
 } as const
 
 export type ROLE = (typeof ROLE)[keyof typeof ROLE]
+
+interface FavoritesSyncPayload {
+  favoriteProductIds?: string[]
+}

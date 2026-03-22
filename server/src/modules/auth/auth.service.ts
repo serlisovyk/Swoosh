@@ -12,6 +12,7 @@ import { verify } from 'argon2'
 import { StringValue } from 'ms'
 import { isDev, noop } from '@shared/utils'
 import { UserService } from '../user/user.service'
+import { FavoritesService } from '@modules/favorites/favorites.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import {
@@ -23,13 +24,14 @@ import {
   USER_NOT_FOUND_ERROR,
 } from './auth.constants'
 import { ONE_DAY_IN_MS, ONE_HOUR_IN_MS } from '@shared/constants'
-import { AuthTokenData } from './auth.types'
+import { AuthFavoriteAwareUser, AuthTokenData } from './auth.types'
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwt: JwtService,
     private readonly userService: UserService,
+    private readonly favoritesService: FavoritesService,
     private readonly configService: ConfigService,
   ) {}
 
@@ -40,16 +42,26 @@ export class AuthService {
       throw new InternalServerErrorException(FAILED_TO_CREATE_USER_ERROR)
     }
 
+    const user = await this.mergeAuthFavorites(
+      createdUser,
+      dto.favoriteProductIds,
+    )
+
     const tokens = this.generateTokens({
-      id: String(createdUser._id),
-      role: createdUser.role,
+      id: String(user._id),
+      role: user.role,
     })
 
-    return { user: createdUser, ...tokens }
+    return { user, ...tokens }
   }
 
   async login(dto: LoginDto) {
-    const user = await this.validateUser(dto)
+    const validatedUser = await this.validateUser(dto)
+
+    const user = await this.mergeAuthFavorites(
+      validatedUser,
+      dto.favoriteProductIds,
+    )
 
     const tokens = this.generateTokens({
       id: String(user._id),
@@ -135,6 +147,29 @@ export class AuthService {
     noop(userPassword)
 
     return safeUser
+  }
+
+  private async mergeAuthFavorites<TUser extends AuthFavoriteAwareUser>(
+    user: TUser,
+    favoriteProductIds?: string[],
+  ) {
+    if (!favoriteProductIds?.length) {
+      return {
+        ...user,
+        favoriteProductIds: user.favoriteProductIds ?? [],
+      }
+    }
+
+    const mergedFavoriteProductIds =
+      await this.favoritesService.mergeFavoriteProductIds(
+        String(user._id),
+        favoriteProductIds,
+      )
+
+    return {
+      ...user,
+      favoriteProductIds: mergedFavoriteProductIds,
+    }
   }
 
   private generateTokens(data: AuthTokenData) {

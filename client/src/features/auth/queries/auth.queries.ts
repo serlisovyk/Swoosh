@@ -4,17 +4,18 @@ import { useRouter } from 'next/navigation'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { AxiosError } from 'axios'
+import { useSetFavoriteProductIds } from '@features/favorites'
 import { API_QUERY_KEYS, getErrorMessage } from '@shared/api'
 import { ROUTES } from '@shared/config'
 import {
   getMe,
   login,
-  register,
   logout,
+  register,
   requestPasswordReset,
   resetPassword,
 } from '../services'
-import { LoginFormData, RegisterDto, User } from '../types'
+import { User } from '../types'
 
 export function useGetMeQuery() {
   const {
@@ -34,9 +35,12 @@ export function useLoginMutation() {
   const router = useRouter()
   const queryClient = useQueryClient()
 
+  const setFavoriteProductIds = useSetFavoriteProductIds()
+
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (dto: LoginFormData) => login(dto),
+    mutationFn: login,
     onSuccess: ({ user }) => {
+      setFavoriteProductIds(user.favoriteProductIds)
       queryClient.setQueryData([API_QUERY_KEYS.ME], user)
       toast.success('Вы успешно вошли в систему!')
       router.replace(ROUTES.PROFILE)
@@ -53,9 +57,12 @@ export function useRegisterMutation() {
   const router = useRouter()
   const queryClient = useQueryClient()
 
+  const setFavoriteProductIds = useSetFavoriteProductIds()
+
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (dto: RegisterDto) => register(dto),
+    mutationFn: register,
     onSuccess: ({ user }) => {
+      setFavoriteProductIds(user.favoriteProductIds)
       queryClient.setQueryData([API_QUERY_KEYS.ME], user)
       toast.success('Регистрация прошла успешно!')
       router.replace(ROUTES.PROFILE)

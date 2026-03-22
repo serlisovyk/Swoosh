@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.heading {
+  margin: 0;
+}
+
+.error {
+  color: var(--error);
+  margin-block: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 50px;
+
+  @media (width <= 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  @media (width <= 767px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}

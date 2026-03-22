@@ -5,6 +5,7 @@ import {
   IsArray,
   IsEnum,
   IsInt,
+  IsMongoId,
   IsOptional,
   IsString,
   Max,
@@ -13,6 +14,7 @@ import {
 import { toNumberArrayQueryParam, toStringArrayQueryParam } from '@shared/utils'
 import {
   ProductsQueryColorNamePropertyDocs,
+  ProductsQueryIdsPropertyDocs,
   ProductsQueryLimitPropertyDocs,
   ProductsQueryMaterialPropertyDocs,
   ProductsQueryPricePropertyDocs,
@@ -22,6 +24,8 @@ import {
 import {
   PRODUCT_QUERY_COLOR_NAME_ARRAY_ERROR,
   PRODUCT_QUERY_COLOR_NAME_STRING_ERROR,
+  PRODUCT_QUERY_IDS_ARRAY_ERROR,
+  PRODUCT_QUERY_IDS_FORMAT_ERROR,
   PRODUCT_QUERY_LIMIT_MAX_ERROR,
   PRODUCT_QUERY_LIMIT_MIN_ERROR,
   PRODUCT_QUERY_LIMIT_NUMBER_ERROR,
@@ -37,6 +41,14 @@ import {
 import { PRODUCT_SORT_OPTIONS } from '../products.types'
 
 export class FindAllProductsDto {
+  @ProductsQueryIdsPropertyDocs()
+  @IsOptional()
+  @Transform(({ value }) => toStringArrayQueryParam(value))
+  @IsArray({ message: PRODUCT_QUERY_IDS_ARRAY_ERROR })
+  @IsMongoId({ each: true, message: PRODUCT_QUERY_IDS_FORMAT_ERROR })
+  @ArrayUnique()
+  ids?: string[]
+
   @ProductsQuerySizePropertyDocs()
   @IsOptional()
   @Transform(({ value }) => toNumberArrayQueryParam(value))

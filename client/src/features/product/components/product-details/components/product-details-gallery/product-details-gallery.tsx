@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Heart } from 'lucide-react'
+import { FavoriteToggleButton } from '@features/favorites'
 import { ProductBadge } from '../../../product-badge'
 import { ProductDetailsGalleryThumbs } from './components/product-details-gallery-thumbs'
 import type { ProductDetailsGalleryProps } from '../../../../types'
@@ -19,13 +19,7 @@ export function ProductDetailsGallery({ product }: ProductDetailsGalleryProps) {
         <div className={styles.mediaTop}>
           <ProductBadge product={product} />
 
-          <button
-            type="button"
-            aria-label="Добавить в избранное"
-            className={styles.favoriteButton}
-          >
-            <Heart size={22} />
-          </button>
+          <FavoriteToggleButton productId={product._id} size={22} />
         </div>
 
         {activeImage ? (

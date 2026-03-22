@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import cn from 'clsx'
-import { Heart, ShoppingBasket } from 'lucide-react'
+import { ShoppingBasket } from 'lucide-react'
+import { FavoriteToggleButton } from '@features/favorites'
 import { Heading } from '@shared/ui'
 import { ROUTES } from '@shared/config'
 import { formatProductPrice } from '../../utils'
@@ -24,13 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className={styles.top}>
           <ProductBadge product={product} />
 
-          <button
-            aria-label="Добавить в избранное"
-            className={styles.favoriteButton}
-            type="button"
-          >
-            <Heart size={24} />
-          </button>
+          <FavoriteToggleButton productId={product._id} />
         </div>
 
         <Link href={ROUTES.PRODUCT(product._id)} className={styles.imageFrame}>

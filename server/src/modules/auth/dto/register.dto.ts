@@ -1,4 +1,17 @@
-import { IsEmail, IsString, MinLength, IsOptional } from 'class-validator'
+import {
+  ArrayUnique,
+  IsArray,
+  IsEmail,
+  IsMongoId,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator'
+import {
+  FAVORITES_PRODUCT_IDS_ARRAY_ERROR,
+  FAVORITES_PRODUCT_ID_FORMAT_ERROR,
+} from '@modules/favorites/favorites.constants'
+import { FavoritesOptionalProductIdsPropertyDocs } from '@modules/favorites/favorites.swagger'
 import {
   AuthEmailPropertyDocs,
   AuthOptionalNamePropertyDocs,
@@ -32,4 +45,11 @@ export class RegisterDto {
   @IsOptional()
   @IsString({ message: PHONE_STRING_ERROR })
   phone?: string
+
+  @FavoritesOptionalProductIdsPropertyDocs()
+  @IsOptional()
+  @IsArray({ message: FAVORITES_PRODUCT_IDS_ARRAY_ERROR })
+  @IsMongoId({ each: true, message: FAVORITES_PRODUCT_ID_FORMAT_ERROR })
+  @ArrayUnique()
+  favoriteProductIds?: string[]
 }

@@ -105,3 +105,8 @@ export const PRODUCT_IMAGE_EXAMPLES = [
   'https://image-example.com/products/air-max-pulse/front.webp',
   'https://image-example.com/products/air-max-pulse/side.webp',
 ]
+
+export const PRODUCT_QUERY_IDS_ARRAY_ERROR =
+  'Product ids filter must be an array'
+export const PRODUCT_QUERY_IDS_FORMAT_ERROR =
+  'Each product id must be a valid MongoDB ObjectId'

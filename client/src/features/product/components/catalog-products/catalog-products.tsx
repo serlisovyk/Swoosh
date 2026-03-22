@@ -1,7 +1,7 @@
 'use client'
 
 import { ProductFilters } from '@features/filters'
-import { Breadcrumbs, Heading, Skeleton } from '@shared/ui'
+import { Breadcrumbs, Heading, List, Skeleton } from '@shared/ui'
 import { ProductCard } from '../product-card'
 import { useGetProductsQuery } from '../../queries'
 import { CATALOG_BREADCRUMBS } from '../../constants'
@@ -38,11 +38,12 @@ export function CatalogProducts() {
           {isEmpty && <div className={styles.empty}>Ничего не найдено</div>}
 
           {!isLoading && !error && !!products.length && (
-            <div className={styles.grid}>
-              {products.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
+            <List
+              items={products}
+              className={styles.grid}
+              getItemKey={(product) => product._id}
+              renderItem={(product) => <ProductCard product={product} />}
+            />
           )}
         </div>
       </div>

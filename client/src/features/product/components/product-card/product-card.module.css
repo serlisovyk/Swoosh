@@ -24,7 +24,6 @@
   pointer-events: none;
 }
 
-.favoriteButton,
 .cartButton {
   background: none;
   border: none;
@@ -34,10 +33,6 @@
   &:hover {
     color: var(--primary);
   }
-}
-
-.favoriteButton {
-  color: var(--primary);
 }
 
 .favoriteButton,

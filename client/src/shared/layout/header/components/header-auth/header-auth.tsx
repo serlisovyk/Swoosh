@@ -18,7 +18,7 @@ export function HeaderAuth() {
       <div>
         {user ? (
           <Link href={ROUTES.PROFILE} className={styles.link}>
-            {user.name}
+            Мой профиль
           </Link>
         ) : (
           <Link href={ROUTES.LOGIN} className={styles.link}>
