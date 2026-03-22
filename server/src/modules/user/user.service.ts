@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -15,6 +16,9 @@ import { User } from './models/user.model'
 import {
   USER_ALREADY_EXISTS_ERROR,
   CURRENT_PASSWORD_REQUIRED_ERROR,
+  USER_BASE_SELECT_FIELDS,
+  USER_NOT_FOUND_ERROR,
+  USER_PUBLIC_SELECT_FIELDS,
   WRONG_CURRENT_PASSWORD_ERROR,
 } from './user.constants'
 import { ROLES, type UserModel } from './user.types'
@@ -26,26 +30,21 @@ export class UserService {
     private readonly configService: ConfigService,
   ) {}
 
-  private readonly baseSelectFields =
-    '-resetPasswordToken -resetPasswordTokenExpiresAt -createdAt -updatedAt -__v'
-
-  private readonly publicSelectFields = `-password ${this.baseSelectFields}`
-
   getById(id: string) {
-    return this.userModel.findById(id).select(this.publicSelectFields).lean()
+    return this.userModel.findById(id).select(USER_PUBLIC_SELECT_FIELDS).lean()
   }
 
   getByEmail(email: string) {
     return this.userModel
       .findOne({ email })
-      .select(this.publicSelectFields)
+      .select(USER_PUBLIC_SELECT_FIELDS)
       .lean()
   }
 
   getByEmailWithPassword(email: string) {
     return this.userModel
       .findOne({ email })
-      .select(this.baseSelectFields)
+      .select(`+password ${USER_BASE_SELECT_FIELDS}`)
       .lean()
   }
 
@@ -75,8 +74,12 @@ export class UserService {
         returnDocument: 'after',
         runValidators: true,
       })
-      .select(this.publicSelectFields)
+      .select(USER_PUBLIC_SELECT_FIELDS)
       .lean()
+
+    if (!updatedUser) {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR)
+    }
 
     return updatedUser
   }
@@ -84,10 +87,14 @@ export class UserService {
   private async prepareUpdateData(userId: string, dto: UpdateUserDto) {
     const data: Record<string, unknown> = { ...dto }
 
-    const newPassword = dto.newPassword
+    const { email, newPassword, currentPassword } = dto
+
+    if (email) {
+      data.email = await this.ensureEmailIsAvailable(userId, email)
+    }
 
     if (newPassword && newPassword.trim() !== '') {
-      await this.validateCurrentPassword(userId, dto.currentPassword)
+      await this.validateCurrentPassword(userId, currentPassword)
       data.password = await hash(newPassword)
     }
 
@@ -95,6 +102,19 @@ export class UserService {
     delete data.currentPassword
 
     return data
+  }
+
+  private async ensureEmailIsAvailable(userId: string, email: string) {
+    const existingUser = await this.userModel
+      .findOne({ email, _id: { $ne: userId } })
+      .select('_id')
+      .lean()
+
+    if (existingUser) {
+      throw new ConflictException(USER_ALREADY_EXISTS_ERROR)
+    }
+
+    return email
   }
 
   private async validateCurrentPassword(

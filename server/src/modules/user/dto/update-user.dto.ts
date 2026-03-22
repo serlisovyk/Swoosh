@@ -1,4 +1,12 @@
-import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator'
+import { Transform, Type } from 'class-transformer'
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  MinLength,
+  ValidateNested,
+} from 'class-validator'
+import { normalizeEmailValue } from '@shared/utils'
 import { UpdateAddressDto } from './update-user-address.dto'
 import {
   UserAddressOptionalPropertyDocs,
@@ -26,6 +34,7 @@ export class UpdateUserDto {
 
   @UserEmailPropertyDocs()
   @IsOptional()
+  @Transform(({ value }) => normalizeEmailValue(value))
   @IsString({ message: EMAIL_STRING_ERROR })
   @IsEmail({}, { message: EMAIL_FORMAT_ERROR })
   email?: string
@@ -48,5 +57,7 @@ export class UpdateUserDto {
 
   @UserAddressOptionalPropertyDocs(UpdateAddressDto)
   @IsOptional()
+  @ValidateNested()
+  @Type(() => UpdateAddressDto)
   address?: UpdateAddressDto
 }

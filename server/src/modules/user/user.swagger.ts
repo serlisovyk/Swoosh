@@ -1,7 +1,6 @@
 import { applyDecorators, Type } from '@nestjs/common'
 import {
   ApiBadRequestResponse,
-  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiProperty,
@@ -222,9 +221,6 @@ export function UserGetProfileDocs() {
     ApiUnauthorizedResponse({
       description: 'Authentication is required.',
     }),
-    ApiNotFoundResponse({
-      description: 'User was not found.',
-    }),
   )
 }
 
@@ -236,7 +232,8 @@ export function UserUpdateProfileDocs() {
       type: UserResponseDocs,
     }),
     ApiBadRequestResponse({
-      description: 'Request body is invalid or current password is missing.',
+      description:
+        'Request body is invalid, current password is missing, or email is already taken.',
     }),
     ApiUnauthorizedResponse({
       description: 'Authentication is required or current password is wrong.',

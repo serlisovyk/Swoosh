@@ -11,13 +11,13 @@ export class User {
   @Prop({ required: true, unique: true, index: true })
   email!: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, select: false })
   password!: string
 
-  @Prop({ type: String, default: null })
+  @Prop({ type: String, default: null, select: false })
   resetPasswordToken?: string | null
 
-  @Prop({ type: Date, default: null })
+  @Prop({ type: Date, default: null, select: false })
   resetPasswordTokenExpiresAt?: Date | null
 
   @Prop({ default: '' })

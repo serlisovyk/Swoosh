@@ -4,11 +4,11 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  NotFoundException,
   Put,
 } from '@nestjs/common'
 import { Auth } from '@modules/auth/decorators/auth.decorator'
 import { CurrentUser } from '@modules/auth/decorators/user.decorator'
+import type { CurrentUser as ICurrentUser } from '@modules/auth/auth.types'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserService } from './user.service'
 import {
@@ -16,7 +16,6 @@ import {
   UserTagDocs,
   UserUpdateProfileDocs,
 } from './user.swagger'
-import { USER_NOT_FOUND_ERROR } from './user.constants'
 
 @UserTagDocs()
 @Controller('/profile')
@@ -26,10 +25,7 @@ export class UserController {
   @UserGetProfileDocs()
   @Auth()
   @Get()
-  async getProfile(@CurrentUser('_id') id: string) {
-    const user = await this.usersService.getById(id)
-    if (!user) throw new NotFoundException(USER_NOT_FOUND_ERROR)
-
+  getProfile(@CurrentUser() user: ICurrentUser) {
     return user
   }
 
