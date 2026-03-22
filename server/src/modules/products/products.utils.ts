@@ -2,10 +2,12 @@ import { FindAllProductsDto } from './dto/find-all-products.dto'
 import {
   DEFAULT_PRODUCTS_LIMIT,
   PRODUCT_SORT_MAP,
-  PRODUCT_SORT_OPTIONS,
   REGEX_SPECIAL_CHARACTERS,
 } from './products.constants'
-import type { ProductListQueryOptions } from './products.types'
+import {
+  type ProductListQueryOptions,
+  PRODUCT_SORT_OPTIONS,
+} from './products.types'
 
 export function buildProductListQueryOptions(
   dto: FindAllProductsDto,

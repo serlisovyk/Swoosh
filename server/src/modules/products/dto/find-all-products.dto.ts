@@ -33,8 +33,8 @@ import {
   PRODUCT_QUERY_SIZE_ARRAY_ERROR,
   PRODUCT_QUERY_SIZE_NUMBER_ERROR,
   PRODUCT_QUERY_SORT_ERROR,
-  PRODUCT_SORT_OPTIONS,
 } from '../products.constants'
+import { PRODUCT_SORT_OPTIONS } from '../products.types'
 
 export class FindAllProductsDto {
   @ProductsQuerySizePropertyDocs()

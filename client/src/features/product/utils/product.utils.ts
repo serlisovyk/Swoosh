@@ -2,7 +2,13 @@ import {
   appendQueryArrayParam,
   createDollarPriceFormatter,
 } from '@shared/utils'
-import type { GetProductsParams, Product, ProductBadge } from '../types'
+import { DESCRIPTION_PREVIEW_LIMIT } from '../constants'
+import type {
+  GetProductsParams,
+  Product,
+  ProductBadge,
+  ProductCharacteristic,
+} from '../types'
 
 export function getProductBadge(product: Product): ProductBadge | null {
   if (product.saleCF > 0) {
@@ -33,6 +39,46 @@ export function formatProductPrice(price: number) {
   return createDollarPriceFormatter().format(price)
 }
 
+export function formatProductSize(size: number) {
+  return new Intl.NumberFormat('ru-RU', {
+    maximumFractionDigits: 1,
+  }).format(size)
+}
+
+export function getProductCharacteristics(
+  product: Product,
+): ProductCharacteristic[] {
+  const colors = product.colors.map(({ name }) => name).join(', ')
+  const sizes = product.sizes.map((size) => formatProductSize(size)).join(', ')
+
+  return [
+    {
+      label: 'Категория',
+      value: product.category?.name || 'Не указано',
+    },
+    {
+      label: 'Материал',
+      value: product.material || 'Не указано',
+    },
+    {
+      label: 'Цвета',
+      value: colors || 'Не указано',
+    },
+    {
+      label: 'Размеры',
+      value: sizes || 'Не указано',
+    },
+    {
+      label: 'Новинка',
+      value: product.isNewArrival ? 'Да' : 'Нет',
+    },
+    {
+      label: 'Хит продаж',
+      value: product.isHit ? 'Да' : 'Нет',
+    },
+  ]
+}
+
 export function createProductsSearchParams(params?: GetProductsParams) {
   const searchParams = new URLSearchParams()
 
@@ -61,4 +107,15 @@ export function serializeProductsParams(params?: GetProductsParams) {
 function normalizeSalePercent(value: number) {
   if (value > 0 && value < 1) return Math.round(value * 100)
   return Math.round(value)
+}
+
+export function prepareDescriptionText(description: string) {
+  const shouldShowFullDescription =
+    description.length > DESCRIPTION_PREVIEW_LIMIT
+
+  const previewText = shouldShowFullDescription
+    ? `${description.slice(0, DESCRIPTION_PREVIEW_LIMIT).trimEnd()}...`
+    : description
+
+  return { previewText, shouldShowFullDescription }
 }

@@ -45,35 +45,6 @@
   pointer-events: auto;
 }
 
-.badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 110%;
-  padding: 10px;
-  text-transform: uppercase;
-  color: var(--white);
-}
-
-.badgeSpacer {
-  width: 56px;
-  height: 40px;
-}
-
-.badge-neutral {
-  background-color: var(--dark-black);
-}
-
-.badge-sale {
-  background-color: var(--primary);
-}
-
-.badge-hit {
-  background-color: var(--blue);
-}
-
 .imageFrame {
   display: flex;
   align-items: center;

@@ -1,0 +1,28 @@
+.wrapper {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.description {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 175%;
+  color: var(--gray-dark);
+}
+
+.button {
+  padding: 0;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 180%;
+  color: var(--gray);
+  background: none;
+  border: none;
+  border-bottom: 1px dashed var(--gray);
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--dark-black);
+  }
+}

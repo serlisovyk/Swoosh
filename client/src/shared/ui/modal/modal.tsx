@@ -14,11 +14,13 @@ export function Modal({
   children,
   title = 'Модальное окно',
   closeLabel = 'Закрыть модальное окно',
+  headerClassName,
+  titleClassName,
+  closeButtonClassName,
   panelClassName,
   contentClassName,
 }: ModalProps) {
   useBodyScrollLock(isOpen)
-
   useEscapeKey(onClose, isOpen)
 
   if (!IS_CLIENT) return null
@@ -43,12 +45,12 @@ export function Modal({
         aria-modal="true"
         aria-label={title}
       >
-        <div className={styles.header}>
-          <p className={styles.title}>{title}</p>
+        <div className={cn(styles.header, headerClassName)}>
+          <p className={cn(styles.title, titleClassName)}>{title}</p>
 
           <button
             type="button"
-            className={styles.closeButton}
+            className={cn(styles.closeButton, closeButtonClassName)}
             onClick={onClose}
             aria-label={closeLabel}
           >

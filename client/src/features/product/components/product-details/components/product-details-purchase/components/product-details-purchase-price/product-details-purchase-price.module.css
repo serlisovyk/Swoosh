@@ -1,0 +1,19 @@
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  margin-bottom: 36px;
+}
+
+.oldPrice {
+  font-size: 22px;
+  line-height: 120%;
+  color: var(--gray-light);
+  text-decoration: line-through;
+}
+
+.currentPrice {
+  font-size: 31px;
+  line-height: 110%;
+  color: var(--dark-black);
+}

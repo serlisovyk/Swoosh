@@ -1,0 +1,43 @@
+.section {
+  width: 100%;
+  scroll-margin-top: 24px;
+}
+
+.descriptionText {
+  margin: 0;
+  line-height: 185%;
+  color: var(--gray-dark);
+}
+
+.characteristicsList {
+  margin: 0;
+}
+
+.characteristicRow {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.9fr) minmax(0, 1.1fr);
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px dotted var(--border-color);
+}
+
+.characteristicKey,
+.characteristicValue {
+  margin: 0;
+  line-height: 165%;
+}
+
+.characteristicKey {
+  color: var(--dark-black);
+}
+
+.characteristicValue {
+  color: var(--gray);
+}
+
+@media (width <= 767px) {
+  .characteristicRow {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

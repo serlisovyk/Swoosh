@@ -16,11 +16,11 @@ import {
   createPropertyDocsDecorator,
 } from '@common/swagger'
 import {
-  PRODUCT_SORT_OPTIONS,
   PRODUCT_ID_EXAMPLE,
   PRODUCT_CATEGORY_ID_EXAMPLE,
   PRODUCT_IMAGE_EXAMPLES,
 } from './products.constants'
+import { PRODUCT_SORT_OPTIONS } from './products.types'
 
 export function ProductsTagDocs() {
   return ApiTags('Products')

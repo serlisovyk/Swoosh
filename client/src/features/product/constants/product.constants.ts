@@ -1,0 +1,1 @@
+export const DESCRIPTION_PREVIEW_LIMIT = 100

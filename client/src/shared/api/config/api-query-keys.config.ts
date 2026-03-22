@@ -4,6 +4,7 @@ class ApiQueryKeys {
   readonly ME = `${this.AUTH}/me`
 
   readonly PRODUCTS = 'products'
+  readonly PRODUCT = 'product'
   readonly PRODUCT_FILTERS = 'product-filters'
 }
 

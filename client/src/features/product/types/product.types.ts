@@ -8,6 +8,11 @@ export interface ProductBadge {
   tone: string
 }
 
+export interface ProductCharacteristic {
+  label: string
+  value: string
+}
+
 export interface ProductCategory {
   _id: string
   name: string
@@ -53,4 +58,84 @@ export interface GetProductsParams {
 
 export interface ProductCardProps {
   product: Product
+}
+
+export interface ProductDetailsProps {
+  productId: string
+}
+
+export interface ProductSizeTableRow {
+  footLength: string
+  ru: string
+  us: string
+  eu: string
+  uk: string
+}
+
+export interface ProductDetailsGalleryProps {
+  product: Product
+}
+
+export interface ProductDetailsGalleryThumbsProps {
+  images: string[]
+  activeImageIndex: number
+  onImageSelect: (index: number) => void
+}
+
+export interface ProductDetailsInfoProps {
+  product: Product
+}
+
+export interface ProductDescriptionPreviewProps {
+  description: string
+  onShowFullDescription: () => void
+}
+
+export interface ProductDetailsPurchaseProps {
+  product: Product
+}
+
+export interface ProductDetailsPurchaseColorsProps {
+  colors: ProductColor[]
+  activeColorHex: string | null
+  onSelectColor: (hex: string) => void
+}
+
+export interface ProductDetailsPurchaseSizesProps {
+  sizes: number[]
+  activeSize: number | null
+  onSelectSize: (size: number) => void
+  onOpenSizeGuide: () => void
+}
+
+export interface ProductDetailsPurchasePriceProps {
+  price: number
+  oldPrice: number | null
+}
+
+export interface ProductDetailsPurchaseActionsProps {
+  quantity: number
+  onDecreaseQuantity: () => void
+  onIncreaseQuantity: () => void
+}
+
+export interface ProductSizeTableModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export interface ProductDetailsTabsProps {
+  product: Product
+}
+
+export interface ProductBadgeProps {
+  product: Product
+}
+
+export interface SingleProductPageProps {
+  params: Promise<ProductDetailsPageParams>
+}
+
+interface ProductDetailsPageParams {
+  id: string
 }

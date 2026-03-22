@@ -1,11 +1,14 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 import cn from 'clsx'
 import { Heart, ShoppingBasket } from 'lucide-react'
 import { Heading } from '@shared/ui'
-import { formatProductPrice, getProductBadge } from '../../utils'
+import { ROUTES } from '@shared/config'
+import { formatProductPrice } from '../../utils'
 import { ProductCardProps } from '../../types'
+import { ProductBadge } from '../product-badge'
 import styles from './product-card.module.css'
 
 export function ProductCard({ product }: ProductCardProps) {
@@ -14,17 +17,12 @@ export function ProductCard({ product }: ProductCardProps) {
   const images = Array.isArray(product.images) ? product.images : []
   const colors = Array.isArray(product.colors) ? product.colors : []
   const activeImage = images[activeImageIndex] ?? ''
-  const badge = getProductBadge(product)
 
   return (
     <article className={styles.card}>
       <div className={styles.media}>
         <div className={styles.top}>
-          {badge && (
-            <span className={cn(styles.badge, styles[`badge-${badge.tone}`])}>
-              {badge.text}
-            </span>
-          )}
+          <ProductBadge product={product} />
 
           <button
             aria-label="Добавить в избранное"
@@ -35,14 +33,14 @@ export function ProductCard({ product }: ProductCardProps) {
           </button>
         </div>
 
-        <div className={styles.imageFrame}>
+        <Link href={ROUTES.PRODUCT(product._id)} className={styles.imageFrame}>
           <div
             aria-label={product.title}
             className={styles.image}
             role="img"
             style={{ backgroundImage: `url("${activeImage}")` }}
           />
-        </div>
+        </Link>
 
         <div className={styles.sliderDots}>
           {images.map((image, index) => (

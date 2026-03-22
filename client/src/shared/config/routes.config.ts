@@ -1,6 +1,8 @@
 class Routes {
   readonly HOME = '/'
+
   readonly CATALOG = '/catalog'
+  readonly PRODUCT = (id: string = ':id') => `/catalog/${id}`
 
   private readonly AUTH = '/auth'
 

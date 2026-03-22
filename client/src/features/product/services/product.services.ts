@@ -1,6 +1,6 @@
 import { API, API_ROUTES } from '@shared/api'
 import { serializeProductsParams } from '../utils'
-import type { GetProductsParams, ProductsListResponse } from '../types'
+import type { GetProductsParams, Product, ProductsListResponse } from '../types'
 
 export async function getProducts(
   params?: GetProductsParams,
@@ -9,6 +9,12 @@ export async function getProducts(
     params,
     paramsSerializer: () => serializeProductsParams(params),
   })
+
+  return data
+}
+
+export async function getProductById(id: string): Promise<Product> {
+  const { data } = await API.get<Product>(API_ROUTES.PRODUCT(id))
 
   return data
 }

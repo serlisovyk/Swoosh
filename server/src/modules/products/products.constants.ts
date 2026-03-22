@@ -1,3 +1,5 @@
+import { PRODUCT_SORT_OPTIONS } from './products.types'
+
 export const PRODUCT_TITLE_STRING_ERROR = 'Название товара должно быть строкой'
 export const PRODUCT_TITLE_EMPTY_ERROR = 'Название товара не должно быть пустым'
 export const PRODUCT_PRICE_NUMBER_ERROR = 'Цена товара должна быть числом'
@@ -79,16 +81,6 @@ export const PRODUCT_QUERY_SORT_ERROR = 'Некорректное значени
 export const DEFAULT_PRODUCTS_LIMIT = 18
 
 export const REGEX_SPECIAL_CHARACTERS = /[.*+?^${}()|[\]\\]/g
-
-export const PRODUCT_SORT_OPTIONS = {
-  NEWEST: 'newest',
-  OLDEST: 'oldest',
-  PRICE_ASC: 'priceAsc',
-  PRICE_DESC: 'priceDesc',
-} as const
-
-export type PRODUCT_SORT_OPTIONS =
-  (typeof PRODUCT_SORT_OPTIONS)[keyof typeof PRODUCT_SORT_OPTIONS]
 
 export const PRODUCT_SORT_MAP: Record<
   PRODUCT_SORT_OPTIONS,

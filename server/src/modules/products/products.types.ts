@@ -22,3 +22,13 @@ export interface ProductPriceRangeStats {
   minPrice: number
   maxPrice: number
 }
+
+export const PRODUCT_SORT_OPTIONS = {
+  NEWEST: 'newest',
+  OLDEST: 'oldest',
+  PRICE_ASC: 'priceAsc',
+  PRICE_DESC: 'priceDesc',
+} as const
+
+export type PRODUCT_SORT_OPTIONS =
+  (typeof PRODUCT_SORT_OPTIONS)[keyof typeof PRODUCT_SORT_OPTIONS]

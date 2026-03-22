@@ -1,0 +1,22 @@
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 45px;
+  line-height: 130%;
+  color: var(--dark-black);
+  margin-bottom: 16px;
+
+  @media (width <= 991px) {
+    font-size: 32px;
+  }
+
+  @media (width <= 767px) {
+    margin-bottom: 12px;
+    font-size: 22px;
+  }
+}

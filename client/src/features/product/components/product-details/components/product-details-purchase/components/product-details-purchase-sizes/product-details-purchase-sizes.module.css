@@ -1,0 +1,73 @@
+.optionBlock {
+  width: 100%;
+  margin-bottom: 22px;
+}
+
+.optionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.optionLabel {
+  line-height: 170%;
+  color: var(--gray-dark);
+}
+
+.sizeGuideButton {
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 150%;
+  color: var(--gray);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: var(--dark-black);
+  }
+}
+
+.sizesGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sizeButton {
+  border-radius: 4px;
+  padding: 15px 10px;
+  min-height: 46px;
+  padding: 15px 10px;
+  font-family: inherit;
+  line-height: 100%;
+  color: var(--light-black);
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--white);
+    border-color: var(--light-black);
+    background: var(--light-black);
+  }
+}
+
+.sizeButtonActive {
+  color: var(--white);
+  border-color: var(--light-black);
+  background: var(--light-black);
+}
+
+@media (width <= 767px) {
+  .sizesGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

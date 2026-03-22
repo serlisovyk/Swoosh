@@ -5,7 +5,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useProductFilterParams } from '@features/filters'
 import { API_QUERY_KEYS } from '@shared/api'
 import type { ProductPriceRange } from '../types'
-import { getProducts } from '../services'
+import { getProductById, getProducts } from '../services'
 
 const PRICE_QUERY_DEBOUNCE_MS = 250
 
@@ -35,6 +35,25 @@ export function useGetProductsQuery() {
     total,
     isLoading,
     isFetching,
+    error,
+  }
+}
+
+export function useGetProductByIdQuery(productId: string) {
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: [API_QUERY_KEYS.PRODUCT, productId],
+    queryFn: () => getProductById(productId),
+    enabled: Boolean(productId),
+    retry: false,
+  })
+
+  return {
+    product,
+    isLoading,
     error,
   }
 }

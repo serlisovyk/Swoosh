@@ -9,6 +9,7 @@ class ApiRoutes {
   readonly REFRESH = `${this.AUTH}/new-tokens`
 
   readonly PRODUCTS = '/products'
+  readonly PRODUCT = (id: string) => `${this.PRODUCTS}/${id}`
   readonly PRODUCT_FILTERS = `${this.PRODUCTS}/filters`
 
   readonly PROFILE = '/profile'
