@@ -16,6 +16,10 @@ class ApiRoutes {
 
   readonly FAVORITES = '/favorites'
   readonly FAVORITE = (productId: string) => `${this.FAVORITES}/${productId}`
+
+  private readonly FORMS = '/forms'
+
+  readonly INDIVIDUAL_ORDERS = `${this.FORMS}/individual-orders`
 }
 
 export const API_ROUTES = new ApiRoutes()

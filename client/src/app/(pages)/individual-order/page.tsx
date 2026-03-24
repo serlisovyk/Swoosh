@@ -1,3 +1,5 @@
+import { IndividualOrder } from '@features/individual-order'
+
 export default function IndividualOrderPage() {
-  return <div>IndividualOrder</div>
+  return <IndividualOrder />
 }

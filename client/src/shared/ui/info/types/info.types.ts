@@ -1,5 +1,5 @@
 export interface InfoProps {
-  title?: string
+  title: string
   description: string
   prefix: string
 }

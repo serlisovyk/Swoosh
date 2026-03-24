@@ -6,7 +6,7 @@ export function Info({ title, description, prefix }: InfoProps) {
     <div className={styles.wrapper}>
       <div className={styles.prefix}>{prefix}</div>
       <div className={styles.content}>
-        {title && <div className={styles.title}>{title}</div>}
+        <div className={styles.title}>{title}</div>
         <div>{description}</div>
       </div>
     </div>

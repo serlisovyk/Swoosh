@@ -1,0 +1,46 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  max-width: 700px;
+  box-shadow: 0 32px 80px rgba(17, 24, 39, 0.12);
+  padding: 40px;
+
+  @media (max-width: 768px) {
+    padding: 24px;
+  }
+}
+
+.privacyText {
+  margin: 2px 0 0;
+  font-size: 15px;
+  line-height: 170%;
+  color: var(--gray);
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
+.privacyLink {
+  color: inherit;
+  text-underline-offset: 3px;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--primary);
+  }
+}

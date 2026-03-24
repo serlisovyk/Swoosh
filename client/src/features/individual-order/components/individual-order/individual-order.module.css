@@ -1,0 +1,19 @@
+.title {
+  margin-bottom: 24px;
+}
+
+.description {
+  max-width: 1000px;
+  font-size: 18px;
+  line-height: 160%;
+  margin-bottom: 40px;
+}
+
+.content {
+  display: flex;
+  gap: 40px;
+
+  @media (width <= 991px) {
+    flex-direction: column;
+  }
+}

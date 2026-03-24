@@ -1,5 +1,6 @@
 export { Button } from './button'
 export { Input } from './input'
+export { Textarea } from './textarea'
 export { Select, type SelectOption } from './select'
 export { RangeSlider, type RangeSliderValue } from './range-slider'
 export { Heading } from './heading'
