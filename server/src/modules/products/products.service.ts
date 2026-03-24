@@ -38,7 +38,8 @@ export class ProductsService {
   private readonly categorySelectFields = '-__v'
 
   async findAll(dto: FindAllProductsDto) {
-    const { filters, ids, limit, sort } = buildProductListQueryOptions(dto)
+    const { filters, ids, limit, skip, sort } =
+      buildProductListQueryOptions(dto)
 
     if (ids?.length) {
       return this.findAllByIds(ids, filters)
@@ -47,6 +48,7 @@ export class ProductsService {
     const data = this.productModel
       .find(filters)
       .sort(sort)
+      .skip(skip)
       .limit(limit)
       .select(this.productSelectFields)
       .populate('category', this.categorySelectFields)

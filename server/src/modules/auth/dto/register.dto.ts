@@ -15,7 +15,7 @@ import {
   FAVORITES_PRODUCT_IDS_MAX_SIZE_ERROR,
   FAVORITES_MAX_PRODUCT_IDS,
 } from '@modules/favorites/favorites.constants'
-import { normalizeEmailValue } from '@shared/utils'
+import { normalizeEmailValue, normalizePhoneValue } from '@shared/utils'
 import { FavoritesOptionalProductIdsPropertyDocs } from '@modules/favorites/favorites.swagger'
 import {
   AuthEmailPropertyDocs,
@@ -49,6 +49,7 @@ export class RegisterDto {
 
   @AuthOptionalPhonePropertyDocs()
   @IsOptional()
+  @Transform(({ value }) => normalizePhoneValue(value))
   @IsString({ message: PHONE_STRING_ERROR })
   phone?: string
 

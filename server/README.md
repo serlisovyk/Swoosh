@@ -56,6 +56,7 @@ src/
 |-- modules/                    # business modules
 |   |-- auth/                   # authentication and token flow
 |   |-- favorites/              # user favorites state and favorites list
+|   |-- forms/                  # public forms and admin form management
 |   |-- products/               # products CRUD and filtering
 |   `-- user/                   # user profile and account data
 |-- shared/                     # shared app-level helpers

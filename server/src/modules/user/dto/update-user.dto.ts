@@ -6,7 +6,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator'
-import { normalizeEmailValue } from '@shared/utils'
+import { normalizeEmailValue, normalizePhoneValue } from '@shared/utils'
 import { UpdateAddressDto } from './update-user-address.dto'
 import {
   UserAddressOptionalPropertyDocs,
@@ -52,6 +52,7 @@ export class UpdateUserDto {
 
   @UserPhonePropertyDocs()
   @IsOptional()
+  @Transform(({ value }) => normalizePhoneValue(value))
   @IsString({ message: PHONE_STRING_ERROR })
   phone?: string
 

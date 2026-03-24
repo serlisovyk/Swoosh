@@ -62,7 +62,7 @@ import {
 export class CreateProductDto {
   @ProductsTitlePropertyDocs()
   @Type(() => String)
-  @Transform(({ value }: { value: unknown }) => trimStringValue(value))
+  @Transform(({ value }) => trimStringValue(value))
   @IsString({ message: PRODUCT_TITLE_STRING_ERROR })
   @IsNotEmpty({ message: PRODUCT_TITLE_EMPTY_ERROR })
   title!: string
@@ -75,13 +75,13 @@ export class CreateProductDto {
 
   @ProductsDescriptionPropertyDocs()
   @Type(() => String)
-  @Transform(({ value }: { value: unknown }) => trimStringValue(value))
+  @Transform(({ value }) => trimStringValue(value))
   @IsString({ message: PRODUCT_DESCRIPTION_STRING_ERROR })
   @IsNotEmpty({ message: PRODUCT_DESCRIPTION_EMPTY_ERROR })
   description!: string
 
   @ProductsImagesPropertyDocs()
-  @Transform(({ value }: { value: unknown }) => trimStringArrayValue(value))
+  @Transform(({ value }) => trimStringArrayValue(value))
   @IsArray({ message: PRODUCT_IMAGES_ARRAY_ERROR })
   @ArrayMinSize(1, { message: PRODUCT_IMAGES_MIN_SIZE_ERROR })
   @IsString({ each: true, message: PRODUCT_IMAGES_ITEM_STRING_ERROR })
@@ -115,7 +115,7 @@ export class CreateProductDto {
   @ProductsMaterialPropertyDocs()
   @IsOptional()
   @Type(() => String)
-  @Transform(({ value }: { value: unknown }) => trimStringValue(value))
+  @Transform(({ value }) => trimStringValue(value))
   @IsString({ message: PRODUCT_MATERIAL_STRING_ERROR })
   @IsNotEmpty({ message: PRODUCT_MATERIAL_EMPTY_ERROR })
   material?: string
@@ -139,7 +139,7 @@ export class CreateProductDto {
 
   @ProductsCategoryIdPropertyDocs()
   @Type(() => String)
-  @Transform(({ value }: { value: unknown }) => trimStringValue(value))
+  @Transform(({ value }) => trimStringValue(value))
   @IsMongoId({ message: PRODUCT_CATEGORY_ID_ERROR })
   categoryId!: string
 }

@@ -12,7 +12,7 @@ import {
 export function buildProductListQueryOptions(
   dto: FindAllProductsDto,
 ): ProductListQueryOptions {
-  const { ids, size, price, colorName, material, sort, limit } = dto
+  const { ids, size, price, colorName, material, sort, limit, page } = dto
 
   const filters: Record<string, unknown> = {}
 
@@ -51,7 +51,15 @@ export function buildProductListQueryOptions(
 
   const limitOption = limit ?? DEFAULT_PRODUCTS_LIMIT
 
-  return { filters, ids, sort: sortOption, limit: limitOption }
+  const skip = ((page ?? 1) - 1) * limitOption
+
+  return {
+    filters,
+    ids,
+    sort: sortOption,
+    limit: limitOption,
+    skip,
+  }
 }
 
 function createExactRegex(value: string): RegExp {

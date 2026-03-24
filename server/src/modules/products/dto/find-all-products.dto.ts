@@ -17,6 +17,7 @@ import {
   ProductsQueryIdsPropertyDocs,
   ProductsQueryLimitPropertyDocs,
   ProductsQueryMaterialPropertyDocs,
+  ProductsQueryPagePropertyDocs,
   ProductsQueryPricePropertyDocs,
   ProductsQuerySizePropertyDocs,
   ProductsQuerySortPropertyDocs,
@@ -31,6 +32,8 @@ import {
   PRODUCT_QUERY_LIMIT_NUMBER_ERROR,
   PRODUCT_QUERY_MATERIAL_ARRAY_ERROR,
   PRODUCT_QUERY_MATERIAL_STRING_ERROR,
+  PRODUCT_QUERY_PAGE_MIN_ERROR,
+  PRODUCT_QUERY_PAGE_NUMBER_ERROR,
   PRODUCT_QUERY_PRICE_ARRAY_ERROR,
   PRODUCT_QUERY_PRICE_MAX_SIZE_ERROR,
   PRODUCT_QUERY_PRICE_NUMBER_ERROR,
@@ -88,6 +91,13 @@ export class FindAllProductsDto {
   @Min(1, { message: PRODUCT_QUERY_LIMIT_MIN_ERROR })
   @Max(100, { message: PRODUCT_QUERY_LIMIT_MAX_ERROR })
   limit?: number
+
+  @ProductsQueryPagePropertyDocs()
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt({ message: PRODUCT_QUERY_PAGE_NUMBER_ERROR })
+  @Min(1, { message: PRODUCT_QUERY_PAGE_MIN_ERROR })
+  page?: number
 
   @ProductsQuerySortPropertyDocs()
   @IsOptional()

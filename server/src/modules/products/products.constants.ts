@@ -89,6 +89,8 @@ export const PRODUCT_OLD_PRICE_LOWER_THAN_PRICE_ERROR =
   'Старая цена должна быть больше или равна текущей цене'
 export const PRODUCT_SALE_CF_REQUIRES_OLD_PRICE_ERROR =
   'Коэффициент скидки требует, чтобы старая цена была больше текущей цены'
+export const PRODUCT_QUERY_PAGE_NUMBER_ERROR = 'Страница должна быть числом'
+export const PRODUCT_QUERY_PAGE_MIN_ERROR = 'Страница должна быть не меньше 1'
 
 export const DEFAULT_PRODUCTS_LIMIT = 18
 

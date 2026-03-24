@@ -9,6 +9,7 @@ export interface ProductListQueryOptions {
   filters: Record<string, unknown>
   ids?: string[]
   limit: number
+  skip: number
   sort: Record<string, 1 | -1>
 }
 

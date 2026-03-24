@@ -184,6 +184,13 @@ export const ProductsQueryLimitPropertyDocs =
     maximum: 100,
   })
 
+export const ProductsQueryPagePropertyDocs =
+  createOptionalPropertyDocsDecorator({
+    description: 'Results page number.',
+    example: 1,
+    minimum: 1,
+  })
+
 export const ProductsQuerySortPropertyDocs =
   createOptionalPropertyDocsDecorator({
     description: 'Sorting strategy for the products list.',
