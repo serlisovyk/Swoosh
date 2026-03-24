@@ -118,7 +118,7 @@ export function FavoritesAddDocs() {
       description: 'Authentication is required.',
     }),
     ApiBadRequestResponse({
-      description: 'Product id has an invalid format.',
+      description: 'Product id has an invalid format or favorites limit was reached.',
     }),
     ApiNotFoundResponse({
       description: 'User or product was not found.',

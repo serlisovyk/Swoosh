@@ -1,6 +1,8 @@
 export const FAVORITES_DEFAULT_LIMIT = 12
 export const FAVORITES_MAX_LIMIT = 100
 export const FAVORITES_MAX_PRODUCT_IDS = 100
+export const FAVORITES_UPDATE_CONFLICT_ERROR =
+  'Избранное было обновлено одновременно. Пожалуйста, повторите попытку.'
 
 export const FAVORITES_PAGE_NUMBER_ERROR = 'Страница должна быть числом.'
 export const FAVORITES_PAGE_MIN_ERROR = 'Страница должна быть больше 0.'

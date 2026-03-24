@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Product } from '@modules/products/models/product.model'
 import { PRODUCT_NOT_FOUND_ERROR } from '@modules/products/products.constants'
@@ -14,7 +19,12 @@ import {
   orderProductsByIds,
   paginateFavoriteProductIds,
 } from './favorites.utils'
-import { FAVORITES_DEFAULT_LIMIT } from './favorites.constants'
+import {
+  FAVORITES_DEFAULT_LIMIT,
+  FAVORITES_MAX_PRODUCT_IDS,
+  FAVORITES_PRODUCT_IDS_MAX_SIZE_ERROR,
+  FAVORITES_UPDATE_CONFLICT_ERROR,
+} from './favorites.constants'
 import {
   FavoritesListResponse,
   FavoritesStateResponse,
@@ -37,7 +47,7 @@ export class FavoritesService {
     const page = dto.page ?? 1
     const limit = dto.limit ?? FAVORITES_DEFAULT_LIMIT
 
-    const favoriteProductIds = await this.getSanitizedFavoriteProductIds(userId)
+    const favoriteProductIds = await this.getVisibleFavoriteProductIds(userId)
     const total = favoriteProductIds.length
 
     const pageFavoriteProductIds = paginateFavoriteProductIds(
@@ -68,15 +78,25 @@ export class FavoritesService {
 
     await this.ensureProductExists(normalizedProductId)
 
-    const currentFavoriteProductIds =
-      await this.getSanitizedFavoriteProductIds(userId)
+    const favoriteProductIds = await this.updateFavoriteProductIds(
+      userId,
+      (currentFavoriteProductIds) => {
+        const boundedFavoriteProductIds = currentFavoriteProductIds.slice(
+          0,
+          FAVORITES_MAX_PRODUCT_IDS,
+        )
 
-    const favoriteProductIds = deduplicateFavoriteProductIds([
-      ...currentFavoriteProductIds,
-      normalizedProductId,
-    ])
+        if (boundedFavoriteProductIds.includes(normalizedProductId)) {
+          return boundedFavoriteProductIds
+        }
 
-    await this.setFavoriteProductIds(userId, favoriteProductIds)
+        if (boundedFavoriteProductIds.length >= FAVORITES_MAX_PRODUCT_IDS) {
+          throw new BadRequestException(FAVORITES_PRODUCT_IDS_MAX_SIZE_ERROR)
+        }
+
+        return [...boundedFavoriteProductIds, normalizedProductId]
+      },
+    )
 
     return this.toStateResponse(favoriteProductIds)
   }
@@ -87,16 +107,13 @@ export class FavoritesService {
   ): Promise<FavoritesStateResponse> {
     const normalizedProductId = String(productId)
 
-    const currentFavoriteProductIds =
-      await this.getSanitizedFavoriteProductIds(userId)
-
-    const favoriteProductIds = currentFavoriteProductIds.filter(
-      (currentProductId) => currentProductId !== normalizedProductId,
+    const favoriteProductIds = await this.updateFavoriteProductIds(
+      userId,
+      (currentFavoriteProductIds) =>
+        currentFavoriteProductIds.filter(
+          (currentProductId) => currentProductId !== normalizedProductId,
+        ),
     )
-
-    if (favoriteProductIds.length !== currentFavoriteProductIds.length) {
-      await this.setFavoriteProductIds(userId, favoriteProductIds)
-    }
 
     return this.toStateResponse(favoriteProductIds)
   }
@@ -105,24 +122,22 @@ export class FavoritesService {
     userId: string,
     incomingProductIds: string[] = [],
   ): Promise<string[]> {
-    const currentFavoriteProductIds =
-      await this.findUserFavoriteProductIdsOrThrow(userId)
+    const filteredIncomingProductIds =
+      await this.filterExistingFavoriteProductIds(incomingProductIds)
 
-    const mergedFavoriteProductIds = deduplicateFavoriteProductIds([
-      ...currentFavoriteProductIds,
-      ...incomingProductIds,
-    ])
+    if (!filteredIncomingProductIds.length) {
+      return this.getVisibleFavoriteProductIds(userId)
+    }
 
-    const favoriteProductIds = await this.filterExistingFavoriteProductIds(
-      mergedFavoriteProductIds,
+    return this.updateFavoriteProductIds(userId, (currentFavoriteProductIds) =>
+      deduplicateFavoriteProductIds([
+        ...currentFavoriteProductIds,
+        ...filteredIncomingProductIds,
+      ]).slice(0, FAVORITES_MAX_PRODUCT_IDS),
     )
-
-    await this.setFavoriteProductIds(userId, favoriteProductIds)
-
-    return favoriteProductIds
   }
 
-  private async getSanitizedFavoriteProductIds(userId: string) {
+  private async getVisibleFavoriteProductIds(userId: string) {
     const currentFavoriteProductIds =
       await this.findUserFavoriteProductIdsOrThrow(userId)
 
@@ -130,13 +145,7 @@ export class FavoritesService {
       currentFavoriteProductIds,
     )
 
-    if (
-      !areFavoriteProductIdsEqual(favoriteProductIds, currentFavoriteProductIds)
-    ) {
-      await this.setFavoriteProductIds(userId, favoriteProductIds)
-    }
-
-    return favoriteProductIds
+    return favoriteProductIds.slice(0, FAVORITES_MAX_PRODUCT_IDS)
   }
 
   private async findUserFavoriteProductIdsOrThrow(userId: string) {
@@ -177,17 +186,66 @@ export class FavoritesService {
     if (!isExisting) throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR)
   }
 
-  private async setFavoriteProductIds(
+  private async updateFavoriteProductIds(
     userId: string,
-    favoriteProductIds: string[],
+    updater: (favoriteProductIds: string[]) => string[] | Promise<string[]>,
   ) {
-    const updatedUser = await this.userModel.findByIdAndUpdate(
-      userId,
-      { favoriteProductIds },
-      { returnDocument: 'after' },
-    )
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const { favoriteProductIds, version } =
+        await this.findUserFavoriteStateOrThrow(userId)
 
-    if (!updatedUser) throw new NotFoundException(USER_NOT_FOUND_ERROR)
+      const visibleFavoriteProductIds = await this.filterExistingFavoriteProductIds(
+        favoriteProductIds,
+      )
+
+      const nextFavoriteProductIds = deduplicateFavoriteProductIds(
+        normalizeFavoriteProductIds(
+          await updater(
+            visibleFavoriteProductIds.slice(0, FAVORITES_MAX_PRODUCT_IDS),
+          ),
+        ),
+      ).slice(0, FAVORITES_MAX_PRODUCT_IDS)
+
+      if (areFavoriteProductIdsEqual(nextFavoriteProductIds, favoriteProductIds)) {
+        return nextFavoriteProductIds
+      }
+
+      const updatedUser = await this.userModel
+        .findOneAndUpdate(
+          { _id: userId, __v: version },
+          {
+            $set: { favoriteProductIds: nextFavoriteProductIds },
+            $inc: { __v: 1 },
+          },
+          { returnDocument: 'after' },
+        )
+        .select('favoriteProductIds')
+        .lean()
+
+      if (updatedUser) {
+        return deduplicateFavoriteProductIds(
+          normalizeFavoriteProductIds(updatedUser.favoriteProductIds),
+        )
+      }
+    }
+
+    throw new ConflictException(FAVORITES_UPDATE_CONFLICT_ERROR)
+  }
+
+  private async findUserFavoriteStateOrThrow(userId: string) {
+    const user = await this.userModel
+      .findById(userId)
+      .select('favoriteProductIds __v')
+      .lean()
+
+    if (!user) throw new NotFoundException(USER_NOT_FOUND_ERROR)
+
+    return {
+      favoriteProductIds: deduplicateFavoriteProductIds(
+        normalizeFavoriteProductIds(user.favoriteProductIds),
+      ),
+      version: user.__v ?? 0,
+    }
   }
 
   private toStateResponse(
