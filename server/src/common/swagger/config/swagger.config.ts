@@ -30,6 +30,5 @@ export function setupSwagger(app: NestExpressApplication) {
   SwaggerModule.setup(SWAGGER_PATH, app, document, {
     customSiteTitle: SWAGGER_SITE_TITLE,
     explorer: true,
-    swaggerOptions: { persistAuthorization: true },
   })
 }

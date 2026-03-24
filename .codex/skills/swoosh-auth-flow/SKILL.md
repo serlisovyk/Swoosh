@@ -28,6 +28,7 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 - Keep login, register, refresh, and logout behavior centered in the auth module.
 - Keep guards and decorators aligned with cookie-based access token extraction.
 - Keep auth cookie naming, expiry, and response behavior consistent with the existing auth service pattern.
+- Keep access-token and refresh-token signing separated the way the backend already does it: access uses the main JWT secret, refresh uses the refresh secret.
 - Keep current-user and role-aware behavior aligned with the real JWT payload and runtime user lookup.
 
 3. Keep frontend auth honest.
@@ -43,6 +44,7 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 5. Handle password-reset flow as first-class auth.
 - Keep request-password-reset and reset-password flows aligned across DTOs, forms, query hooks, and email-driven token handling.
 - Keep token parsing and reset form validation explicit and easy to follow.
+- Keep password-reset tokens generated server-side and stored hashed on the backend rather than persisted in raw form.
 
 6. Keep docs and contract drift low.
 - If auth request or response shape changes, update Swagger docs.
@@ -58,6 +60,8 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 
 - backend auth orchestration in `server/src/modules/auth`
 - cookie-based token handling in the auth service and JWT strategy
+- access-token signing on `JWT_SECRET` and refresh-token signing on `JWT_REFRESH_SECRET`
+- password-reset tokens generated server-side and stored hashed before DB persistence
 - auth docs in `auth.swagger.ts`
 - auth forms in `client/src/features/auth/components` plus `schemas/`, `config/`, and `hooks/`
 - auth requests in `client/src/features/auth/services`

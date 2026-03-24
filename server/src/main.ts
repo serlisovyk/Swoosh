@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import { setupSwagger } from '@common/swagger'
 import { setupValidation } from '@shared/config'
+import { parseCorsDomainsConfigValue } from '@shared/utils'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -23,7 +24,9 @@ async function bootstrap() {
   app.use(helmet())
 
   app.enableCors({
-    origin: configService.get<string>('CORS_DOMAINS')?.split(','),
+    origin: parseCorsDomainsConfigValue(
+      configService.get<string>('CORS_DOMAINS'),
+    ),
     credentials: true,
   })
 

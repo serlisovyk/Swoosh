@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { MongooseModule } from '@nestjs/mongoose'
+import { ConfigModule } from '@nestjs/config'
+import { AppMongoModule } from '@common/mongo'
 import { AppThrottlerModule } from '@common/throttler'
-import { getMongoConfig } from '@shared/config'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { ProductsModule } from './modules/products/products.module'
@@ -11,11 +10,8 @@ import { FavoritesModule } from './modules/favorites/favorites.module'
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    AppMongoModule,
     AppThrottlerModule,
-    MongooseModule.forRootAsync({
-      useFactory: getMongoConfig,
-      inject: [ConfigService],
-    }),
     UserModule,
     AuthModule,
     ProductsModule,

@@ -50,14 +50,16 @@ http://localhost:4000/api/v1/docs
 src/
 |-- common/                     # shared infrastructure
 |   |-- email/                  # email service and templates
+|   |-- mongo/                  # Mongo connection module and config
 |   |-- swagger/                # Swagger setup helpers
 |   `-- throttler/              # throttling module and config
 |-- modules/                    # business modules
 |   |-- auth/                   # authentication and token flow
+|   |-- favorites/              # user favorites state and favorites list
 |   |-- products/               # products CRUD and filtering
 |   `-- user/                   # user profile and account data
 |-- shared/                     # shared app-level helpers
-|   |-- config/                 # shared configuration and constants
+|   |-- config/                 # shared bootstrap helpers
 |   |-- constants/              # global constants
 |   `-- utils/                  # shared utilities
 |-- app.module.ts
