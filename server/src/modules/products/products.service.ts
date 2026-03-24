@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { ProductCategory } from './models/product-category.model'
 import { Product } from './models/product.model'
@@ -9,12 +13,15 @@ import { buildProductListQueryOptions } from './products.utils'
 import {
   PRODUCT_CATEGORY_NOT_FOUND_ERROR,
   PRODUCT_NOT_FOUND_ERROR,
+  PRODUCT_OLD_PRICE_LOWER_THAN_PRICE_ERROR,
+  PRODUCT_SALE_CF_REQUIRES_OLD_PRICE_ERROR,
   updateProductOptions,
 } from './products.constants'
 import type {
   ProductCategoryModel,
   ProductFiltersMetadata,
   ProductModel,
+  ProductPricingState,
   ProductPriceRangeStats,
 } from './products.types'
 
@@ -54,7 +61,6 @@ export class ProductsService {
 
   async findFiltersMetadata(): Promise<ProductFiltersMetadata> {
     const getSizes = this.productModel.distinct('sizes')
-
     const getMaterials = this.productModel.distinct('material', {
       material: { $nin: ['', null] },
     })
@@ -114,10 +120,15 @@ export class ProductsService {
     const { categoryId, ...data } = dto
 
     const category = await this.findCategoryById(categoryId)
-
     if (!category) {
       throw new NotFoundException(PRODUCT_CATEGORY_NOT_FOUND_ERROR)
     }
+
+    this.validatePricingState({
+      price: data.price,
+      oldPrice: data.oldPrice,
+      saleCF: data.saleCF ?? 0,
+    })
 
     const createdProduct = await this.productModel.create({
       ...data,
@@ -131,6 +142,16 @@ export class ProductsService {
     const { categoryId, ...data } = dto
 
     const category = await this.findCategoryById(categoryId)
+    const currentPricingState = await this.findPricingStateById(id)
+
+    this.validatePricingState({
+      price: data.price ?? currentPricingState.price,
+      oldPrice:
+        data.oldPrice !== undefined
+          ? data.oldPrice
+          : currentPricingState.oldPrice,
+      saleCF: data.saleCF ?? currentPricingState.saleCF,
+    })
 
     const payload = category ? { ...data, category: category._id } : data
 
@@ -163,6 +184,40 @@ export class ProductsService {
     }
 
     return category
+  }
+
+  private async findPricingStateById(id: string): Promise<ProductPricingState> {
+    const product = await this.productModel
+      .findById(id)
+      .select('price oldPrice saleCF')
+      .lean()
+
+    if (!product) {
+      throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR)
+    }
+
+    return {
+      price: product.price,
+      oldPrice: product.oldPrice,
+      saleCF: product.saleCF ?? 0,
+    }
+  }
+
+  private validatePricingState({
+    oldPrice,
+    price,
+    saleCF,
+  }: ProductPricingState) {
+    if (oldPrice !== undefined && oldPrice !== null && oldPrice < price) {
+      throw new BadRequestException(PRODUCT_OLD_PRICE_LOWER_THAN_PRICE_ERROR)
+    }
+
+    if (
+      saleCF > 0 &&
+      (oldPrice === undefined || oldPrice === null || oldPrice <= price)
+    ) {
+      throw new BadRequestException(PRODUCT_SALE_CF_REQUIRES_OLD_PRICE_ERROR)
+    }
   }
 
   private async findAllByIds(

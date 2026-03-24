@@ -19,6 +19,12 @@ export interface ProductFiltersMetadata {
   priceRange: [number, number]
 }
 
+export interface ProductPricingState {
+  oldPrice?: number | null
+  price: number
+  saleCF: number
+}
+
 export interface ProductPriceRangeStats {
   minPrice: number
   maxPrice: number

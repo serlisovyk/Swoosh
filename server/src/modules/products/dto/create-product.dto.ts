@@ -9,6 +9,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUrl,
   Min,
   ValidateNested,
 } from 'class-validator'
@@ -37,6 +38,7 @@ import {
   PRODUCT_IMAGES_ARRAY_ERROR,
   PRODUCT_IMAGES_ITEM_EMPTY_ERROR,
   PRODUCT_IMAGES_ITEM_STRING_ERROR,
+  PRODUCT_IMAGES_ITEM_URL_ERROR,
   PRODUCT_IMAGES_MIN_SIZE_ERROR,
   PRODUCT_IMAGES_UNIQUE_ERROR,
   PRODUCT_IS_HIT_BOOLEAN_ERROR,
@@ -84,6 +86,7 @@ export class CreateProductDto {
   @ArrayMinSize(1, { message: PRODUCT_IMAGES_MIN_SIZE_ERROR })
   @IsString({ each: true, message: PRODUCT_IMAGES_ITEM_STRING_ERROR })
   @IsNotEmpty({ each: true, message: PRODUCT_IMAGES_ITEM_EMPTY_ERROR })
+  @IsUrl({}, { each: true, message: PRODUCT_IMAGES_ITEM_URL_ERROR })
   @ArrayUnique({ message: PRODUCT_IMAGES_UNIQUE_ERROR })
   images!: string[]
 
