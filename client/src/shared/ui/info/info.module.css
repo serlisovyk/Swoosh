@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  &:not(:last-child) {
+    margin-bottom: 24px;
+  }
+}
+
+.prefix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  height: 52px;
+  background: var(--light-black);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 160%;
+  color: var(--white);
+}
+
+.content {
+  line-height: 170%;
+}
+
+.title {
+  font-weight: 700;
+  color: var(--lighter-black);
+}
