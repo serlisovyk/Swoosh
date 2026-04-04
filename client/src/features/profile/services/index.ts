@@ -1,1 +1,1 @@
-export * from './profile.services'
+export { profileService } from './profile.services'

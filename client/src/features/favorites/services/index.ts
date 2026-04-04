@@ -1,5 +1,1 @@
-export {
-  addFavoriteProduct,
-  getFavoriteProducts,
-  removeFavoriteProduct,
-} from './favorites.services'
+export { favoritesService } from './favorites.services'

@@ -1,1 +1,1 @@
-export { getProductFiltersMetadata } from './product-filters.services'
+export { productFiltersService } from './product-filters.services'

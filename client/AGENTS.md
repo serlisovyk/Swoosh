@@ -19,7 +19,7 @@ Prefer the existing feature-first pattern:
 - `hooks` for local state and form logic
 - `queries` for React Query hooks
 - `schemas` for Zod validation
-- `services` for API requests
+- `services` for thin feature API service instances and request methods
 - `types` for feature types
 
 ## Skills

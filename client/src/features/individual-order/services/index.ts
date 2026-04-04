@@ -1,1 +1,1 @@
-export * from './individual-order.services'
+export { individualOrderService } from './individual-order.services'

@@ -5,8 +5,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { isAxiosError } from 'axios'
 import { toast } from 'sonner'
 import { API_QUERY_KEYS, getErrorMessage, API_ROUTES } from '@shared/api'
-import { updateProfile } from '../services'
-import { UpdateProfileDto, UseUpdateProfileMutationOptions } from '../types'
+import { profileService } from '../services'
+import type { UpdateProfileDto, UseUpdateProfileMutationOptions } from '../types'
 
 export function useUpdateProfileMutation({
   toastMessage,
@@ -16,7 +16,7 @@ export function useUpdateProfileMutation({
   const queryClient = useQueryClient()
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (dto: UpdateProfileDto) => updateProfile(dto),
+    mutationFn: (dto: UpdateProfileDto) => profileService.updateProfile(dto),
     onSuccess: () => {
       if (toastMessage) toast.success(toastMessage)
       queryClient.invalidateQueries({ queryKey: [API_QUERY_KEYS.ME] })

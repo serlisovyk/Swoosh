@@ -27,6 +27,7 @@ Build client-side data flows in the Swoosh frontend using the existing shared AP
 
 2. Keep services thin.
 - Services should make the HTTP request and return data.
+- Prefer one thin exported service instance per feature service file instead of scattering request helpers across components.
 - Keep route paths and params aligned with shared API config.
 - Do not put router redirects, toasts, or React Query cache logic inside services.
 
@@ -57,7 +58,7 @@ Build client-side data flows in the Swoosh frontend using the existing shared AP
 ## Preferred Pattern
 
 - shared API instance and config in `shared/api`
-- raw request functions in feature `services/`
+- thin exported service instances in feature `services/`
 - React Query hooks in feature `queries/`
 - UI state and rendering in components
 - form submit wiring delegated to form hooks and query hooks

@@ -1,5 +1,5 @@
-import { API, API_ROUTES } from '@shared/api'
-import {
+import { API_ROUTES, BaseService } from '@shared/api'
+import type {
   AuthResponse,
   LoginPayload,
   RequestPasswordResetDto,
@@ -8,37 +8,30 @@ import {
   User,
 } from '../types'
 
-export async function login(dto: LoginPayload): Promise<AuthResponse> {
-  const { data } = await API.post<AuthResponse>(API_ROUTES.LOGIN, dto)
-  return data
+class AuthService extends BaseService {
+  async login(dto: LoginPayload): Promise<AuthResponse> {
+    return this.post(API_ROUTES.LOGIN, dto)
+  }
+
+  async register(dto: RegisterPayload): Promise<AuthResponse> {
+    return this.post(API_ROUTES.REGISTER, dto)
+  }
+
+  async logout(): Promise<boolean> {
+    return this.post(API_ROUTES.LOGOUT)
+  }
+
+  async getMe(): Promise<User> {
+    return this.get(API_ROUTES.PROFILE)
+  }
+
+  async requestPasswordReset(dto: RequestPasswordResetDto): Promise<boolean> {
+    return this.post(API_ROUTES.REQUEST_PASSWORD_RESET, dto)
+  }
+
+  async resetPassword(dto: ResetPasswordDto): Promise<boolean> {
+    return this.post(API_ROUTES.RESET_PASSWORD, dto)
+  }
 }
 
-export async function register(dto: RegisterPayload): Promise<AuthResponse> {
-  const { data } = await API.post<AuthResponse>(API_ROUTES.REGISTER, dto)
-  return data
-}
-
-export async function logout(): Promise<boolean> {
-  const { data } = await API.post<boolean>(API_ROUTES.LOGOUT)
-  return data
-}
-
-export async function getMe(): Promise<User> {
-  const { data } = await API.get<User>(API_ROUTES.PROFILE)
-  return data
-}
-
-export async function requestPasswordReset(
-  dto: RequestPasswordResetDto,
-): Promise<boolean> {
-  const { data } = await API.post<boolean>(
-    API_ROUTES.REQUEST_PASSWORD_RESET,
-    dto,
-  )
-  return data
-}
-
-export async function resetPassword(dto: ResetPasswordDto): Promise<boolean> {
-  const { data } = await API.post<boolean>(API_ROUTES.RESET_PASSWORD, dto)
-  return data
-}
+export const authService = new AuthService()

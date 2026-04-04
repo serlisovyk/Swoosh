@@ -1,7 +1,10 @@
-import { API, API_ROUTES } from '@shared/api'
-import { UpdateProfileDto, UpdateProfileResponse } from '../types'
+import { API_ROUTES, BaseService } from '@shared/api'
+import type { UpdateProfileDto, UpdateProfileResponse } from '../types'
 
-export async function updateProfile(dto: UpdateProfileDto) {
-  const { data } = await API.put<UpdateProfileResponse>(API_ROUTES.PROFILE, dto)
-  return data
+class ProfileService extends BaseService {
+  async updateProfile(dto: UpdateProfileDto): Promise<UpdateProfileResponse> {
+    return this.put(API_ROUTES.PROFILE, dto)
+  }
 }
+
+export const profileService = new ProfileService()

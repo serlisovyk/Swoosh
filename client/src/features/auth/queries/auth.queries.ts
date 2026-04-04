@@ -7,15 +7,14 @@ import { toast } from 'sonner'
 import { useSetFavoriteProductIds } from '@features/favorites'
 import { API_QUERY_KEYS, getErrorMessage } from '@shared/api'
 import { ROUTES } from '@shared/config'
-import {
-  getMe,
-  login,
-  logout,
-  register,
-  requestPasswordReset,
-  resetPassword,
-} from '../services'
-import { User } from '../types'
+import { authService } from '../services'
+import type {
+  LoginPayload,
+  RegisterPayload,
+  RequestPasswordResetDto,
+  ResetPasswordDto,
+  User,
+} from '../types'
 
 export function useGetMeQuery() {
   const {
@@ -24,7 +23,7 @@ export function useGetMeQuery() {
     isLoading,
   } = useQuery<User>({
     queryKey: [API_QUERY_KEYS.ME],
-    queryFn: getMe,
+    queryFn: () => authService.getMe(),
     retry: false,
   })
 
@@ -38,7 +37,7 @@ export function useLoginMutation() {
   const setFavoriteProductIds = useSetFavoriteProductIds()
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: login,
+    mutationFn: (dto: LoginPayload) => authService.login(dto),
     onSuccess: ({ user }) => {
       setFavoriteProductIds(user.favoriteProductIds)
       queryClient.setQueryData([API_QUERY_KEYS.ME], user)
@@ -60,7 +59,7 @@ export function useRegisterMutation() {
   const setFavoriteProductIds = useSetFavoriteProductIds()
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: register,
+    mutationFn: (dto: RegisterPayload) => authService.register(dto),
     onSuccess: ({ user }) => {
       setFavoriteProductIds(user.favoriteProductIds)
       queryClient.setQueryData([API_QUERY_KEYS.ME], user)
@@ -80,7 +79,7 @@ export function useLogoutMutation() {
   const queryClient = useQueryClient()
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: logout,
+    mutationFn: () => authService.logout(),
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: [API_QUERY_KEYS.ME] })
       queryClient.clear()
@@ -97,7 +96,8 @@ export function useLogoutMutation() {
 
 export function useRequestPasswordResetMutation() {
   const { mutateAsync, isPending, isSuccess } = useMutation({
-    mutationFn: requestPasswordReset,
+    mutationFn: (dto: RequestPasswordResetDto) =>
+      authService.requestPasswordReset(dto),
     onSuccess: () => {
       toast.success('Ссылка для восстановления отправлена на почту')
     },
@@ -117,7 +117,7 @@ export function useResetPasswordMutation() {
   const router = useRouter()
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: resetPassword,
+    mutationFn: (dto: ResetPasswordDto) => authService.resetPassword(dto),
     onSuccess: () => {
       toast.success('Пароль успешно изменен!')
       router.replace(ROUTES.LOGIN)

@@ -13,11 +13,7 @@ import {
   useRemoveFavoriteProductId,
   useSetFavoriteProductIds,
 } from '../store'
-import {
-  addFavoriteProduct,
-  getFavoriteProducts,
-  removeFavoriteProduct,
-} from '../services'
+import { favoritesService } from '../services'
 import { syncFavoriteIdsInMeCache } from '../utils'
 
 export function useFavoriteProductsQuery() {
@@ -26,7 +22,7 @@ export function useFavoriteProductsQuery() {
 
   const { data, error, isLoading, isFetching } = useQuery({
     queryKey: [API_QUERY_KEYS.PRODUCTS, { ids: favoriteProductIds }],
-    queryFn: () => getFavoriteProducts(favoriteProductIds),
+    queryFn: () => favoritesService.getFavoriteProducts(favoriteProductIds),
     enabled: hasHydrated && favoriteProductIds.length > 0,
   })
 
@@ -90,7 +86,7 @@ function useAddFavoriteProductMutation() {
   const setFavoriteProductIds = useSetFavoriteProductIds()
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (productId: string) => addFavoriteProduct(productId),
+    mutationFn: (productId: string) => favoritesService.addFavoriteProduct(productId),
     onSuccess: ({ favoriteProductIds }) => {
       setFavoriteProductIds(favoriteProductIds)
       syncFavoriteIdsInMeCache(queryClient, favoriteProductIds)
@@ -111,7 +107,8 @@ function useRemoveFavoriteProductMutation() {
   const setFavoriteProductIds = useSetFavoriteProductIds()
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (productId: string) => removeFavoriteProduct(productId),
+    mutationFn: (productId: string) =>
+      favoritesService.removeFavoriteProduct(productId),
     onSuccess: ({ favoriteProductIds }) => {
       setFavoriteProductIds(favoriteProductIds)
       syncFavoriteIdsInMeCache(queryClient, favoriteProductIds)
