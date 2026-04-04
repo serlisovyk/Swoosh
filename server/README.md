@@ -20,6 +20,7 @@ Main groups of variables:
 
 - app settings
 - JWT settings
+- captcha settings
 - MongoDB connection settings
 - email settings
 - throttling settings

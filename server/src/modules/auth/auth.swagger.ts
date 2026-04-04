@@ -3,6 +3,7 @@ import {
   ApiBadRequestResponse,
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiHeader,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -15,6 +16,7 @@ import {
   createOptionalPropertyDocsDecorator,
   createPropertyDocsDecorator,
 } from '@common/swagger'
+import { TURNSTILE_TOKEN_HEADER } from '@common/captcha'
 import { UserResponseDocs } from '../user/user.swagger'
 import {
   AUTH_EMAIL_EXAMPLE,
@@ -75,12 +77,21 @@ export class AuthSessionResponseDocs {
   user!: UserResponseDocs
 }
 
+export function AuthCaptchaHeaderDocs() {
+  return ApiHeader({
+    name: TURNSTILE_TOKEN_HEADER,
+    description: 'Токен Cloudflare Turnstile для защиты auth-эндпоинтов.',
+    required: true,
+  })
+}
+
 export function AuthRegisterDocs() {
   return applyDecorators(
+    AuthCaptchaHeaderDocs(),
     ApiOperation({
       summary: 'Register a new user',
       description:
-        'Creates a new user account, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
+        'Creates a new user account, validates Cloudflare Turnstile, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
       security: [],
     }),
     ApiCreatedResponse({
@@ -98,10 +109,11 @@ export function AuthRegisterDocs() {
 
 export function AuthLoginDocs() {
   return applyDecorators(
+    AuthCaptchaHeaderDocs(),
     ApiOperation({
       summary: 'Log in user',
       description:
-        'Authenticates a user, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
+        'Authenticates a user, validates Cloudflare Turnstile, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
       security: [],
     }),
     ApiCreatedResponse({

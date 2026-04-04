@@ -11,4 +11,4 @@ import { getMongoConfig } from './mongo.config'
     }),
   ],
 })
-export class AppMongoModule {}
+export class MongoModule {}

@@ -51,7 +51,7 @@ The frontend requires:
 NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
 ```
 
-The backend requires app, auth, MongoDB, email, and throttling settings. See `server/.env.sample` for the full list.
+The backend requires app, auth, captcha, MongoDB, email, and throttling settings. See `server/.env.sample` for the full list.
 
 ### 3. Start the backend
 

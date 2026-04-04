@@ -1,1 +1,1 @@
-export { AppMongoModule } from './mongo.module'
+export { MongoModule } from './mongo.module'

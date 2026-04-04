@@ -8,6 +8,7 @@ import {
   Req,
   Res,
 } from '@nestjs/common'
+import { TurnstileCaptcha as Captcha } from 'nest-cloudflare-turnstile'
 import type { Response } from 'express'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
@@ -31,6 +32,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @AuthRegisterDocs()
+  @Captcha()
   @HttpCode(HttpStatus.CREATED)
   @Post('register')
   async register(
@@ -46,6 +48,7 @@ export class AuthController {
   }
 
   @AuthLoginDocs()
+  @Captcha()
   @HttpCode(HttpStatus.CREATED)
   @Post('login')
   async login(
