@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { isAxiosError } from 'axios'
 import { toast } from 'sonner'
-import { AxiosError } from 'axios'
 import { useSetFavoriteProductIds } from '@features/favorites'
 import { API_QUERY_KEYS, getErrorMessage } from '@shared/api'
 import { ROUTES } from '@shared/config'
@@ -46,7 +46,7 @@ export function useLoginMutation() {
       router.replace(ROUTES.PROFILE)
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
@@ -68,7 +68,7 @@ export function useRegisterMutation() {
       router.replace(ROUTES.PROFILE)
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
@@ -88,7 +88,7 @@ export function useLogoutMutation() {
       router.replace(ROUTES.HOME)
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
@@ -102,7 +102,7 @@ export function useRequestPasswordResetMutation() {
       toast.success('Ссылка для восстановления отправлена на почту')
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
@@ -123,7 +123,7 @@ export function useResetPasswordMutation() {
       router.replace(ROUTES.LOGIN)
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 

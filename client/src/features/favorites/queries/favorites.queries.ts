@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 import { toast } from 'sonner'
 import { useGetMeQuery } from '@features/auth'
 import { API_QUERY_KEYS, getErrorMessage } from '@shared/api'
@@ -96,7 +96,7 @@ function useAddFavoriteProductMutation() {
       syncFavoriteIdsInMeCache(queryClient, favoriteProductIds)
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
@@ -117,7 +117,7 @@ function useRemoveFavoriteProductMutation() {
       syncFavoriteIdsInMeCache(queryClient, favoriteProductIds)
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 

@@ -1,8 +1,8 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common'
-import { CurrentUser as ICurrentUser, PreparedRequest } from '../auth.types'
+import { UserWithoutPassword, PreparedRequest } from '../auth.types'
 
 export const CurrentUser = createParamDecorator(
-  (data: keyof ICurrentUser, context: ExecutionContext) => {
+  (data: keyof UserWithoutPassword, context: ExecutionContext) => {
     const user = context.switchToHttp().getRequest<PreparedRequest>().user
     if (!user) return null
 

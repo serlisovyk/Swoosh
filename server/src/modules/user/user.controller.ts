@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common'
 import { Auth } from '@modules/auth/decorators/auth.decorator'
 import { CurrentUser } from '@modules/auth/decorators/user.decorator'
-import type { CurrentUser as ICurrentUser } from '@modules/auth/auth.types'
+import type { UserWithoutPassword } from '@modules/auth/auth.types'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserService } from './user.service'
 import {
@@ -25,7 +25,7 @@ export class UserController {
   @UserGetProfileDocs()
   @Auth()
   @Get()
-  getProfile(@CurrentUser() user: ICurrentUser) {
+  getProfile(@CurrentUser() user: UserWithoutPassword) {
     return user
   }
 

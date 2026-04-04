@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { isAxiosError } from 'axios'
 import { toast } from 'sonner'
-import { AxiosError } from 'axios'
 import { API_QUERY_KEYS, getErrorMessage, API_ROUTES } from '@shared/api'
 import { updateProfile } from '../services'
 import { UpdateProfileDto, UseUpdateProfileMutationOptions } from '../types'
@@ -23,7 +23,7 @@ export function useUpdateProfileMutation({
       router.replace(route)
     },
     onError: (error: unknown) => {
-      if (error instanceof AxiosError) toast.error(getErrorMessage(error))
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
