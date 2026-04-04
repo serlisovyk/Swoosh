@@ -54,7 +54,7 @@ NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=turnstile_site_key
 ```
 
-The backend requires app, auth, captcha, MongoDB, email, and throttling settings. Login and register now also expect a valid Cloudflare Turnstile token from the client. See `server/.env.sample` for the full list.
+The backend requires app, auth, captcha, MongoDB, email, and throttling settings. Login, register, request-password-reset, and reset-password now expect a valid Cloudflare Turnstile token from the client. See `server/.env.sample` for the full list.
 
 ### 3. Start the backend
 

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="ru">
-      <body className={ibmPlexSans.variable}>
+      <body className={ibmPlexSans.variable} suppressHydrationWarning>
         <Providers>
           <Header />
           {children}

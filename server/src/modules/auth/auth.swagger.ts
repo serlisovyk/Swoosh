@@ -166,10 +166,11 @@ export function AuthLogoutDocs() {
 
 export function AuthRequestPasswordResetDocs() {
   return applyDecorators(
+    AuthCaptchaHeaderDocs(),
     ApiOperation({
       summary: 'Request password reset',
       description:
-        'Always returns true to avoid leaking whether the email exists in the system.',
+        'Validates Cloudflare Turnstile and always returns true to avoid leaking whether the email exists in the system.',
       security: [],
     }),
     ApiOkResponse({
@@ -184,8 +185,11 @@ export function AuthRequestPasswordResetDocs() {
 
 export function AuthResetPasswordDocs() {
   return applyDecorators(
+    AuthCaptchaHeaderDocs(),
     ApiOperation({
       summary: 'Reset password by token',
+      description:
+        'Validates Cloudflare Turnstile and resets the password when the reset token is valid.',
       security: [],
     }),
     ApiOkResponse({

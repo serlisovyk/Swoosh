@@ -2,6 +2,7 @@
 
 import { ArrowRight } from 'lucide-react'
 import { Button, Input } from '@shared/ui'
+import { Captcha } from '../../captcha'
 import { useResetPasswordMutation } from '../../../queries'
 import {
   useParseResetPasswordToken,
@@ -45,11 +46,14 @@ export function ResetPasswordForm() {
           />
         ))}
 
+        <Captcha />
+
         <Button
           type="submit"
           variant="darkReverse"
           icon={ArrowRight}
           className={styles.button}
+          disabled={isLoading}
         >
           {isLoading ? 'Сохраняем...' : 'Сохранить пароль'}
         </Button>

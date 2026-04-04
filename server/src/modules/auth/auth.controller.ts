@@ -8,6 +8,7 @@ import {
   Req,
   Res,
 } from '@nestjs/common'
+import { Throttle } from '@nestjs/throttler'
 import { TurnstileCaptcha as Captcha } from 'nest-cloudflare-turnstile'
 import type { Response } from 'express'
 import { RegisterDto } from './dto/register.dto'
@@ -21,6 +22,8 @@ import {
   AuthTagDocs,
 } from './auth.swagger'
 import {
+  AUTH_LOGIN_THROTTLE,
+  AUTH_REGISTER_THROTTLE,
   REFRESH_TOKEN_COOKIE_NAME,
   REFRESH_TOKEN_MISSING_ERROR,
 } from './auth.constants'
@@ -32,6 +35,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @AuthRegisterDocs()
+  @Throttle(AUTH_REGISTER_THROTTLE)
   @Captcha()
   @HttpCode(HttpStatus.CREATED)
   @Post('register')
@@ -48,6 +52,7 @@ export class AuthController {
   }
 
   @AuthLoginDocs()
+  @Throttle(AUTH_LOGIN_THROTTLE)
   @Captcha()
   @HttpCode(HttpStatus.CREATED)
   @Post('login')

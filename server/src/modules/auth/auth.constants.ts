@@ -10,8 +10,7 @@ export const INVALID_REFRESH_TOKEN_ERROR = 'Неверный refresh токен'
 
 export const REFRESH_TOKEN_MISSING_ERROR = 'Отсутствует refresh токен'
 
-export const EMAIL_VALIDATION_ERROR =
-  'Email должен быть валидным email адресом'
+export const EMAIL_VALIDATION_ERROR = 'Email должен быть валидным email адресом'
 export const PASSWORD_STRING_ERROR = 'Пароль должен быть строкой'
 export const PASSWORD_MIN_LENGTH_ERROR =
   'Пароль должен быть не менее 6 символов'
@@ -25,6 +24,22 @@ export const INVALID_OR_EXPIRED_PASSWORD_RESET_TOKEN_ERROR =
 
 export const RESET_PASSWORD_URL = '/auth/reset-password'
 export const RESET_PASSWORD_SUBJECT = 'Сброс пароля'
+
+export const AUTH_LOGIN_THROTTLE = {
+  default: { limit: 5, ttl: 60_000 },
+} as const
+
+export const AUTH_REGISTER_THROTTLE = {
+  default: { limit: 5, ttl: 300_000 },
+} as const
+
+export const AUTH_PASSWORD_RESET_REQUEST_THROTTLE = {
+  default: { limit: 3, ttl: 600_000 },
+} as const
+
+export const AUTH_PASSWORD_RESET_THROTTLE = {
+  default: { limit: 5, ttl: 600_000 },
+} as const
 
 export const AUTH_EMAIL_EXAMPLE = 'john.swoosh@example.com'
 export const AUTH_PASSWORD_EXAMPLE = 'secret123'

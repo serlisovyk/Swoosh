@@ -28,6 +28,7 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 - Keep login, register, refresh, and logout behavior centered in the auth module.
 - Keep guards and decorators aligned with cookie-based access token extraction.
 - When auth endpoints use Cloudflare Turnstile, keep the package-backed decorator, `common/captcha` config, Russian exception messages, and Swagger header docs aligned.
+- Keep auth-specific throttling tighter on login, register, and password-recovery endpoints than the global default so brute-force protection lives with the auth flow instead of relying only on app-wide limits.
 - Keep auth cookie naming, expiry, and response behavior consistent with the existing auth service pattern.
 - Keep access-token and refresh-token signing separated the way the backend already does it: access uses the main JWT secret, refresh uses the refresh secret.
 - Keep current-user and role-aware behavior aligned with the real JWT payload and runtime user lookup.

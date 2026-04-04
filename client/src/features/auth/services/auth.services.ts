@@ -32,12 +32,18 @@ class AuthService extends BaseService {
     return this.get(API_ROUTES.PROFILE)
   }
 
-  async requestPasswordReset(dto: RequestPasswordResetDto): Promise<boolean> {
-    return this.post(API_ROUTES.REQUEST_PASSWORD_RESET, dto)
+  async requestPasswordResetWithConfig(
+    dto: RequestPasswordResetDto,
+    config?: AxiosRequestConfig,
+  ): Promise<boolean> {
+    return this.post(API_ROUTES.REQUEST_PASSWORD_RESET, dto, config)
   }
 
-  async resetPassword(dto: ResetPasswordDto): Promise<boolean> {
-    return this.post(API_ROUTES.RESET_PASSWORD, dto)
+  async resetPassword(
+    dto: ResetPasswordDto,
+    config?: AxiosRequestConfig,
+  ): Promise<boolean> {
+    return this.post(API_ROUTES.RESET_PASSWORD, dto, config)
   }
 }
 

@@ -33,6 +33,7 @@ export function useGetMeQuery() {
 
 export function useLoginMutation() {
   const router = useRouter()
+
   const queryClient = useQueryClient()
 
   const setFavoriteProductIds = useSetFavoriteProductIds()
@@ -76,7 +77,6 @@ export function useRegisterMutation() {
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (dto: RegisterPayload) =>
       authService.register(dto, { headers: getCaptchaHeader() }),
-
     onSuccess: ({ user }) => {
       setFavoriteProductIds(user.favoriteProductIds)
       queryClient.setQueryData([API_QUERY_KEYS.ME], user)
@@ -120,19 +120,31 @@ export function useLogoutMutation() {
 }
 
 export function useRequestPasswordResetMutation() {
+  const { resetCaptcha, validateCaptcha, getCaptchaHeader } = useCaptcha()
+
   const { mutateAsync, isPending, isSuccess } = useMutation({
     mutationFn: (dto: RequestPasswordResetDto) =>
-      authService.requestPasswordReset(dto),
+      authService.requestPasswordResetWithConfig(dto, {
+        headers: getCaptchaHeader(),
+      }),
     onSuccess: () => {
       toast.success('Ссылка для восстановления отправлена на почту')
     },
     onError: (error: unknown) => {
+      resetCaptcha()
+
       if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
+  const requestPasswordReset = async (dto: RequestPasswordResetDto) => {
+    if (!validateCaptcha()) return
+
+    await mutateAsync(dto)
+  }
+
   return {
-    requestPasswordReset: mutateAsync,
+    requestPasswordReset,
     isLoading: isPending,
     isSuccess,
   }
@@ -140,17 +152,27 @@ export function useRequestPasswordResetMutation() {
 
 export function useResetPasswordMutation() {
   const router = useRouter()
+  const { resetCaptcha, validateCaptcha, getCaptchaHeader } = useCaptcha()
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (dto: ResetPasswordDto) => authService.resetPassword(dto),
+    mutationFn: (dto: ResetPasswordDto) =>
+      authService.resetPassword(dto, { headers: getCaptchaHeader() }),
     onSuccess: () => {
       toast.success('Пароль успешно изменен!')
       router.replace(ROUTES.LOGIN)
     },
     onError: (error: unknown) => {
+      resetCaptcha()
+
       if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
-  return { resetPassword: mutateAsync, isLoading: isPending }
+  const resetPassword = async (dto: ResetPasswordDto) => {
+    if (!validateCaptcha()) return
+
+    await mutateAsync(dto)
+  }
+
+  return { resetPassword, isLoading: isPending }
 }

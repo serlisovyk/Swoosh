@@ -27,7 +27,7 @@ Main groups of variables:
 
 See `.env.sample` for the full list.
 
-Login and register endpoints are protected with Cloudflare Turnstile and expect the captcha token in the `cf-turnstile-token` request header.
+Login, register, request-password-reset, and reset-password endpoints are protected with Cloudflare Turnstile and expect the captcha token in the `cf-turnstile-token` request header.
 
 ### 3. Start the app
 

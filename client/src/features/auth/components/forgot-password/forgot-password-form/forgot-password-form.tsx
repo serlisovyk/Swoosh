@@ -2,6 +2,7 @@
 
 import { ArrowRight, Info } from 'lucide-react'
 import { Button, Input } from '@shared/ui'
+import { Captcha } from '../../captcha'
 import { useRequestPasswordResetMutation } from '../../../queries'
 import { useForgotPasswordForm } from '../../../hooks'
 import { forgotPasswordFormFields } from '../../../config'
@@ -49,6 +50,8 @@ export function ForgotPasswordForm() {
             {...register(name)}
           />
         ))}
+
+        <Captcha />
 
         <Button
           type="submit"
