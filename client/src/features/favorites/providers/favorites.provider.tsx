@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useGetMeQuery } from '@features/auth'
+import { useProfile } from '@features/auth'
 import { FavoritesProviderProps } from '../types'
 import {
   rehydrateFavoritesStore,
@@ -10,8 +10,10 @@ import {
 } from '../store'
 
 export function FavoritesProvider({ children }: FavoritesProviderProps) {
-  const { user } = useGetMeQuery()
+  const { user } = useProfile()
+
   const hasHydrated = useFavoritesHydrated()
+
   const setFavoriteProductIds = useSetFavoriteProductIds()
 
   useEffect(() => {

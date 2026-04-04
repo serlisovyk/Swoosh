@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetMeQuery } from '@features/auth'
+import { useProfile } from '@features/auth'
 import { Heading, Skeleton } from '@shared/ui'
 import { AddressHeader } from './address-header'
 import { AddAddressButton } from './add-address-button'
@@ -9,7 +9,7 @@ import { AddressActions } from './address-actions'
 import styles from './profile-address.module.css'
 
 export function ProfileAddress() {
-  const { user, isLoading } = useGetMeQuery()
+  const { user, isLoading } = useProfile()
 
   if (isLoading) return <Skeleton count={6} />
 

@@ -1,11 +1,11 @@
 'use client'
 
-import { useGetMeQuery } from '@features/auth'
+import { useProfile } from '@features/auth'
 import { ProfileMenu } from '../profile-menu'
 import styles from './profile-main.module.css'
 
 export function ProfileMain() {
-  const { user } = useGetMeQuery()
+  const { user } = useProfile()
 
   return (
     <div>

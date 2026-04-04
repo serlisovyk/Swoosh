@@ -2,14 +2,14 @@
 
 import Link from 'next/link'
 import { Edit2, Trash2 } from 'lucide-react'
-import { useGetMeQuery } from '@features/auth'
+import { useProfile } from '@features/auth'
 import { ROUTES } from '@shared/config'
 import { useUpdateProfileMutation } from '../../../queries'
 import { ADDRESS_PROFILE_FORM_DEFAULT_VALUES } from '../../../constants'
 import styles from './address-actions.module.css'
 
 export function AddressActions() {
-  const { user } = useGetMeQuery()
+  const { user } = useProfile()
 
   const { updateProfile, isLoading } = useUpdateProfileMutation({
     toastMessage: 'Адрес успешно удален!',

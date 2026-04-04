@@ -73,7 +73,7 @@ export interface UserAddress {
   buildingNumber: string
 }
 
-const ROLE = {
+export const ROLE = {
   USER: 'USER',
   ADMIN: 'ADMIN',
 } as const

@@ -3,7 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { isAxiosError } from 'axios'
 import { toast } from 'sonner'
-import { useGetMeQuery } from '@features/auth'
+import { useProfile } from '@features/auth'
 import { API_QUERY_KEYS, getErrorMessage } from '@shared/api'
 import {
   useAddFavoriteProductId,
@@ -39,7 +39,7 @@ export function useFavoriteProductsQuery() {
 }
 
 export function useFavoriteToggle(productId: string) {
-  const { user, isLoading: isAuthLoading } = useGetMeQuery()
+  const { user, isLoading: isAuthLoading } = useProfile()
 
   const isFavorite = useIsFavoriteProduct(productId)
   const hasHydrated = useFavoritesHydrated()

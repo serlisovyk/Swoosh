@@ -1,8 +1,8 @@
-import { useGetMeQuery } from '@features/auth'
+import { useProfile } from '@features/auth'
 import styles from './address-info.module.css'
 
 export function AddressInfo() {
-  const { user } = useGetMeQuery()
+  const { user } = useProfile()
 
   if (!user) return null
 

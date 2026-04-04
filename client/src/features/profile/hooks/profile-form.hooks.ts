@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useGetMeQuery } from '@features/auth'
+import { useProfile } from '@features/auth'
 import {
   profileEditSchema,
   changePasswordSchema,
@@ -21,7 +21,7 @@ import {
 } from '../types'
 
 export function useProfileEditForm() {
-  const { user } = useGetMeQuery()
+  const { user } = useProfile()
 
   const {
     register,
@@ -60,7 +60,7 @@ export function useChangePasswordForm() {
 }
 
 export function useProfileAddressForm() {
-  const { user } = useGetMeQuery()
+  const { user } = useProfile()
 
   const {
     register,
