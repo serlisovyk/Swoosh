@@ -1,3 +1,4 @@
+import type { AxiosRequestConfig } from 'axios'
 import { API_ROUTES, BaseService } from '@shared/api'
 import type {
   AuthResponse,
@@ -9,12 +10,18 @@ import type {
 } from '../types'
 
 class AuthService extends BaseService {
-  async login(dto: LoginPayload): Promise<AuthResponse> {
-    return this.post(API_ROUTES.LOGIN, dto)
+  async login(
+    dto: LoginPayload,
+    config?: AxiosRequestConfig,
+  ): Promise<AuthResponse> {
+    return this.post(API_ROUTES.LOGIN, dto, config)
   }
 
-  async register(dto: RegisterPayload): Promise<AuthResponse> {
-    return this.post(API_ROUTES.REGISTER, dto)
+  async register(
+    dto: RegisterPayload,
+    config?: AxiosRequestConfig,
+  ): Promise<AuthResponse> {
+    return this.post(API_ROUTES.REGISTER, dto, config)
   }
 
   async logout(): Promise<boolean> {

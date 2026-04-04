@@ -1,6 +1,6 @@
 import axios from 'axios'
+import { API_URL } from '@shared/env'
 import { setupApiInterceptors } from './api.interceptors'
-import { API_URL } from './config'
 
 export const API = axios.create({
   baseURL: API_URL,

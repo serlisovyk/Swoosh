@@ -16,13 +16,14 @@ npm install
 
 Create a local `.env` file from `.env.sample`.
 
-Required variable:
+Required variables:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=turnstile_site_key
 ```
 
-This value should point to the backend API base URL.
+These values should point to the backend API base URL and Cloudflare Turnstile site key. Client env values are validated through `src/shared/env`.
 
 ### 3. Start the app
 
@@ -55,8 +56,10 @@ src/
     |-- api/                    # axios instance, routes, query keys, helpers
     |-- config/                 # shared config
     |-- constants/              # app constants
+    |-- env/                    # validated client environment config
     |-- form/                   # common form helpers and types
     |-- hooks/                  # shared React hooks
+    |-- providers/              # app-level providers
     |-- ui/                     # reusable UI components
     `-- utils/                  # shared utilities
 ```

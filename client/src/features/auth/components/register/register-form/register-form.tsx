@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { useFavoriteProductIds } from '@features/favorites'
 import { Button, Checkbox, Input } from '@shared/ui'
+import { Captcha } from '../../captcha'
 import { useRegisterForm } from '../../../hooks'
 import { registerFormFields } from '../../../config'
 import { RegisterFormData, RegisterPayload } from '../../../types'
@@ -59,6 +60,8 @@ export function RegisterForm() {
             политикой конфиденциальности
           </Link>
         </Checkbox>
+
+        <Captcha />
 
         <Button
           type="submit"

@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { useSetFavoriteProductIds } from '@features/favorites'
 import { API_QUERY_KEYS, getErrorMessage } from '@shared/api'
 import { ROUTES } from '@shared/config'
+import { useCaptcha } from '../hooks'
 import { authService } from '../services'
 import type {
   LoginPayload,
@@ -36,8 +37,11 @@ export function useLoginMutation() {
 
   const setFavoriteProductIds = useSetFavoriteProductIds()
 
+  const { resetCaptcha, validateCaptcha, getCaptchaHeader } = useCaptcha()
+
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (dto: LoginPayload) => authService.login(dto),
+    mutationFn: (dto: LoginPayload) =>
+      authService.login(dto, { headers: getCaptchaHeader() }),
     onSuccess: ({ user }) => {
       setFavoriteProductIds(user.favoriteProductIds)
       queryClient.setQueryData([API_QUERY_KEYS.ME], user)
@@ -45,21 +49,34 @@ export function useLoginMutation() {
       router.replace(ROUTES.PROFILE)
     },
     onError: (error: unknown) => {
+      resetCaptcha()
+
       if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
-  return { login: mutateAsync, isLoading: isPending }
+  const login = async (dto: LoginPayload) => {
+    if (!validateCaptcha()) return
+
+    await mutateAsync(dto)
+  }
+
+  return { login, isLoading: isPending }
 }
 
 export function useRegisterMutation() {
   const router = useRouter()
+
   const queryClient = useQueryClient()
 
   const setFavoriteProductIds = useSetFavoriteProductIds()
 
+  const { resetCaptcha, validateCaptcha, getCaptchaHeader } = useCaptcha()
+
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (dto: RegisterPayload) => authService.register(dto),
+    mutationFn: (dto: RegisterPayload) =>
+      authService.register(dto, { headers: getCaptchaHeader() }),
+
     onSuccess: ({ user }) => {
       setFavoriteProductIds(user.favoriteProductIds)
       queryClient.setQueryData([API_QUERY_KEYS.ME], user)
@@ -67,11 +84,19 @@ export function useRegisterMutation() {
       router.replace(ROUTES.PROFILE)
     },
     onError: (error: unknown) => {
+      resetCaptcha()
+
       if (isAxiosError(error)) toast.error(getErrorMessage(error))
     },
   })
 
-  return { register: mutateAsync, isLoading: isPending }
+  const register = async (dto: RegisterPayload) => {
+    if (!validateCaptcha()) return
+
+    await mutateAsync(dto)
+  }
+
+  return { register, isLoading: isPending }
 }
 
 export function useLogoutMutation() {

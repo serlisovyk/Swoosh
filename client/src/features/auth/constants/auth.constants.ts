@@ -24,3 +24,5 @@ export const TOKEN_REGEX = /^[a-f0-9]{64}$/i
 
 export const invalidResetPasswordTokenMessage =
   'Недействительная или просроченная ссылка для сброса пароля'
+
+export const CAPTCHA_REQUIRED_ERROR = 'Подтверди, что ты не робот'

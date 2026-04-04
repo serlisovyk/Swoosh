@@ -14,6 +14,7 @@ Swoosh is a full-stack store application with a separate frontend and backend in
 - TypeScript
 - React Query
 - React Hook Form
+- Cloudflare Turnstile
 - Zod
 
 ### Backend
@@ -22,6 +23,7 @@ Swoosh is a full-stack store application with a separate frontend and backend in
 - TypeScript
 - MongoDB with Mongoose
 - JWT auth
+- Cloudflare Turnstile
 - Swagger
 - Resend email integration
 
@@ -49,9 +51,10 @@ The frontend requires:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=turnstile_site_key
 ```
 
-The backend requires app, auth, captcha, MongoDB, email, and throttling settings. See `server/.env.sample` for the full list.
+The backend requires app, auth, captcha, MongoDB, email, and throttling settings. Login and register now also expect a valid Cloudflare Turnstile token from the client. See `server/.env.sample` for the full list.
 
 ### 3. Start the backend
 

@@ -1,0 +1,17 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 65px;
+}
+
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 300px;
+  height: 65px;
+  transform: translateX(-50%);
+  border-radius: 12px;
+}

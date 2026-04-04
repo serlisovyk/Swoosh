@@ -27,6 +27,8 @@ Main groups of variables:
 
 See `.env.sample` for the full list.
 
+Login and register endpoints are protected with Cloudflare Turnstile and expect the captcha token in the `cf-turnstile-token` request header.
+
 ### 3. Start the app
 
 ```bash
@@ -50,6 +52,7 @@ http://localhost:4000/api/v1/docs
 ```text
 src/
 |-- common/                     # shared infrastructure
+|   |-- captcha/                # Cloudflare Turnstile module and config
 |   |-- email/                  # email service and templates
 |   |-- mongo/                  # Mongo connection module and config
 |   |-- swagger/                # Swagger setup helpers

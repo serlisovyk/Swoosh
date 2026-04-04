@@ -27,6 +27,7 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 2. Keep backend auth honest.
 - Keep login, register, refresh, and logout behavior centered in the auth module.
 - Keep guards and decorators aligned with cookie-based access token extraction.
+- When auth endpoints use Cloudflare Turnstile, keep the package-backed decorator, `common/captcha` config, Russian exception messages, and Swagger header docs aligned.
 - Keep auth cookie naming, expiry, and response behavior consistent with the existing auth service pattern.
 - Keep access-token and refresh-token signing separated the way the backend already does it: access uses the main JWT secret, refresh uses the refresh secret.
 - Keep current-user and role-aware behavior aligned with the real JWT payload and runtime user lookup.
@@ -36,6 +37,7 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 - Keep auth requests in feature `services/` and mutation or query orchestration in feature `queries/`.
 - Keep redirects, toasts, and cache updates close to the auth mutation that needs them.
 - Keep the current-user query aligned with backend auth state rather than inventing duplicate client auth state.
+- When auth forms use Turnstile, keep the site key in validated `shared/env`, keep captcha state in the auth provider layer, reserve layout space for the widget, and send the token through the same `cf-turnstile-token` header the backend validates.
 
 4. Treat protected user flow as part of auth.
 - Consider `get me`, profile access, logout, and auth-aware redirects as part of the same flow.
@@ -59,13 +61,16 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 ## Preferred Pattern
 
 - backend auth orchestration in `server/src/modules/auth`
+- backend Turnstile infrastructure in `server/src/common/captcha`
 - cookie-based token handling in the auth service and JWT strategy
 - access-token signing on `JWT_SECRET` and refresh-token signing on `JWT_REFRESH_SECRET`
 - password-reset tokens generated server-side and stored hashed before DB persistence
 - auth docs in `auth.swagger.ts`
 - auth forms in `client/src/features/auth/components` plus `schemas/`, `config/`, and `hooks/`
+- auth captcha state in `client/src/features/auth/providers`
 - auth requests in `client/src/features/auth/services`
 - auth query and mutation orchestration in `client/src/features/auth/queries`
+- validated client env in `client/src/shared/env`
 - current-user state derived from the `me` query and shared API instance behavior
 
 ## Avoid

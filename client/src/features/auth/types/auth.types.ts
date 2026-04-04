@@ -1,3 +1,5 @@
+import type { Dispatch, RefObject, SetStateAction } from 'react'
+import type { TurnstileInstance } from '@marsidev/react-turnstile'
 import z from 'zod'
 import { BaseFormFields } from '@shared/form'
 import {
@@ -80,4 +82,13 @@ export type ROLE = (typeof ROLE)[keyof typeof ROLE]
 
 interface FavoritesSyncPayload {
   favoriteProductIds?: string[]
+}
+
+export interface CaptchaContextValue {
+  captchaRef: RefObject<TurnstileInstance | null>
+  captchaToken: string | null
+  setCaptchaToken: Dispatch<SetStateAction<string | null>>
+  resetCaptcha: () => void
+  validateCaptcha: () => boolean
+  getCaptchaHeader: () => Record<string, string | null>
 }

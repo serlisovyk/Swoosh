@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { useFavoriteProductIds } from '@features/favorites'
 import { Button, Input } from '@shared/ui'
+import { Captcha } from '../../captcha'
 import { ROUTES } from '@shared/config'
 import { useLoginMutation } from '../../../queries'
 import { useLoginForm } from '../../../hooks'
@@ -38,6 +39,8 @@ export function LoginForm() {
             {...register(name)}
           />
         ))}
+
+        <Captcha />
 
         <Link
           href={ROUTES.FORGOT_PASSWORD}
