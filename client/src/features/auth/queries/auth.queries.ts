@@ -15,6 +15,7 @@ import type {
   RequestPasswordResetDto,
   ResetPasswordDto,
   User,
+  VerifyEmailDto,
 } from '../types'
 
 export function useGetMeQuery() {
@@ -174,4 +175,45 @@ export function useResetPasswordMutation() {
   }
 
   return { resetPassword, isLoading: isPending }
+}
+
+export function useRequestEmailVerificationMutation() {
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => authService.requestEmailVerification(),
+    onSuccess: () => {
+      toast.success('Письмо для подтверждения почты отправлено повторно.')
+    },
+    onError: (error: unknown) => {
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
+    },
+  })
+
+  return { requestEmailVerification: mutateAsync, isLoading: isPending }
+}
+
+export function useVerifyEmailMutation() {
+  const queryClient = useQueryClient()
+
+  const { mutateAsync, isPending, isSuccess, error } = useMutation({
+    mutationFn: (dto: VerifyEmailDto) => authService.verifyEmail(dto),
+    onSuccess: () => {
+      queryClient.setQueryData<User | null>(
+        [API_QUERY_KEYS.ME],
+        (currentUser) =>
+          currentUser ? { ...currentUser, isEmailVerified: true } : currentUser,
+      )
+
+      queryClient.invalidateQueries({ queryKey: [API_QUERY_KEYS.ME] })
+    },
+    onError: (error: unknown) => {
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
+    },
+  })
+
+  return {
+    verifyEmail: mutateAsync,
+    isLoading: isPending,
+    isSuccess,
+    error,
+  }
 }

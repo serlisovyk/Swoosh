@@ -5,6 +5,8 @@ class ApiRoutes {
   readonly REGISTER = `${this.AUTH}/register`
   readonly REQUEST_PASSWORD_RESET = `${this.AUTH}/request-password-reset`
   readonly RESET_PASSWORD = `${this.AUTH}/reset-password`
+  readonly REQUEST_EMAIL_VERIFICATION = `${this.AUTH}/request-email-verification`
+  readonly VERIFY_EMAIL = `${this.AUTH}/verify-email`
   readonly LOGOUT = `${this.AUTH}/logout`
   readonly REFRESH = `${this.AUTH}/new-tokens`
 

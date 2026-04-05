@@ -1,6 +1,7 @@
 import { type PropsWithChildren } from 'react'
 import { Breadcrumbs, Heading } from '@shared/ui'
 import { ProfileMenu } from '../profile-menu'
+import { ProfileLayoutContent } from './profile-layout-content'
 import { ProfileGuardProvider } from '../../providers'
 import { PROFILE_BREADCRUMBS } from '../../constants'
 import styles from './profile-layout.module.css'
@@ -17,7 +18,7 @@ export function ProfileLayout({ children }: PropsWithChildren) {
 
         <div className={styles.content}>
           <ProfileMenu />
-          {children}
+          <ProfileLayoutContent>{children}</ProfileLayoutContent>
         </div>
       </div>
     </ProfileGuardProvider>

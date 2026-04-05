@@ -9,7 +9,7 @@ import { AddressActions } from './address-actions'
 import styles from './profile-address.module.css'
 
 export function ProfileAddress() {
-  const { user, isLoading } = useProfile()
+  const { user, isLoading, isEmailVerified } = useProfile()
 
   if (isLoading) return <Skeleton count={6} />
 
@@ -27,7 +27,17 @@ export function ProfileAddress() {
       <div className={styles.wrapper}>
         <AddressHeader name={name} isAddressEmpty={isAddressEmpty} />
 
-        {isAddressEmpty ? <AddAddressButton /> : <AddressInfo />}
+        {isAddressEmpty ? (
+          isEmailVerified ? (
+            <AddAddressButton />
+          ) : (
+            <div className={styles.verificationNote}>
+              Подтвердите почту, чтобы добавить адрес доставки.
+            </div>
+          )
+        ) : (
+          <AddressInfo />
+        )}
 
         {!isAddressEmpty && <AddressActions />}
       </div>

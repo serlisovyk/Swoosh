@@ -9,13 +9,13 @@ import { ADDRESS_PROFILE_FORM_DEFAULT_VALUES } from '../../../constants'
 import styles from './address-actions.module.css'
 
 export function AddressActions() {
-  const { user } = useProfile()
+  const { user, isEmailVerified } = useProfile()
 
   const { updateProfile, isLoading } = useUpdateProfileMutation({
     toastMessage: 'Адрес успешно удален!',
   })
 
-  if (!user) return null
+  if (!user || !isEmailVerified) return null
 
   const handleDelete = () => {
     updateProfile({

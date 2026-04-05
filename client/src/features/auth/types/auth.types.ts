@@ -1,6 +1,7 @@
 import type { Dispatch, RefObject, SetStateAction } from 'react'
 import type { TurnstileInstance } from '@marsidev/react-turnstile'
 import z from 'zod'
+import { LucideIcon } from 'lucide-react'
 import { BaseFormFields, FIELD_VARIANTS } from '@shared/form'
 import {
   forgotPasswordSchema,
@@ -54,6 +55,10 @@ export interface ResetPasswordDto {
   newPassword: string
 }
 
+export interface VerifyEmailDto {
+  token: string
+}
+
 export interface AuthResponse {
   user: User
 }
@@ -61,6 +66,7 @@ export interface AuthResponse {
 export interface User {
   _id: string
   email: string
+  isEmailVerified: boolean
   role: ROLE
   name: string
   phone: string
@@ -96,3 +102,34 @@ export interface CaptchaContextValue {
   validateCaptcha: () => boolean
   getCaptchaHeader: () => Record<string, string | null>
 }
+
+export const VERIFY_EMAIL_VIEW_STATUSES = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  PENDING: 'pending',
+} as const
+
+export type VERIFY_EMAIL_VIEW_STATUSES =
+  (typeof VERIFY_EMAIL_VIEW_STATUSES)[keyof typeof VERIFY_EMAIL_VIEW_STATUSES]
+
+export const VERIFY_EMAIL_LOADING_MESSAGES = {
+  IDLE: 'Запускаем проверку...',
+  PENDING: 'Подождите немного...',
+} as const
+
+export interface VerifyEmailViewState {
+  actionHref?: string
+  actionLabel?: string
+  description: string
+  icon: LucideIcon
+  isLoading: boolean
+  title: string
+}
+
+export interface GetVerifyEmailViewStateOptions {
+  errorDescription: string
+  isLoading: boolean
+  status: VERIFY_EMAIL_VIEW_STATUSES
+}
+
+export type VerifyEmailViewStateConfig = Omit<VerifyEmailViewState, 'isLoading'>

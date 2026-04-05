@@ -7,6 +7,7 @@ import type {
   RegisterPayload,
   ResetPasswordDto,
   User,
+  VerifyEmailDto,
 } from '../types'
 
 class AuthService extends BaseService {
@@ -44,6 +45,14 @@ class AuthService extends BaseService {
     config?: AxiosRequestConfig,
   ): Promise<boolean> {
     return this.post(API_ROUTES.RESET_PASSWORD, dto, config)
+  }
+
+  async requestEmailVerification(): Promise<boolean> {
+    return this.post(API_ROUTES.REQUEST_EMAIL_VERIFICATION)
+  }
+
+  async verifyEmail(dto: VerifyEmailDto): Promise<boolean> {
+    return this.post(API_ROUTES.VERIFY_EMAIL, dto)
   }
 }
 

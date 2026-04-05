@@ -2,3 +2,8 @@
   border: 1px solid var(--border-color);
   padding: 20px 30px;
 }
+
+.verificationNote {
+  line-height: 1.7;
+  color: var(--gray);
+}

@@ -49,3 +49,5 @@ Read the root `README.md` first, then the local README, local `AGENTS.md`, and t
 - Put global working rules and coding expectations in `AGENTS.md`
 - Put stable domain-specific rules in `docs/rules/`
 - After meaningful changes to setup, architecture, or workflow conventions, update the relevant README, `AGENTS.md`, and repo-local skills if they are now outdated
+- Before finishing any meaningful functional, architectural, or workflow change, audit documentation surfaces: root `README.md`, local README, relevant `AGENTS.md`, relevant files in `docs/rules/`, and matching repo-local skills in `.codex/skills`
+- Update only the documentation files that are actually stale because of the change, and explicitly state in the final response what was checked, what was updated, or why no doc updates were needed

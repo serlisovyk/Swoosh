@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import { ResendService } from 'nestjs-resend'
 import { render } from '@react-email/render'
 import { ResetPasswordEmail } from './templates/reset-password.template'
+import { VerifyEmailEmail } from './templates/verify-email.template'
 
 @Injectable()
 export class EmailService {
@@ -16,6 +17,23 @@ export class EmailService {
       ResetPasswordEmail({
         url,
         appName: this.getAppName(),
+      }),
+    )
+
+    return this.send(to, subject, html)
+  }
+
+  async sendEmailVerificationEmail(
+    to: string,
+    url: string,
+    subject: string,
+    expiresHours: number,
+  ) {
+    const html = await render(
+      VerifyEmailEmail({
+        url,
+        appName: this.getAppName(),
+        expiresHours,
       }),
     )
 

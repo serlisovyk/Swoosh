@@ -1,4 +1,5 @@
 import {
+  ForbiddenException,
   Body,
   Controller,
   Get,
@@ -9,6 +10,7 @@ import {
 import { Auth } from '@modules/auth/decorators/auth.decorator'
 import { CurrentUser } from '@modules/auth/decorators/user.decorator'
 import type { UserWithoutPassword } from '@modules/auth/auth.types'
+import { EMAIL_VERIFICATION_REQUIRED_ERROR } from '@modules/auth/auth.constants'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserService } from './user.service'
 import {
@@ -34,9 +36,13 @@ export class UserController {
   @Auth()
   @Put()
   async updateProfile(
-    @CurrentUser('_id') id: string,
+    @CurrentUser() user: UserWithoutPassword,
     @Body() dto: UpdateUserDto,
   ) {
-    return this.usersService.update(id, dto)
+    if (!user.isEmailVerified) {
+      throw new ForbiddenException(EMAIL_VERIFICATION_REQUIRED_ERROR)
+    }
+
+    return this.usersService.update(user._id, dto)
   }
 }

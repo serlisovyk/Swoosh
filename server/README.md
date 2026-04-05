@@ -20,6 +20,7 @@ Main groups of variables:
 
 - app settings
 - JWT settings
+- email verification token settings
 - captcha settings
 - MongoDB connection settings
 - email settings
@@ -28,6 +29,8 @@ Main groups of variables:
 See `.env.sample` for the full list.
 
 Login, register, request-password-reset, and reset-password endpoints are protected with Cloudflare Turnstile and expect the captcha token in the `cf-turnstile-token` request header.
+Register now also sends an email verification link, so the backend must have working email and email-verification token settings configured.
+Profile write access now depends on verified email, while `/profile` read access still works for newly registered users.
 
 ### 3. Start the app
 

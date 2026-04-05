@@ -1,3 +1,4 @@
+import { ROUTES } from '@shared/config'
 import {
   ProfileEditFormData,
   ChangePasswordFormData,
@@ -27,5 +28,5 @@ export const ADDRESS_PROFILE_FORM_DEFAULT_VALUES: ProfileAddressFormData = {
 }
 
 export const PROFILE_BREADCRUMBS = [
-  { label: 'Личный кабинет', href: '/profile' },
+  { label: 'Личный кабинет', href: ROUTES.PROFILE },
 ]

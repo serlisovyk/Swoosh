@@ -10,16 +10,21 @@ export interface AuthTokenData {
   role: ROLES
 }
 
-export type AuthFavoriteAwareUser = Pick<UserWithoutPassword, '_id' | 'favoriteProductIds'>
+export type AuthFavoriteAwareUser = Pick<
+  UserWithoutPassword,
+  '_id' | 'favoriteProductIds'
+>
 
 export interface PreparedRequest extends Request {
   cookies: Record<string, string | undefined>
   user?: UserWithoutPassword
 }
 
-export type UserWithoutPassword = Omit<User, UserPasswordFields>
+export type UserWithoutPassword = Omit<User, UserPasswordAndSensitiveFields>
 
-type UserPasswordFields =
+type UserPasswordAndSensitiveFields =
   | 'password'
+  | 'emailVerificationToken'
+  | 'emailVerificationTokenExpiresAt'
   | 'resetPasswordToken'
   | 'resetPasswordTokenExpiresAt'

@@ -11,8 +11,9 @@ import { Response } from 'express'
 import { verify } from 'argon2'
 import { StringValue } from 'ms'
 import { isDev, noop } from '@shared/utils'
-import { UserService } from '../user/user.service'
 import { FavoritesService } from '@modules/favorites/favorites.service'
+import { UserService } from '../user/user.service'
+import { AuthAccountService } from './auth-account/auth-account.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import {
@@ -33,6 +34,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly favoritesService: FavoritesService,
     private readonly configService: ConfigService,
+    private readonly authAccountService: AuthAccountService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -46,6 +48,8 @@ export class AuthService {
       createdUser,
       dto.favoriteProductIds,
     )
+
+    await this.authAccountService.requestEmailVerification(user)
 
     const tokens = this.generateTokens({
       id: String(user._id),

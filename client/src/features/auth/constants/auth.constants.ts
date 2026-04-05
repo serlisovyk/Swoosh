@@ -26,3 +26,6 @@ export const invalidResetPasswordTokenMessage =
   'Недействительная или просроченная ссылка для сброса пароля'
 
 export const CAPTCHA_REQUIRED_ERROR = 'Подтверди, что ты не робот'
+
+export const VERIFY_EMAIL_INVALID_TOKEN_MESSAGE =
+  'Недействительная или просроченная ссылка для подтверждения почты'

@@ -20,6 +20,7 @@ import { TURNSTILE_TOKEN_HEADER } from '@common/captcha'
 import { UserResponseDocs } from '../user/user.swagger'
 import {
   AUTH_EMAIL_EXAMPLE,
+  AUTH_EMAIL_VERIFICATION_TOKEN_EXAMPLE,
   AUTH_NAME_EXAMPLE,
   AUTH_PASSWORD_EXAMPLE,
   AUTH_PHONE_EXAMPLE,
@@ -59,6 +60,12 @@ export const AuthResetTokenPropertyDocs = createPropertyDocsDecorator({
   example: AUTH_RESET_TOKEN_EXAMPLE,
 })
 
+export const AuthEmailVerificationTokenPropertyDocs =
+  createPropertyDocsDecorator({
+    description: 'Email verification token received by email.',
+    example: AUTH_EMAIL_VERIFICATION_TOKEN_EXAMPLE,
+  })
+
 export const AuthNewPasswordPropertyDocs = createPropertyDocsDecorator({
   description: 'New password that will replace the current one.',
   example: 'newSecret123',
@@ -91,7 +98,7 @@ export function AuthRegisterDocs() {
     ApiOperation({
       summary: 'Register a new user',
       description:
-        'Creates a new user account, validates Cloudflare Turnstile, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
+        'Creates a new user account, sends an email verification link, validates Cloudflare Turnstile, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
       security: [],
     }),
     ApiCreatedResponse({
@@ -183,6 +190,23 @@ export function AuthRequestPasswordResetDocs() {
   )
 }
 
+export function AuthRequestEmailVerificationDocs() {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Request email verification',
+      description:
+        'Generates and sends a new email verification link for the current authenticated user when the email is not verified.',
+    }),
+    ApiOkResponse({
+      description: 'Email verification request processed successfully.',
+      schema: { type: 'boolean', example: true },
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Authentication is required.',
+    }),
+  )
+}
+
 export function AuthResetPasswordDocs() {
   return applyDecorators(
     AuthCaptchaHeaderDocs(),
@@ -199,6 +223,25 @@ export function AuthResetPasswordDocs() {
     ApiBadRequestResponse({
       description:
         'Reset token is invalid, expired or request body is invalid.',
+    }),
+  )
+}
+
+export function AuthVerifyEmailDocs() {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Verify email by token',
+      description:
+        'Verifies the user email when the verification token is valid and not expired.',
+      security: [],
+    }),
+    ApiOkResponse({
+      description: 'Email verified successfully.',
+      schema: { type: 'boolean', example: true },
+    }),
+    ApiBadRequestResponse({
+      description:
+        'Verification token is invalid, expired or request body is invalid.',
     }),
   )
 }

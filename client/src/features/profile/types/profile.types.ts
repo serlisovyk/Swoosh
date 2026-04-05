@@ -85,3 +85,14 @@ export interface ProfileAddressFormField extends BaseFormFields {
   isFullWidth?: boolean
   variant?: typeof FIELD_VARIANTS.INPUT
 }
+
+export type ProfileEmailVerificationNoticeVariant = 'banner' | 'blocked'
+
+export interface ProfileEmailVerificationContent {
+  description: string
+  title: string
+}
+
+export interface ProfileEmailVerificationNoticeProps {
+  variant: ProfileEmailVerificationNoticeVariant
+}
