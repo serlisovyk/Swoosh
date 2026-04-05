@@ -7,7 +7,7 @@ description: Review Swoosh frontend code for security risks in auth-aware UI and
 
 ## Overview
 
-Review Swoosh frontend changes through a browser-security lens. Focus on real security risks in rendering, auth-aware flow, redirects, user input handling, and sensitive data exposure rather than generic fear-driven advice.
+Use `docs/rules/auth-and-api-contracts.md` and `docs/rules/forms-and-data-fetching.md` as the baseline for auth-aware frontend behavior. This skill covers how to review frontend code through a browser-security lens.
 
 ## Use with Other Skills
 
@@ -25,7 +25,6 @@ Review Swoosh frontend changes through a browser-security lens. Focus on real se
 - Focus on whether the client assumes trust it should not have, especially around auth state and protected UI.
 
 2. Review auth-aware frontend behavior.
-- Check whether the frontend relies on cookies and `me` query behavior instead of inventing unsafe local token handling.
 - Check whether refresh and retry behavior could unintentionally loop, hide auth failures, or leak sensitive assumptions.
 - Check whether logout and auth failure flows really clear or stop using cached sensitive data.
 

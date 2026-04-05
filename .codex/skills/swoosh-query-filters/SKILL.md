@@ -7,7 +7,7 @@ description: Build and refactor list and search query handling in the Swoosh bac
 
 ## Overview
 
-Implement filtered list endpoints in the Swoosh backend using the current project pattern: validate raw query input in a DTO, normalize it with transforms, convert it into query options in a feature utility, and keep the service query readable.
+Use `docs/rules/backend-architecture.md` for the stable query-endpoint boundaries and `docs/rules/auth-and-api-contracts.md` when the endpoint contract is public or documented. This skill covers the task-specific workflow for building a filtered list flow.
 
 ## Use with Other Skills
 
@@ -37,8 +37,7 @@ Implement filtered list endpoints in the Swoosh backend using the current projec
 
 4. Normalize shared query formats in shared utils.
 - Use helpers like `toStringArrayQueryParam` and `toNumberArrayQueryParam` for array-like query values.
-- Move transforms to `src/shared/utils` only when they are useful across modules.
-- Keep module-specific filtering rules inside the feature module.
+- Promote transforms to `src/shared/utils` only when multiple modules benefit.
 
 5. Build database query options in a feature utility.
 - Create a function like `buildProductListQueryOptions(dto)`.
@@ -49,21 +48,12 @@ Implement filtered list endpoints in the Swoosh backend using the current projec
 
 6. Keep services thin.
 - Services should call the query-options builder, then apply `.find(filters).sort(sort).limit(limit)`.
-- Services should not re-parse raw query strings.
 - Populate and select logic can stay in the service, but raw query normalization should not.
 
 7. Verify before finishing.
 - Build the backend.
 - Check that invalid query input fails in DTO validation.
 - Check that Swagger examples still match the DTO shape.
-
-## Preferred Pattern
-
-- DTO: validate and transform
-- shared utils: normalize generic query param shapes
-- module utils: build feature-specific filters, sort, and limit
-- service: execute query
-- swagger file: document the query contract
 
 ## Avoid
 

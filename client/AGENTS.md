@@ -4,23 +4,11 @@
 
 These instructions apply to everything under `client`.
 
-## Architecture
+## Read first
 
-- The frontend uses Next.js App Router
-- Keep route entry files in `src/app`
-- Keep feature logic in `src/features`
-- Keep reusable code in `src/shared`
-
-## Feature structure
-
-Prefer the existing feature-first pattern:
-
-- `components` for UI
-- `hooks` for local state and form logic
-- `queries` for React Query hooks
-- `schemas` for Zod validation
-- `services` for thin feature API service instances and request methods
-- `types` for feature types
+- Read `../docs/rules/frontend-architecture.md` for all frontend changes
+- Read `../docs/rules/forms-and-data-fetching.md` when the task touches forms, shared API usage, React Query, or submit handling
+- Read `../docs/rules/auth-and-api-contracts.md` when the task touches auth, Swagger-linked contracts, or other cross-stack API behavior
 
 ## Skills
 
@@ -33,29 +21,9 @@ Prefer the existing feature-first pattern:
 - Use `swoosh-frontend-security-review` for security-focused frontend review on auth-aware UI, rendering, redirects, and data exposure
 - If a change materially reshapes one of those frontend patterns, update the corresponding repo-local skill under `.codex/skills`
 
-## API and state
-
-- Reuse the shared API layer in `src/shared/api`
-- Do not scatter raw API route strings across components
-- Keep page files thin and move logic into feature folders
-
-## UI rules
-
-- Reuse shared UI from `src/shared/ui` before creating new primitives
-- Keep styles colocated with components
-- Follow the existing CSS Modules approach
-
-## Frontend Conventions
-
-- Destructure props in components
-- Keep components reasonably small and split them when they become hard to scan or combine too many responsibilities
-- Prefer simple and readable UI logic over clever abstractions
-- Avoid introducing new UI libraries unless clearly justified
-- Do not define interfaces or types next to components unless there is a strong local-only reason
-- Prefer dedicated `types.ts` or `types/` files for component and feature contracts
-
 ## Verification
 
 - Run frontend checks from `client`
 - Prefer `npm run lint` after frontend code changes
+- If auth or API contract changes affect the backend as well, verify both sides
 - If frontend structure, setup, or workflow conventions changed, update the relevant frontend README or `AGENTS.md` as part of the task

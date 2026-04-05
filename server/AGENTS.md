@@ -4,42 +4,10 @@
 
 These instructions apply to everything under `server`.
 
-## Architecture
+## Read first
 
-- The backend uses NestJS with a module-based structure
-- Keep business code in `src/modules`
-- Keep shared infrastructure in `src/common`
-- Keep shared config, constants, and helpers in `src/shared`
-
-## Module structure
-
-Prefer the existing NestJS pattern:
-
-- `module` wires dependencies
-- `controller` handles routing and request mapping
-- `service` contains business logic
-- `dto` contains request validation and transport shapes
-- `models` contains Mongoose models
-- `types`, `constants`, `utils`, and `swagger` stay next to the module when needed
-
-## API rules
-
-- Keep controllers thin
-- Put business logic and database orchestration in services
-- Prefer DTO-based validation over ad hoc request checks
-- Reuse shared helpers from `src/shared` when a pattern already exists
-
-## Backend Conventions
-
-- Keep public API contracts explicit
-- Avoid leaking persistence shape into public responses
-- Keep module-local types in dedicated `types.ts` files
-- Do not scatter interfaces and types across controllers, services, and DTO files when a module-level `types.ts` is more appropriate
-
-## Swagger and docs
-
-- If you change request or response contracts, check whether Swagger docs also need an update
-- Keep Swagger-related code near the module or shared Swagger setup already used by the backend
+- Read `../docs/rules/backend-architecture.md` for all backend changes
+- Read `../docs/rules/auth-and-api-contracts.md` when the task touches auth, Swagger, public contracts, password reset, or other cross-stack API behavior
 
 ## Skills
 
@@ -56,4 +24,5 @@ Prefer the existing NestJS pattern:
 
 - Run backend checks from `server`
 - Prefer `npm run lint` after backend changes
+- If auth or API contract changes affect the frontend as well, verify both sides
 - If logic changes, prefer `npm run test` as well when possible

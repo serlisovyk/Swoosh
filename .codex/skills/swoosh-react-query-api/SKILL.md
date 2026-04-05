@@ -7,7 +7,7 @@ description: Build and refactor API services, React Query hooks, and mutation fl
 
 ## Overview
 
-Build client-side data flows in the Swoosh frontend using the existing shared API layer, React Query hooks, and mutation side-effect patterns. Keep API contracts, cache behavior, and user feedback consistent with the current project style.
+Use `docs/rules/forms-and-data-fetching.md` for the stable service, query, and mutation boundaries, and `docs/rules/auth-and-api-contracts.md` when the flow is auth-aware. This skill covers the task-specific workflow for building or refactoring a concrete frontend data flow.
 
 ## Use with Other Skills
 
@@ -23,15 +23,12 @@ Build client-side data flows in the Swoosh frontend using the existing shared AP
 1. Start from the shared API layer.
 - Read `src/shared/api` before creating new services or hooks.
 - Reuse `API`, `API_ROUTES`, `API_QUERY_KEYS`, and error helpers.
-- Respect the existing cookie-based auth and refresh-token interceptor behavior.
 
-2. Keep services thin.
-- Services should make the HTTP request and return data.
+2. Shape the service layer around the contract.
 - Prefer one thin exported service instance per feature service file instead of scattering request helpers across components.
 - Keep route paths and params aligned with shared API config.
-- Do not put router redirects, toasts, or React Query cache logic inside services.
 
-3. Put fetch and mutation orchestration in `queries/`.
+3. Keep query orchestration explicit.
 - Use `useQuery` and `useMutation` wrappers inside feature query files.
 - Keep cache update or invalidation logic next to the query hook.
 - Keep router transitions and toast side effects close to the mutation that needs them.
@@ -42,8 +39,6 @@ Build client-side data flows in the Swoosh frontend using the existing shared AP
 - Keep feature query files easy to scan and explicit about their dependencies.
 
 5. Handle auth-aware flows consistently.
-- Respect the shared API instance and its refresh logic.
-- Avoid bypassing the shared axios instance for normal authenticated requests.
 - Keep auth-specific request exceptions explicit when they differ from the default interceptor behavior.
 
 6. Verify before finishing.
@@ -51,21 +46,8 @@ Build client-side data flows in the Swoosh frontend using the existing shared AP
 - Check cache invalidation and optimistic updates if added.
 - Check that query keys, routes, and return types stay aligned with the feature contract.
 
-## Type Placement
-
-- Keep request and response contracts in feature `types.ts` files or a `types/` folder rather than colocating them with query hooks or components.
-
-## Preferred Pattern
-
-- shared API instance and config in `shared/api`
-- thin exported service instances in feature `services/`
-- React Query hooks in feature `queries/`
-- UI state and rendering in components
-- form submit wiring delegated to form hooks and query hooks
-
 ## Avoid
 
-- Calling `axios` directly from components when the shared API layer already exists.
 - Hiding router redirects and toast behavior deep inside generic helpers.
 - Mixing request code, cache logic, and rendering in one file.
 - Inventing one-off query key or route strings when central config already exists.

@@ -28,7 +28,7 @@ export function Captcha() {
           setCaptchaToken(null)
           setIsWidgetLoaded(false)
         }}
-        options={{ size: 'normal' }}
+        options={{ size: 'normal', theme: 'light' }}
       />
     </div>
   )

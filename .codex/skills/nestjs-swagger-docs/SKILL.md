@@ -7,7 +7,7 @@ description: Add, refactor, and review Swagger/OpenAPI documentation for NestJS 
 
 ## Overview
 
-Add or refactor Swagger in NestJS backends without turning controllers and DTOs into decorator soup. Start by reading the repo's existing Swagger architecture and extend it instead of inventing a parallel style.
+Use `docs/rules/auth-and-api-contracts.md` for the stable public-contract and auth-documentation rules, plus `docs/rules/backend-architecture.md` for backend placement constraints. This skill covers the task-specific workflow for adding or refactoring Swagger in Swoosh.
 
 ## Use with Other Skills
 
@@ -26,19 +26,13 @@ Add or refactor Swagger in NestJS backends without turning controllers and DTOs 
 
 2. Keep runtime code clean.
 - Prefer named `...Docs` wrappers over long inline `ApiProperty(...)` and `ApiResponse(...)` blocks.
-- Keep DTOs focused on validation and input shape.
-- Keep controllers focused on routing and behavior.
 - Store module-specific Swagger helpers in `<module>.swagger.ts` when the repo already follows that pattern.
 
 3. Document the public contract, not the persistence model.
 - Create response docs for the fields clients should actually receive.
-- Do not expose passwords, reset tokens, hashed values, internal timestamps, or ORM/Mongoose-only fields unless intentionally public.
 - If documenting a response reveals unsafe data exposure, fix the service/controller contract before finalizing the docs.
 
 4. Keep auth honest.
-- Match Swagger security to actual runtime behavior.
-- Use cookie auth if guards read cookies.
-- Use bearer auth only when the API really expects `Authorization` headers.
 - If global security requirements are enabled, explicitly clear `security` for public endpoints and override it for refresh-only routes.
 
 5. Name things consistently.
@@ -89,20 +83,9 @@ If the repo has no Swagger structure yet, start with:
 
 Do not introduce extra abstraction unless the repetition is real and recurring.
 
-## Review Checklist
-
-Before finishing, check:
-- Are public and protected routes marked correctly?
-- Do auth schemes match runtime behavior?
-- Do response docs expose only public fields?
-- Are examples realistic?
-- Are tags and summaries easy to scan in Swagger UI and Postman?
-- Does the backend still build cleanly?
-
 ## Avoid
 
 - Scatter long inline Swagger decorators across many DTOs when the repo already centralizes docs.
 - Reuse database entities or Mongoose models as public response docs without reviewing exposed fields.
-- Document bearer auth when runtime reads cookies.
 - Create a new Swagger architecture when the repo already has a working one.
 - Over-abstract two lines of code into a helper that is harder to read than the duplication.

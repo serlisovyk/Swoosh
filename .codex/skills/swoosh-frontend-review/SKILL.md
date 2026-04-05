@@ -7,7 +7,7 @@ description: Review Swoosh frontend changes for bugs, regressions, architecture 
 
 ## Overview
 
-Review Swoosh frontend changes like a project-aware reviewer, not a generic linter. Prioritize bugs, regressions, architecture fit, and stale workflow documentation before style nits.
+Use `docs/rules/frontend-architecture.md`, `docs/rules/forms-and-data-fetching.md`, and `docs/rules/auth-and-api-contracts.md` as the baseline for frontend review. This skill covers how to inspect changes, prioritize findings, and decide when docs or skills are stale.
 
 ## Use with Other Skills
 
@@ -24,11 +24,9 @@ Review Swoosh frontend changes like a project-aware reviewer, not a generic lint
 - Look for behavior changes, broken states, missing error handling, stale assumptions, and user-facing regressions.
 - Focus findings on concrete risk, not taste.
 
-2. Check Swoosh frontend boundaries.
-- Keep route files in `src/app` thin.
-- Keep feature logic in `src/features`.
-- Keep `src/shared` reserved for code that is truly reused.
-- Call out abstractions that were moved into `shared` too early.
+2. Check changes against the frontend rules.
+- Compare the implementation to `docs/rules/frontend-architecture.md` and `docs/rules/forms-and-data-fetching.md`.
+- Call out abstractions that drift from those rules only when the downside is concrete.
 
 3. Review form flow when forms are touched.
 - Check whether Zod schemas, form hooks, field config, and rendered fields still align.
@@ -36,9 +34,7 @@ Review Swoosh frontend changes like a project-aware reviewer, not a generic lint
 - Check whether submit side effects are spread across too many layers.
 
 4. Review API and query flow when data fetching is touched.
-- Check whether services stay thin and React Query orchestration stays in `queries/`.
 - Check whether cache invalidation or updates are correct.
-- Check whether the shared API layer and shared route or query key constants are still being reused.
 - Check whether auth-aware requests still respect the shared cookie-based flow.
 
 5. Review UI composition and reuse.

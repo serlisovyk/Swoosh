@@ -7,7 +7,7 @@ description: Build, refactor, and review Swoosh authentication flows across the 
 
 ## Overview
 
-Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backend changes. Keep cookie-based runtime behavior, frontend query behavior, protected user flow, and Swagger docs aligned.
+Use `docs/rules/auth-and-api-contracts.md` for the stable auth and public-contract rules, plus `docs/rules/forms-and-data-fetching.md` when the task touches frontend auth queries or forms. This skill covers the task-specific workflow for changing auth as one cross-stack flow.
 
 ## Use with Other Skills
 
@@ -22,7 +22,6 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 
 1. Start from the whole auth flow.
 - Read both backend auth files and frontend auth feature files before changing only one side.
-- Keep runtime behavior, frontend assumptions, and Swagger docs aligned.
 
 2. Keep backend auth honest.
 - Keep login, register, refresh, and logout behavior centered in the auth module.
@@ -34,10 +33,8 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 - Keep current-user and role-aware behavior aligned with the real JWT payload and runtime user lookup.
 
 3. Keep frontend auth honest.
-- Reuse the shared API instance with `withCredentials` and the refresh-token interceptor flow.
 - Keep auth requests in feature `services/` and mutation or query orchestration in feature `queries/`.
 - Keep redirects, toasts, and cache updates close to the auth mutation that needs them.
-- Keep the current-user query aligned with backend auth state rather than inventing duplicate client auth state.
 - When auth forms use Turnstile, keep the site key in validated `shared/env`, keep captcha state in the auth provider layer, reserve layout space for the widget, and send the token through the same `cf-turnstile-token` header the backend validates.
 
 4. Treat protected user flow as part of auth.
@@ -47,37 +44,18 @@ Work on Swoosh auth as one cross-stack flow, not as isolated frontend and backen
 5. Handle password-reset flow as first-class auth.
 - Keep request-password-reset and reset-password flows aligned across DTOs, forms, query hooks, and email-driven token handling.
 - Keep token parsing and reset form validation explicit and easy to follow.
-- Keep password-reset tokens generated server-side and stored hashed on the backend rather than persisted in raw form.
 
 6. Keep docs and contract drift low.
 - If auth request or response shape changes, update Swagger docs.
 - If auth workflow or house-style implementation changes materially, update the relevant repo-local skill as well.
-- Do not let frontend assumptions drift away from the real cookie and refresh behavior.
 
 7. Verify before finishing.
 - Check one success path and one failure path for the auth flow you changed.
 - Check that frontend auth mutations, `me` query behavior, and backend cookies still line up.
 - Build or lint the side you touched, and prefer checking both sides when the change crosses the boundary.
 
-## Preferred Pattern
-
-- backend auth orchestration in `server/src/modules/auth`
-- backend Turnstile infrastructure in `server/src/common/captcha`
-- cookie-based token handling in the auth service and JWT strategy
-- access-token signing on `JWT_SECRET` and refresh-token signing on `JWT_REFRESH_SECRET`
-- password-reset tokens generated server-side and stored hashed before DB persistence
-- auth docs in `auth.swagger.ts`
-- auth forms in `client/src/features/auth/components` plus `schemas/`, `config/`, and `hooks/`
-- auth captcha state in `client/src/features/auth/providers`
-- auth requests in `client/src/features/auth/services`
-- auth query and mutation orchestration in `client/src/features/auth/queries`
-- validated client env in `client/src/shared/env`
-- current-user state derived from the `me` query and shared API instance behavior
-
 ## Avoid
 
 - Treating auth as only a backend or only a frontend change when the contract crosses both.
-- Bypassing the shared API instance for normal authenticated frontend requests.
-- Reintroducing token handling in local frontend state when cookies and `me` query already define auth state.
 - Changing auth cookies or refresh behavior without checking Swagger docs and frontend retry logic.
 - Splitting auth side effects across too many layers to follow the real flow.

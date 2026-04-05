@@ -8,9 +8,19 @@ These instructions apply to the whole repository unless a deeper `AGENTS.md` ove
 
 - `client` contains the Next.js frontend
 - `server` contains the NestJS backend
+- `docs/rules` contains modular stable project rules
+- `.codex/commands` contains project-local slash command prompts
 - `.codex/skills` contains repo-specific Codex skills
 
-Read the root `README.md` first, then the local README and local `AGENTS.md` in the part of the repo you are changing.
+Read the root `README.md` first, then the local README, local `AGENTS.md`, and the relevant files in `docs/rules/` for the part of the repo you are changing.
+
+## Rule files
+
+- Read `docs/rules/code-conventions.md` for TypeScript, naming, and shared code-style conventions
+- Read `docs/rules/frontend-architecture.md` for frontend changes in `client`
+- Read `docs/rules/backend-architecture.md` for backend changes in `server`
+- Read `docs/rules/forms-and-data-fetching.md` for validated forms, shared API usage, React Query flows, and frontend submit handling
+- Read `docs/rules/auth-and-api-contracts.md` for auth, Swagger, public contracts, password reset, and other cross-stack API behavior
 
 ## General rules
 
@@ -19,34 +29,6 @@ Read the root `README.md` first, then the local README and local `AGENTS.md` in 
 - Do not edit generated output such as `.next`, `dist`, or `node_modules`
 - Do not change `.codex/skills` unless the task is explicitly about skills
 - Prefer small, targeted changes that match the existing structure
-
-## Code Conventions
-
-- Prefer simple, readable, and maintainable solutions over clever or overly complex ones
-- Use clear names and explicit boundaries of responsibility
-- Keep logic testable
-- Avoid dead code and hidden side effects
-
-## TypeScript Conventions
-
-- Keep TypeScript strict
-- Prefer `interface` for object-shaped public contracts when practical
-- Prefer `type` for unions, mapped types, utility composition, and literal-based variants
-- Avoid `any` unless there is a strong reason
-- Prefer narrowing over assertions
-- Keep types explicit and easy to follow
-
-## Naming
-
-- Use PascalCase for components and exported interfaces or types
-- Use camelCase for variables and functions
-- Use ALL_CAPS for constants
-- Use handler names like `onClick`
-- Use state setter names like `setX`
-
-## Variant Constants
-
-- Prefer `as const` objects with derived union types over enums when the project already follows that pattern
 
 ## Skills
 
@@ -58,11 +40,13 @@ Read the root `README.md` first, then the local README and local `AGENTS.md` in 
 
 - After frontend changes, run the relevant checks in `client`
 - After backend changes, run the relevant checks in `server`
+- If auth or API contract changes cross the frontend-backend boundary, verify both sides
 - If backend logic changes, prefer running tests in addition to lint when possible
 
 ## Documentation
 
 - Keep README files concise and human-readable
 - Put setup and repo overview in README files
-- Put working rules and coding expectations in `AGENTS.md`
+- Put global working rules and coding expectations in `AGENTS.md`
+- Put stable domain-specific rules in `docs/rules/`
 - After meaningful changes to setup, architecture, or workflow conventions, update the relevant README, `AGENTS.md`, and repo-local skills if they are now outdated

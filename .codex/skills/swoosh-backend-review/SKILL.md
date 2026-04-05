@@ -7,7 +7,7 @@ description: Review Swoosh backend changes for bugs, regressions, architecture d
 
 ## Overview
 
-Review Swoosh backend changes like a project-aware reviewer, not a generic style checker. Prioritize correctness, API contract safety, architecture fit, and stale documentation before low-value nits.
+Use `docs/rules/backend-architecture.md` and `docs/rules/auth-and-api-contracts.md` as the baseline contract for backend reviews. This skill covers the review workflow: how to inspect changes, prioritize findings, and decide when docs or skills are stale.
 
 ## Use with Other Skills
 
@@ -24,11 +24,9 @@ Review Swoosh backend changes like a project-aware reviewer, not a generic style
 - Look for behavioral bugs, unsafe response changes, missing validation, authorization gaps, and broken edge cases.
 - Focus findings on concrete risk, not style preference.
 
-2. Check Swoosh backend boundaries.
-- Keep controllers thin.
-- Keep business logic and orchestration in services.
-- Keep DTOs focused on transport shape and validation.
-- Keep feature-specific helpers local unless they are clearly shared.
+2. Check changes against the backend rules.
+- Compare the implementation to `docs/rules/backend-architecture.md` rather than personal taste.
+- Call out architecture drift only when it creates concrete maintenance or correctness cost.
 
 3. Review public contract safety.
 - Check whether public responses expose only intended fields.
@@ -37,7 +35,6 @@ Review Swoosh backend changes like a project-aware reviewer, not a generic style
 
 4. Review auth, security, and query handling when relevant.
 - Check that guards, decorators, cookies, roles, and auth flows still match runtime behavior and docs.
-- Check that query parsing stays in DTOs or query helpers rather than drifting into services.
 - Check that filtered list logic still follows the DTO-to-query-options pattern when that pattern is already in use.
 
 5. Review docs and skill drift.

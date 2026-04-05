@@ -7,7 +7,7 @@ description: Review Swoosh backend code for security risks in API behavior, auth
 
 ## Overview
 
-Review Swoosh backend changes through an API-security lens. Focus on auth correctness, authorization boundaries, input validation, sensitive data exposure, and configuration risks that matter in real request flows.
+Use `docs/rules/auth-and-api-contracts.md` and `docs/rules/backend-architecture.md` as the baseline for backend security-sensitive behavior. This skill covers how to review those changes through a security lens.
 
 ## Use with Other Skills
 
@@ -31,13 +31,11 @@ Review Swoosh backend changes through an API-security lens. Focus on auth correc
 
 3. Review input validation and query handling.
 - Check that DTO validation is present where untrusted input enters.
-- Check that query parsing and filter building stay explicit and do not allow unintended behavior through loose parsing.
 - Call out places where raw request data flows too far before validation.
 
 4. Review sensitive data exposure.
 - Check whether responses, logs, exceptions, or docs expose fields that should remain private.
 - Check whether auth-related responses, user responses, or populated objects leak internal fields.
-- Check whether Swagger docs describe only safe public contracts.
 
 5. Review config and transport security assumptions.
 - Check cookie options, CORS credentials behavior, secure flags, and environment-driven assumptions for obvious mismatches.

@@ -4,6 +4,17 @@ Swoosh is a full-stack store application with a separate frontend and backend in
 
 - `client` - Next.js application
 - `server` - NestJS API
+- `docs/rules` - modular project rules referenced by `AGENTS.md`
+- `.codex/commands` - project-local command prompts such as `/task` and `/review`
+
+## Project Commands
+
+- `/task LIN-123` - implement a Linear issue from its ID or URL
+- `/review diff` - review the current local diff
+- `/review module auth` - review a specific module, feature, or path
+- `/review security auth` - run a security-focused review for the requested scope
+- `/review performance client/src/features/product` - run a performance-focused review for the requested scope
+- `/review project` - run a broad project review
 
 ## Stack
 

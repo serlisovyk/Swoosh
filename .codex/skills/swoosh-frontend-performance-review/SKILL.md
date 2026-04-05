@@ -7,7 +7,7 @@ description: Review Swoosh frontend code for performance risks on weak devices a
 
 ## Overview
 
-Review Swoosh frontend changes through a performance lens, with special attention to weak devices, slow CPUs, limited memory, and slow mobile networks. Prioritize concrete bottlenecks and user-visible latency over generic micro-optimizations.
+Use `docs/rules/frontend-architecture.md` and `docs/rules/forms-and-data-fetching.md` as the baseline for expected frontend structure and data flow. This skill covers how to review frontend code through a performance lens.
 
 ## Use with Other Skills
 

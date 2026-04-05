@@ -7,7 +7,7 @@ description: Review Swoosh backend code for performance risks that affect latenc
 
 ## Overview
 
-Review Swoosh backend changes through a performance lens, with attention to API latency, database cost, payload size, and the way backend behavior amplifies slow networks on the client. Prioritize bottlenecks that affect real request paths over low-value micro-optimizations.
+Use `docs/rules/backend-architecture.md` and `docs/rules/auth-and-api-contracts.md` as the baseline for expected endpoint shape and responsibility boundaries. This skill covers how to review backend code through a performance lens.
 
 ## Use with Other Skills
 
@@ -41,7 +41,6 @@ Review Swoosh backend changes through a performance lens, with attention to API 
 
 5. Review CPU and lifecycle cost in services.
 - Look for expensive mapping, repeated validation, unnecessary token work, repeated hashing or verification, or heavy orchestration in hot paths.
-- Keep controllers thin and avoid moving parsing or repeated work into every request path.
 
 6. Review caching, pagination, and limits where relevant.
 - Check whether list endpoints have sane defaults for limit and sort.
