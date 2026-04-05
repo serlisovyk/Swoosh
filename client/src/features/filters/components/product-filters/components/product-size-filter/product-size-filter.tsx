@@ -1,4 +1,4 @@
-import { Select, SelectOption } from '@shared/ui'
+import { Select, type SelectOption } from '@shared/form'
 import { useProductFiltersContext } from '../../../../context'
 import { useGetProductFiltersQuery } from '../../../../queries'
 import { PRODUCT_FILTER_ALL_VALUE } from '../../../../constants'

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import cn from 'clsx'
 import { Eye, EyeOff } from 'lucide-react'
-import { InputProps } from './types'
+import { InputProps } from '../../../../types'
 import styles from './input.module.css'
 
 export function Input({

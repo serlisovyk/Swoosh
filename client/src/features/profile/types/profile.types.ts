@@ -2,7 +2,7 @@ import z from 'zod'
 import { LucideIcon } from 'lucide-react'
 import { MouseEventHandler } from 'react'
 import { User } from '@features/auth'
-import { BaseFormFields } from '@shared/form'
+import { BaseFormFields, FIELD_VARIANTS } from '@shared/form'
 import {
   profileEditSchema,
   changePasswordSchema,
@@ -72,13 +72,16 @@ export type ProfileAddressFormData = z.infer<typeof profileAddressSchema>
 
 export interface ProfileEditFormField extends BaseFormFields {
   name: keyof ProfileEditFormData
+  variant?: typeof FIELD_VARIANTS.INPUT
 }
 
 export interface ChangePasswordFormField extends BaseFormFields {
   name: keyof ChangePasswordFormData
+  variant?: typeof FIELD_VARIANTS.INPUT
 }
 
 export interface ProfileAddressFormField extends BaseFormFields {
   name: keyof ProfileAddressFormData
   isFullWidth?: boolean
+  variant?: typeof FIELD_VARIANTS.INPUT
 }

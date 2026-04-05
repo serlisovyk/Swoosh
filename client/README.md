@@ -57,7 +57,7 @@ src/
     |-- config/                 # shared config
     |-- constants/              # app constants
     |-- env/                    # validated client environment config
-    |-- form/                   # common form helpers and types
+    |-- form/                   # common form components, helpers, and types
     |-- hooks/                  # shared React hooks
     |-- providers/              # app-level providers
     |-- ui/                     # reusable UI components

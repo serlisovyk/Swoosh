@@ -1,7 +1,8 @@
 'use client'
 
 import { ArrowRight } from 'lucide-react'
-import { Button, Input } from '@shared/ui'
+import { Field } from '@shared/form'
+import { Button } from '@shared/ui'
 import { Captcha } from '../../captcha'
 import { useResetPasswordMutation } from '../../../queries'
 import {
@@ -38,7 +39,7 @@ export function ResetPasswordForm() {
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         {resetPasswordFormFields.map(({ name, ...field }) => (
-          <Input
+          <Field
             key={name}
             {...field}
             error={errors[name]?.message}

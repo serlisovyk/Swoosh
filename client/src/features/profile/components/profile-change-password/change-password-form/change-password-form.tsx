@@ -1,7 +1,8 @@
 'use client'
 
 import { ArrowRight } from 'lucide-react'
-import { Button, Input } from '@shared/ui'
+import { Field } from '@shared/form'
+import { Button } from '@shared/ui'
 import { noop } from '@shared/utils'
 import { useUpdateProfileMutation } from '../../../queries'
 import { useChangePasswordForm } from '../../../hooks'
@@ -28,7 +29,7 @@ export function ChangePasswordForm() {
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         {changePasswordFormFields.map(({ name, ...field }) => (
-          <Input
+          <Field
             key={name}
             {...field}
             error={errors[name]?.message}

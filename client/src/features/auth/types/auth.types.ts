@@ -1,7 +1,7 @@
 import type { Dispatch, RefObject, SetStateAction } from 'react'
 import type { TurnstileInstance } from '@marsidev/react-turnstile'
 import z from 'zod'
-import { BaseFormFields } from '@shared/form'
+import { BaseFormFields, FIELD_VARIANTS } from '@shared/form'
 import {
   forgotPasswordSchema,
   loginSchema,
@@ -19,18 +19,22 @@ export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>
 
 export interface LoginFormField extends BaseFormFields {
   name: keyof LoginFormData
+  variant?: typeof FIELD_VARIANTS.INPUT
 }
 
 export interface RegisterFormField extends BaseFormFields {
   name: keyof RegisterFormData
+  variant?: typeof FIELD_VARIANTS.INPUT
 }
 
 export interface ForgotPasswordFormField extends BaseFormFields {
   name: keyof ForgotPasswordFormData
+  variant?: typeof FIELD_VARIANTS.INPUT
 }
 
 export interface ResetPasswordFormField extends BaseFormFields {
   name: keyof ResetPasswordFormData
+  variant?: typeof FIELD_VARIANTS.INPUT
 }
 
 export type RegisterDto = Omit<RegisterFormData, 'confirmPassword' | 'terms'>

@@ -1,4 +1,4 @@
-import type { BaseFormFields } from '@shared/form'
+import { FIELD_VARIANTS, type BaseFormFields } from '@shared/form'
 
 export interface IndividualOrderFormValues {
   name: string
@@ -27,7 +27,8 @@ export interface CreateIndividualOrderResponse {
 
 export interface IndividualOrderFormField extends BaseFormFields {
   name: keyof IndividualOrderFormValues
-  type: 'text' | 'email' | 'tel' | 'textarea'
+  variant?: typeof FIELD_VARIANTS.INPUT | typeof FIELD_VARIANTS.TEXTAREA
+  type?: 'text' | 'email' | 'tel'
   autoComplete?: string
   inputMode?: 'text' | 'email' | 'tel'
   rows?: number

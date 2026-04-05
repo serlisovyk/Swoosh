@@ -1,7 +1,8 @@
 'use client'
 
 import { ArrowRight, Info } from 'lucide-react'
-import { Button, Input } from '@shared/ui'
+import { Field } from '@shared/form'
+import { Button } from '@shared/ui'
 import { Captcha } from '../../captcha'
 import { useRequestPasswordResetMutation } from '../../../queries'
 import { useForgotPasswordForm } from '../../../hooks'
@@ -43,7 +44,7 @@ export function ForgotPasswordForm() {
         </p>
 
         {forgotPasswordFormFields.map(({ name, ...field }) => (
-          <Input
+          <Field
             key={name}
             {...field}
             error={errors[name]?.message}

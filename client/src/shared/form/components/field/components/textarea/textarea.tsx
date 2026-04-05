@@ -1,5 +1,5 @@
 import cn from 'clsx'
-import { TextareaProps } from './types'
+import { TextareaProps } from '../../../../types'
 import styles from './textarea.module.css'
 
 export function Textarea({

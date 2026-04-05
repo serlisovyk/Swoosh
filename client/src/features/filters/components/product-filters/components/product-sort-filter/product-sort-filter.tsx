@@ -1,5 +1,5 @@
 import { ProductSortOption } from '@features/product'
-import { Select } from '@shared/ui'
+import { Select } from '@shared/form'
 import { useProductFiltersContext } from '../../../../context'
 import { isProductSortOption } from '../../../../utils'
 import {

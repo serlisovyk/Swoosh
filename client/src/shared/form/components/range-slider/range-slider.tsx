@@ -3,16 +3,15 @@
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import cn from 'clsx'
-import { clampValue, normalizeRange, toInputState } from './utils'
+import { clampValue, normalizeRange, toInputState } from '../../utils'
 import {
   RangeSliderProps,
   RangeSliderValue,
   SliderInputField,
   SliderInput,
-} from './types'
+} from '../../types'
 import styles from './range-slider.module.css'
 
-// TODO: Need a refactor, maybe create custom hook for logic and split component into smaller ones
 export function RangeSlider({
   id,
   min,

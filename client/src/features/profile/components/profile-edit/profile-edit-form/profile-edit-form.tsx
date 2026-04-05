@@ -1,7 +1,8 @@
 'use client'
 
 import { ArrowRight } from 'lucide-react'
-import { Button, Input } from '@shared/ui'
+import { Field } from '@shared/form'
+import { Button } from '@shared/ui'
 import { useUpdateProfileMutation } from '../../../queries'
 import { useProfileEditForm } from '../../../hooks'
 import { profileEditFormFields } from '../../../config'
@@ -23,7 +24,7 @@ export function ProfileEditForm() {
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         {profileEditFormFields.map(({ name, ...field }) => (
-          <Input
+          <Field
             key={name}
             {...field}
             error={errors[name]?.message}

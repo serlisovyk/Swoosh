@@ -1,3 +1,4 @@
+import { FIELD_VARIANTS } from '@shared/form'
 import type { IndividualOrderFormField } from '../types'
 
 export const individualOrderFormFields: IndividualOrderFormField[] = [
@@ -33,7 +34,7 @@ export const individualOrderFormFields: IndividualOrderFormField[] = [
   {
     name: 'message',
     id: 'individual-order-message',
-    type: 'textarea',
+    variant: FIELD_VARIANTS.TEXTAREA,
     label: 'Сообщение',
     placeholder: 'Укажите любой другой способ связи',
     rows: 5,

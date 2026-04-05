@@ -1,4 +1,4 @@
-import { RangeSlider, type RangeSliderValue } from '@shared/ui'
+import { RangeSlider, type RangeSliderValue } from '@shared/form'
 import { useProductFiltersContext } from '../../../../context'
 import { useGetProductFiltersQuery } from '../../../../queries'
 

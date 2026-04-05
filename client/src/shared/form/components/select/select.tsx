@@ -4,8 +4,8 @@ import { useState } from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import cn from 'clsx'
 import { ChevronDown, ChevronUp } from 'lucide-react'
-import { findOptionByValue, toOptionValue } from './utils'
-import { SelectProps } from './types'
+import { findOptionByValue, toOptionValue } from '../../utils'
+import { SelectProps } from '../../types'
 import styles from './select.module.css'
 
 export function Select({

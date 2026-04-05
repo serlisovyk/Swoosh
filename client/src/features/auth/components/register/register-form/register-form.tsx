@@ -3,15 +3,16 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { useFavoriteProductIds } from '@features/favorites'
-import { Button, Checkbox, Input } from '@shared/ui'
-import { Captcha } from '../../captcha'
-import { useRegisterForm } from '../../../hooks'
-import { registerFormFields } from '../../../config'
-import { RegisterFormData, RegisterPayload } from '../../../types'
+import { FIELD_VARIANTS, Field } from '@shared/form'
 import { ROUTES } from '@shared/config'
-import styles from './register-form.module.css'
-import { useRegisterMutation } from '../../../queries'
+import { Button } from '@shared/ui'
 import { noop } from '@shared/utils'
+import { Captcha } from '../../captcha'
+import { registerFormFields } from '../../../config'
+import { useRegisterForm } from '../../../hooks'
+import { useRegisterMutation } from '../../../queries'
+import { RegisterFormData, RegisterPayload } from '../../../types'
+import styles from './register-form.module.css'
 
 export function RegisterForm() {
   const { register, handleSubmit, errors } = useRegisterForm()
@@ -36,7 +37,7 @@ export function RegisterForm() {
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         {registerFormFields.map(({ name, ...field }) => (
-          <Input
+          <Field
             key={name}
             {...field}
             error={errors[name]?.message}
@@ -44,7 +45,8 @@ export function RegisterForm() {
           />
         ))}
 
-        <Checkbox
+        <Field
+          variant={FIELD_VARIANTS.CHECKBOX}
           id="terms"
           required
           className={styles.checkbox}
@@ -59,7 +61,7 @@ export function RegisterForm() {
           >
             политикой конфиденциальности
           </Link>
-        </Checkbox>
+        </Field>
 
         <Captcha />
 

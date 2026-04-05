@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { Field } from '@shared/form'
 import { ROUTES } from '@shared/config'
-import { Button, Input, Textarea } from '@shared/ui'
+import { Button } from '@shared/ui'
 import { individualOrderFormFields } from '../../config'
 import { useIndividualOrderForm } from '../../hooks'
 import { useCreateIndividualOrderMutation } from '../../queries'
@@ -35,21 +36,12 @@ export function IndividualOrderForm() {
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         {individualOrderFormFields.map((field) => (
           <div key={field.name} className={styles.field}>
-            {field.type === 'textarea' ? (
-              <Textarea
-                {...field}
-                error={errors[field.name]?.message}
-                disabled={isLoading}
-                {...register(field.name)}
-              />
-            ) : (
-              <Input
-                {...field}
-                error={errors[field.name]?.message}
-                disabled={isLoading}
-                {...register(field.name)}
-              />
-            )}
+            <Field
+              {...field}
+              error={errors[field.name]?.message}
+              disabled={isLoading}
+              {...register(field.name)}
+            />
           </div>
         ))}
 

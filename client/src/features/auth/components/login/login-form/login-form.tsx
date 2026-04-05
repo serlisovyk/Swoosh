@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { useFavoriteProductIds } from '@features/favorites'
-import { Button, Input } from '@shared/ui'
+import { Field } from '@shared/form'
+import { Button } from '@shared/ui'
 import { Captcha } from '../../captcha'
 import { ROUTES } from '@shared/config'
 import { useLoginMutation } from '../../../queries'
@@ -32,7 +33,7 @@ export function LoginForm() {
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         {loginFormFields.map(({ name, ...field }) => (
-          <Input
+          <Field
             key={name}
             {...field}
             error={errors[name]?.message}

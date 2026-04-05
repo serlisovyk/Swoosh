@@ -2,7 +2,8 @@
 
 import cn from 'clsx'
 import { ArrowRight } from 'lucide-react'
-import { Button, Input } from '@shared/ui'
+import { Field } from '@shared/form'
+import { Button } from '@shared/ui'
 import { ROUTES } from '@shared/config'
 import { useUpdateProfileMutation } from '../../../queries'
 import { useProfileAddressForm } from '../../../hooks'
@@ -32,7 +33,7 @@ export function ProfileAddressForm() {
               key={name}
               className={cn({ [styles.fullWidth]: Boolean(isFullWidth) })}
             >
-              <Input
+              <Field
                 {...field}
                 error={errors[name]?.message}
                 {...register(name)}

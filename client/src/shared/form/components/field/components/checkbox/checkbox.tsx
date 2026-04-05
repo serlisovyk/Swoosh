@@ -3,7 +3,7 @@
 import { useState, ChangeEvent } from 'react'
 import { Check } from 'lucide-react'
 import cn from 'clsx'
-import { CheckboxProps } from './types'
+import { CheckboxProps } from '../../../../types'
 import styles from './checkbox.module.css'
 
 export function Checkbox({
@@ -14,10 +14,18 @@ export function Checkbox({
   onChange,
   ...props
 }: CheckboxProps) {
-  const [isChecked, setIsChecked] = useState(props.defaultChecked || false)
+  const isControlled = props.checked !== undefined
+  const [internalChecked, setInternalChecked] = useState(
+    props.defaultChecked || false,
+  )
+
+  const isChecked = isControlled ? Boolean(props.checked) : internalChecked
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked)
+    if (!isControlled) {
+      setInternalChecked(event.target.checked)
+    }
+
     onChange?.(event)
   }
 
