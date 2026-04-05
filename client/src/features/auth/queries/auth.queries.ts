@@ -22,7 +22,7 @@ export function useGetMeQuery() {
     data: user,
     error,
     isLoading,
-  } = useQuery<User>({
+  } = useQuery<User | null>({
     queryKey: [API_QUERY_KEYS.ME],
     queryFn: () => authService.getMe(),
     retry: false,
@@ -106,8 +106,7 @@ export function useLogoutMutation() {
   const { mutateAsync, isPending } = useMutation({
     mutationFn: () => authService.logout(),
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: [API_QUERY_KEYS.ME] })
-      queryClient.clear()
+      queryClient.setQueryData<User | null>([API_QUERY_KEYS.ME], null)
       toast.success('Вы успешно вышли из системы!')
       router.replace(ROUTES.HOME)
     },

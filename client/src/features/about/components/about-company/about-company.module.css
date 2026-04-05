@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.content {
+  max-width: 790px;
+  line-height: 170%;
+  color: var(--gray-dark);
+}

@@ -1,0 +1,10 @@
+.heading {
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.text {
+  max-width: 720px;
+  line-height: 170%;
+  margin-bottom: 44px;
+}

@@ -1,0 +1,12 @@
+.heading {
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 110%;
+  color: var(--gray-dark);
+  margin-bottom: 8px;
+}
+
+.text {
+  max-width: 780px;
+  line-height: 140%;
+}
