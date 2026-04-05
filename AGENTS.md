@@ -9,7 +9,6 @@ These instructions apply to the whole repository unless a deeper `AGENTS.md` ove
 - `client` contains the Next.js frontend
 - `server` contains the NestJS backend
 - `docs/rules` contains modular stable project rules
-- `.codex/commands` contains project-local slash command prompts
 - `.codex/skills` contains repo-specific Codex skills
 
 Read the root `README.md` first, then the local README, local `AGENTS.md`, and the relevant files in `docs/rules/` for the part of the repo you are changing.
