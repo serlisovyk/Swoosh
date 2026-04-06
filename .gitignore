@@ -12,7 +12,7 @@ coverage/
 .env
 !.env.sample
 
-tsconfig.build.tsbuildinfo
+*.tsbuildinfo
 
 .next
 

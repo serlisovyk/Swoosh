@@ -1,10 +1,11 @@
 import z from 'zod'
-import { VERIFY_EMAIL_VIEW_STATE_CONFIG } from '../config'
+import { API_ROUTES } from '@shared/api'
 import { TOKEN_REGEX } from '../constants'
+import { VERIFY_EMAIL_VIEW_STATE_CONFIG } from '../config/verify-email-view.config'
 import {
-  GetVerifyEmailViewStateOptions,
+  type GetVerifyEmailViewStateOptions,
   VERIFY_EMAIL_VIEW_STATUSES,
-  VerifyEmailViewState,
+  type VerifyEmailViewState,
 } from '../types'
 
 export function createTokenSchema(message: string) {
@@ -18,6 +19,10 @@ export function createTokenSchema(message: string) {
 
 function trimStringValue(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
+}
+
+export function getSocialAuthUrl(provider: string) {
+  return API_ROUTES.SOCIAL_AUTH(provider)
 }
 
 export function getVerifyEmailViewState({

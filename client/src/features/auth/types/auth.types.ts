@@ -1,7 +1,6 @@
 import type { Dispatch, RefObject, SetStateAction } from 'react'
 import type { TurnstileInstance } from '@marsidev/react-turnstile'
 import z from 'zod'
-import { LucideIcon } from 'lucide-react'
 import { BaseFormFields, FIELD_VARIANTS } from '@shared/form'
 import {
   forgotPasswordSchema,
@@ -103,33 +102,11 @@ export interface CaptchaContextValue {
   getCaptchaHeader: () => Record<string, string | null>
 }
 
-export const VERIFY_EMAIL_VIEW_STATUSES = {
-  SUCCESS: 'success',
-  ERROR: 'error',
-  PENDING: 'pending',
-} as const
-
-export type VERIFY_EMAIL_VIEW_STATUSES =
-  (typeof VERIFY_EMAIL_VIEW_STATUSES)[keyof typeof VERIFY_EMAIL_VIEW_STATUSES]
-
-export const VERIFY_EMAIL_LOADING_MESSAGES = {
-  IDLE: 'Запускаем проверку...',
-  PENDING: 'Подождите немного...',
-} as const
-
-export interface VerifyEmailViewState {
-  actionHref?: string
-  actionLabel?: string
-  description: string
-  icon: LucideIcon
-  isLoading: boolean
-  title: string
+export interface SocialAuthButton {
+  provider: 'google' | 'github'
+  label: string
 }
 
-export interface GetVerifyEmailViewStateOptions {
-  errorDescription: string
-  isLoading: boolean
-  status: VERIFY_EMAIL_VIEW_STATUSES
+export interface GetMeQueryOptions {
+  enabled?: boolean
 }
-
-export type VerifyEmailViewStateConfig = Omit<VerifyEmailViewState, 'isLoading'>

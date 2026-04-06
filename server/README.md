@@ -20,6 +20,7 @@ Main groups of variables:
 
 - app settings
 - JWT settings
+- OAuth provider settings
 - email verification token settings
 - captcha settings
 - MongoDB connection settings
@@ -30,6 +31,8 @@ See `.env.sample` for the full list.
 
 Login, register, request-password-reset, and reset-password endpoints are protected with Cloudflare Turnstile and expect the captcha token in the `cf-turnstile-token` request header.
 Register now also sends an email verification link, so the backend must have working email and email-verification token settings configured.
+Google and GitHub sign-in require OAuth client credentials plus a `SERVER_URL` that points to the public API base URL including `/api/v1`, because provider callbacks resolve to `/auth/google/callback` and `/auth/github/callback` under that prefix.
+Users authenticated through Google or GitHub are treated as email-verified when the provider returns a verified email, so the regular verification-email gate is skipped for them.
 Profile write access now depends on verified email, while `/profile` read access still works for newly registered users.
 
 ### 3. Start the app

@@ -14,6 +14,12 @@ export class User {
   @Prop({ required: true, select: false })
   password!: string
 
+  @Prop({ type: String, default: null, unique: true, sparse: true, select: false })
+  googleId?: string | null
+
+  @Prop({ type: String, default: null, unique: true, sparse: true, select: false })
+  githubId?: string | null
+
   @Prop({ type: String, default: null, select: false })
   resetPasswordToken?: string | null
 

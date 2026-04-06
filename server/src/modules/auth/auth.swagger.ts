@@ -3,6 +3,7 @@ import {
   ApiBadRequestResponse,
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiFoundResponse,
   ApiHeader,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -188,6 +189,49 @@ export function AuthRequestPasswordResetDocs() {
       description: 'Request body validation failed.',
     }),
   )
+}
+
+function createSocialAuthDocs(providerLabel: string) {
+  return applyDecorators(
+    ApiOperation({
+      summary: `Start ${providerLabel} auth`,
+      description: `Redirects the browser to the ${providerLabel} OAuth consent screen.`,
+      security: [],
+    }),
+    ApiFoundResponse({
+      description: `Redirect to ${providerLabel} OAuth provider.`,
+    }),
+  )
+}
+
+function createSocialAuthCallbackDocs(providerLabel: string) {
+  return applyDecorators(
+    ApiOperation({
+      summary: `${providerLabel} auth callback`,
+      description:
+        'Processes the OAuth callback, sets auth cookies on success and redirects the browser to the frontend social-auth callback page.',
+      security: [],
+    }),
+    ApiFoundResponse({
+      description: 'Redirect to frontend after social auth handling.',
+    }),
+  )
+}
+
+export function AuthGoogleLoginDocs() {
+  return createSocialAuthDocs('Google')
+}
+
+export function AuthGoogleCallbackDocs() {
+  return createSocialAuthCallbackDocs('Google')
+}
+
+export function AuthGithubLoginDocs() {
+  return createSocialAuthDocs('GitHub')
+}
+
+export function AuthGithubCallbackDocs() {
+  return createSocialAuthCallbackDocs('GitHub')
 }
 
 export function AuthRequestEmailVerificationDocs() {

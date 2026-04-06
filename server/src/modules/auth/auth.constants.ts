@@ -9,6 +9,18 @@ export const FAILED_TO_CREATE_USER_ERROR = 'Не удалось создать �
 export const INVALID_REFRESH_TOKEN_ERROR = 'Неверный refresh токен'
 export const REFRESH_TOKEN_MISSING_ERROR = 'Отсутствует refresh токен'
 
+export const SOCIAL_AUTH_PROVIDER = {
+  GOOGLE: 'google',
+  GITHUB: 'github',
+} as const
+
+export const SOCIAL_AUTH_STATUS = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+} as const
+
+export const SOCIAL_AUTH_REDIRECT_URL = '/auth/social-auth'
+
 export const INVALID_OR_EXPIRED_EMAIL_VERIFICATION_TOKEN_ERROR =
   'Недействительная или просроченная ссылка для подтверждения почты'
 export const EMAIL_VERIFICATION_REQUIRED_ERROR =

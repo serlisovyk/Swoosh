@@ -5,8 +5,9 @@ import { ArrowRight } from 'lucide-react'
 import { useFavoriteProductIds } from '@features/favorites'
 import { Field } from '@shared/form'
 import { Button } from '@shared/ui'
-import { Captcha } from '../../captcha'
 import { ROUTES } from '@shared/config'
+import { AuthSocialButtons } from '../../social-auth-buttons'
+import { Captcha } from '../../captcha'
 import { useLoginMutation } from '../../../queries'
 import { useLoginForm } from '../../../hooks'
 import { loginFormFields } from '../../../config'
@@ -32,6 +33,8 @@ export function LoginForm() {
   return (
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <AuthSocialButtons />
+
         {loginFormFields.map(({ name, ...field }) => (
           <Field
             key={name}

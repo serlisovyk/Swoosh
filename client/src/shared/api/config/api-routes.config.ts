@@ -3,6 +3,7 @@ class ApiRoutes {
 
   readonly LOGIN = `${this.AUTH}/login`
   readonly REGISTER = `${this.AUTH}/register`
+  readonly SOCIAL_AUTH = (provider: string) => `${this.AUTH}/${provider}`
   readonly REQUEST_PASSWORD_RESET = `${this.AUTH}/request-password-reset`
   readonly RESET_PASSWORD = `${this.AUTH}/reset-password`
   readonly REQUEST_EMAIL_VERIFICATION = `${this.AUTH}/request-email-verification`

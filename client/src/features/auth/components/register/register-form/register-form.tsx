@@ -7,6 +7,7 @@ import { FIELD_VARIANTS, Field } from '@shared/form'
 import { ROUTES } from '@shared/config'
 import { Button } from '@shared/ui'
 import { noop } from '@shared/utils'
+import { AuthSocialButtons } from '../../social-auth-buttons'
 import { Captcha } from '../../captcha'
 import { registerFormFields } from '../../../config'
 import { useRegisterForm } from '../../../hooks'
@@ -36,6 +37,8 @@ export function RegisterForm() {
   return (
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <AuthSocialButtons />
+
         {registerFormFields.map(({ name, ...field }) => (
           <Field
             key={name}

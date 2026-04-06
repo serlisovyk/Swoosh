@@ -14,11 +14,14 @@ import type {
   RegisterPayload,
   RequestPasswordResetDto,
   ResetPasswordDto,
+  GetMeQueryOptions,
   User,
   VerifyEmailDto,
 } from '../types'
 
-export function useGetMeQuery() {
+export function useGetMeQuery(options: GetMeQueryOptions = {}) {
+  const { enabled = true } = options
+
   const {
     data: user,
     error,
@@ -26,6 +29,7 @@ export function useGetMeQuery() {
   } = useQuery<User | null>({
     queryKey: [API_QUERY_KEYS.ME],
     queryFn: () => authService.getMe(),
+    enabled,
     retry: false,
   })
 

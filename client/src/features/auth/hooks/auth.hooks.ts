@@ -1,7 +1,9 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
-import { useContext } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useContext, useEffect } from 'react'
+import { ROUTES } from '@shared/config'
+import { SOCIAL_AUTH_STATUS } from '../constants'
 import { CaptchaContext } from '../context'
 import { useGetMeQuery } from '../queries'
 import {
@@ -46,6 +48,29 @@ export function useCaptcha() {
   }
 
   return context
+}
+
+export function useSocialAuth() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const status = searchParams.get('status')
+
+  const isSuccessState = status === SOCIAL_AUTH_STATUS.SUCCESS
+
+  const query = useGetMeQuery({ enabled: isSuccessState })
+
+  useEffect(() => {
+    if (!isSuccessState || !query.user) return
+
+    router.replace(ROUTES.PROFILE)
+  }, [isSuccessState, query.user, router])
+
+  return {
+    isSuccessState,
+    isLoading: isSuccessState && query.isLoading,
+    isErrorState: !isSuccessState || Boolean(query.error),
+  }
 }
 
 export function useProfile() {

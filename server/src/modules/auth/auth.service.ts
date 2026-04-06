@@ -25,7 +25,12 @@ import {
   USER_NOT_FOUND_ERROR,
 } from './auth.constants'
 import { ONE_DAY_IN_MS, ONE_HOUR_IN_MS } from '@shared/constants'
-import { AuthFavoriteAwareUser, AuthTokenData } from './auth.types'
+import {
+  AuthFavoriteAwareUser,
+  AuthSocialProfile,
+  AuthTokenData,
+  UserWithoutPassword,
+} from './auth.types'
 
 @Injectable()
 export class AuthService {
@@ -51,12 +56,7 @@ export class AuthService {
 
     await this.authAccountService.requestEmailVerification(user)
 
-    const tokens = this.generateTokens({
-      id: String(user._id),
-      role: user.role,
-    })
-
-    return { user, ...tokens }
+    return this.createSession(user)
   }
 
   async login(dto: LoginDto) {
@@ -67,12 +67,17 @@ export class AuthService {
       dto.favoriteProductIds,
     )
 
-    const tokens = this.generateTokens({
-      id: String(user._id),
-      role: user.role,
-    })
+    return this.createSession(user)
+  }
 
-    return { user, ...tokens }
+  async socialLogin(profile: AuthSocialProfile) {
+    const user = await this.resolveSocialUser(profile)
+
+    if (!user) {
+      throw new InternalServerErrorException(FAILED_TO_CREATE_USER_ERROR)
+    }
+
+    return user
   }
 
   setAuthTokens(
@@ -125,6 +130,10 @@ export class AuthService {
 
     if (!user) throw new NotFoundException(USER_NOT_FOUND_ERROR)
 
+    return this.createSession(user)
+  }
+
+  createSession(user: UserWithoutPassword) {
     const tokens = this.generateTokens({
       id: String(user._id),
       role: user.role,
@@ -161,6 +170,27 @@ export class AuthService {
     noop(userPassword)
 
     return safeUser
+  }
+
+  private async resolveSocialUser(profile: AuthSocialProfile) {
+    const userByProvider = await this.userService.getBySocialProvider(
+      profile.provider,
+      profile.providerId,
+    )
+
+    if (userByProvider) return userByProvider
+
+    const existingUser = await this.userService.getByEmail(profile.email)
+
+    if (existingUser) {
+      return this.userService.linkSocialProvider(
+        existingUser._id,
+        profile.provider,
+        profile.providerId,
+      )
+    }
+
+    return this.userService.createSocialUser(profile)
   }
 
   private async mergeAuthFavorites<TUser extends AuthFavoriteAwareUser>(

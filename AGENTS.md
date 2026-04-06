@@ -28,6 +28,9 @@ Read the root `README.md` first, then the local README, local `AGENTS.md`, and t
 - Do not edit generated output such as `.next`, `dist`, or `node_modules`
 - Do not change `.codex/skills` unless the task is explicitly about skills
 - Prefer small, targeted changes that match the existing structure
+- When a code, config, docs, rules, or skill update is directly implied by the task, make that change without asking the user for separate confirmation
+- Do not split one logical task into extra confirmation steps unless there is a real product, architectural, destructive, or otherwise non-obvious tradeoff
+- Ask follow-up questions only when the decision is genuinely ambiguous or risky enough that guessing would likely cause the wrong result
 
 ## Skills
 
@@ -50,4 +53,7 @@ Read the root `README.md` first, then the local README, local `AGENTS.md`, and t
 - Put stable domain-specific rules in `docs/rules/`
 - After meaningful changes to setup, architecture, or workflow conventions, update the relevant README, `AGENTS.md`, and repo-local skills if they are now outdated
 - Before finishing any meaningful functional, architectural, or workflow change, audit documentation surfaces: root `README.md`, local README, relevant `AGENTS.md`, relevant files in `docs/rules/`, and matching repo-local skills in `.codex/skills`
-- Update only the documentation files that are actually stale because of the change, and explicitly state in the final response what was checked, what was updated, or why no doc updates were needed
+- Update only the documentation files that are actually stale because of the change
+- Do not ask the user for separate confirmation before updating stale documentation that is directly implied by the task, unless the user explicitly said not to touch docs
+- Treat doc and skill updates as part of the same task when they are needed, not as a separate follow-up decision
+- Mention documentation in the final response only when files were actually updated, or when the user explicitly asked about the doc audit

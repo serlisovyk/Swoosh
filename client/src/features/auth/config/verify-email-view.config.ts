@@ -1,12 +1,13 @@
 import { CheckCircle2, MailCheck, TriangleAlert } from 'lucide-react'
 import { ROUTES } from '@shared/config'
 import {
+  type VerifyEmailViewStatus,
   VERIFY_EMAIL_VIEW_STATUSES,
   type VerifyEmailViewStateConfig,
 } from '../types'
 
 export const VERIFY_EMAIL_VIEW_STATE_CONFIG: Record<
-  VERIFY_EMAIL_VIEW_STATUSES,
+  VerifyEmailViewStatus,
   VerifyEmailViewStateConfig
 > = {
   [VERIFY_EMAIL_VIEW_STATUSES.SUCCESS]: {

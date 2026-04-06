@@ -2,7 +2,7 @@
 
 ## Scope
 
-These rules apply to auth behavior, Swagger, public request and response contracts, password reset, and other cross-stack API changes.
+These rules apply to auth behavior, Swagger, public request and response contracts, social login, password reset, and other cross-stack API changes.
 
 ## Auth model
 
@@ -28,6 +28,18 @@ These rules apply to auth behavior, Swagger, public request and response contrac
 - If registration remains successful when verification-email sending fails, keep resend behavior available and do not silently invent a different fallback contract on the client
 - If profile mutations require verified email, enforce that rule server-side and keep client route or UI gating aligned with the same backend rule
 - Keep verify-email links and resend behavior documented and throttled consistently with runtime behavior
+
+## Social auth
+
+- Treat Google and GitHub OAuth start routes, callbacks, cookie issuance, and frontend entry buttons as one auth flow
+- For stable auth guard combinations, prefer feature-local decorators such as `@Auth()`, `@GoogleAuth()`, or `@GithubAuth()` over repeating raw `@UseGuards(...)` in controllers
+- Keep backend provider callback URLs aligned with the actual public API base URL and global prefix the app exposes
+- For browser-initiated OAuth start routes in the Next.js client, prefer frontend rewrite entry points such as `/auth/google` or `/auth/github` over hardcoding backend origins in UI links
+- Under cookie auth, prefer redirecting provider callbacks to a frontend callback page that can warm auth-aware client state before the final navigation
+- Do not send access tokens through social-auth query params or introduce client-side token storage just to complete the social-auth redirect
+- If a provider-backed login succeeds with a verified email, keep the linked or created user `isEmailVerified=true` and do not send a redundant verification-email requirement through the normal register flow
+- If a provider requires a second call to fetch emails, such as GitHub, keep verified-email selection explicit and fail auth when no verified email is available
+- Keep social-auth callback behavior documented in Swagger and keep frontend expectations aligned with the real success and failure redirects
 
 ## Public API contracts
 
