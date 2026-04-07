@@ -3,6 +3,7 @@ import { IBM_Plex_Sans } from 'next/font/google'
 import { PropsWithChildren } from 'react'
 import { Providers } from '@shared/providers'
 import { Header, Footer } from '@shared/layout'
+import styles from './layout.module.css'
 import './globals.css'
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -21,9 +22,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="ru">
       <body className={ibmPlexSans.variable} suppressHydrationWarning>
         <Providers>
-          <Header />
-          {children}
-          <Footer />
+          <div className={styles.wrapper}>
+            <Header />
+            <main className={styles.main}>{children}</main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>
