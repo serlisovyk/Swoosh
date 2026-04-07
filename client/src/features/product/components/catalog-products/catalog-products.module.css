@@ -12,6 +12,12 @@
   color: var(--error);
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
 .empty {
   margin: 0 0 10px;
   font-size: 20px;
@@ -32,4 +38,8 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
+}
+
+.pagination {
+  margin-top: 12px;
 }

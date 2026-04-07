@@ -53,6 +53,7 @@ export interface GetProductsParams {
   colorName?: string[]
   material?: string[]
   limit?: number
+  page?: number
   sort?: ProductSortOption
 }
 

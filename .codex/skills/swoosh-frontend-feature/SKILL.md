@@ -36,7 +36,10 @@ Use `docs/rules/frontend-architecture.md` for the stable frontend architecture r
 - Prefer feature-local code when reuse is still speculative.
 - If you think something belongs in `shared`, sanity-check that at least one nearby feature would benefit too.
 
-5. Verify before finishing.
+5. Keep render files focused.
+- When a component or hook starts accumulating pure helper logic such as pagination math, URL shaping, or display mapping, move that logic into feature-local `utils/` or a dedicated hook.
+
+6. Verify before finishing.
 - Run the client build or lint when practical.
 - Check imports and route composition.
 - Make sure the final feature still feels consistent with nearby features in the repo.

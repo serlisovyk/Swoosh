@@ -2,10 +2,16 @@
 
 import { useCallback, useEffect, useTransition } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import type { ProductPriceRange, ProductSortOption } from '@features/product'
-import { PRODUCT_DEFAULT_LIMIT, PRODUCT_DEFAULT_SORT } from '../constants'
+import { DEFAULT_PRODUCTS_LIMIT } from '@features/product/constants'
+import { normalizeProductsPage } from '@features/product/utils'
+import type { ProductPriceRange, ProductSortOption } from '@features/product/types'
+import { PRODUCT_DEFAULT_SORT } from '../constants'
 import { parseProductFiltersSearchParams } from '../schemas'
-import { createProductFiltersUrl, normalizeProductPriceRange } from '../utils'
+import {
+  createProductFiltersUrl,
+  normalizeProductPriceRange,
+  resetProductFiltersPage,
+} from '../utils'
 import type { ProductFiltersState } from '../types'
 
 export function useProductFilters() {
@@ -39,35 +45,46 @@ export function useProductFilters() {
     replaceUrl(createProductFiltersUrl(pathname, rawSearchParams, filters))
   }, [filters, pathname, rawSearchParams, replaceUrl])
 
-  const setSize = (size?: number) => updateUrl({ ...filters, size })
+  const setSize = (size?: number) =>
+    updateUrl(resetProductFiltersPage({ ...filters, size }))
 
-  const setMaterial = (material?: string) => updateUrl({ ...filters, material })
+  const setMaterial = (material?: string) =>
+    updateUrl(resetProductFiltersPage({ ...filters, material }))
 
-  const setSort = (sort?: ProductSortOption) => updateUrl({ ...filters, sort })
+  const setSort = (sort?: ProductSortOption) =>
+    updateUrl(resetProductFiltersPage({ ...filters, sort }))
 
-  const setLimit = (limit?: number) => updateUrl({ ...filters, limit })
+  const setLimit = (limit?: number) =>
+    updateUrl(resetProductFiltersPage({ ...filters, limit }))
 
   const setColorName = (colorName?: string) => {
-    updateUrl({ ...filters, colorName })
+    updateUrl(resetProductFiltersPage({ ...filters, colorName }))
   }
 
   const setPrice = (price: ProductPriceRange, bounds: ProductPriceRange) => {
-    updateUrl({
-      ...filters,
-      price: normalizeProductPriceRange(price, bounds),
-    })
+    updateUrl(
+      resetProductFiltersPage({
+        ...filters,
+        price: normalizeProductPriceRange(price, bounds),
+      }),
+    )
   }
+
+  const setPage = (page?: number) =>
+    updateUrl({ ...filters, page: normalizeProductsPage(page) })
 
   const resetFilters = () => {
     updateUrl({})
   }
 
-  const selectedLimit = filters.limit ?? PRODUCT_DEFAULT_LIMIT
+  const selectedLimit = filters.limit ?? DEFAULT_PRODUCTS_LIMIT
+  const selectedPage = filters.page ?? 1
   const selectedSort = filters.sort ?? PRODUCT_DEFAULT_SORT
 
   return {
     filters,
     selectedLimit,
+    selectedPage,
     selectedSort,
     isPending,
     setSize,
@@ -76,6 +93,7 @@ export function useProductFilters() {
     setSort,
     setLimit,
     setPrice,
+    setPage,
     resetFilters,
   }
 }

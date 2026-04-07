@@ -1,4 +1,7 @@
-import type { ProductPriceRange, ProductSortOption } from '@features/product'
+import type {
+  ProductPriceRange,
+  ProductSortOption,
+} from '@features/product/types'
 import { useProductFilters } from '../hooks'
 
 export type ProductFiltersContextValue = ReturnType<
@@ -12,6 +15,7 @@ export interface ProductFiltersState {
   material?: string
   sort?: ProductSortOption
   limit?: number
+  page?: number
 }
 
 export interface ProductFiltersQueryInput {
@@ -21,6 +25,7 @@ export interface ProductFiltersQueryInput {
   material?: string[]
   sort?: string | null
   limit?: string[]
+  page?: string[]
 }
 
 export interface ProductFiltersProps {

@@ -1,4 +1,4 @@
-import { ProductSortOption } from '@features/product'
+import type { ProductSortOption } from '@features/product/types'
 import { Select } from '@shared/form'
 import { useProductFiltersContext } from '../../../../context'
 import { isProductSortOption } from '../../../../utils'

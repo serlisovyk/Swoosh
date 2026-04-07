@@ -93,6 +93,12 @@ export function createProductsSearchParams(params?: GetProductsParams) {
     searchParams.set('limit', String(params.limit))
   }
 
+  const normalizedPage = normalizeProductsPage(params.page)
+
+  if (normalizedPage !== undefined) {
+    searchParams.set('page', String(normalizedPage))
+  }
+
   if (params.sort) {
     searchParams.set('sort', params.sort)
   }
@@ -102,6 +108,49 @@ export function createProductsSearchParams(params?: GetProductsParams) {
 
 export function serializeProductsParams(params?: GetProductsParams) {
   return createProductsSearchParams(params).toString()
+}
+
+export function normalizeProductsPage(page?: number) {
+  if (!page || page <= 1) return undefined
+  return page
+}
+
+export function createProductsPaginationHref(
+  pathname: string,
+  rawSearchParams: string,
+  page?: number,
+) {
+  const nextSearchParams = new URLSearchParams(rawSearchParams)
+  const normalizedPage = normalizeProductsPage(page)
+
+  if (normalizedPage === undefined) {
+    nextSearchParams.delete('page')
+  } else {
+    nextSearchParams.set('page', String(normalizedPage))
+  }
+
+  const nextQueryString = nextSearchParams.toString()
+
+  return nextQueryString ? `${pathname}?${nextQueryString}` : pathname
+}
+
+export function getProductsPaginationCorrectionHref(
+  pathname: string,
+  rawSearchParams: string,
+  currentPage: number,
+  totalPages: number,
+) {
+  const lastAvailablePage = totalPages > 0 ? totalPages : 1
+
+  if (currentPage <= lastAvailablePage) {
+    return null
+  }
+
+  return createProductsPaginationHref(
+    pathname,
+    rawSearchParams,
+    lastAvailablePage,
+  )
 }
 
 function normalizeSalePercent(value: number) {

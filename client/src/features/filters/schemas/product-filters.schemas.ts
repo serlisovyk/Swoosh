@@ -69,10 +69,27 @@ const limitQuerySchema = queryArrayValueSchema.transform((values, context) => {
   return value
 })
 
+const pageQuerySchema = queryArrayValueSchema.transform((values, context) => {
+  if (!values.length) return undefined
+
+  const value = Number(values[0])
+
+  if (!Number.isInteger(value) || value < 1) {
+    context.addIssue({
+      code: 'custom',
+      message: 'Invalid page query param',
+    })
+
+    return z.NEVER
+  }
+
+  return value
+})
+
 export function parseProductFiltersQuery(
   query: ProductFiltersQueryInput,
 ): ProductFiltersState {
-  const { size, price, colorName, material, sort, limit } = query
+  const { size, price, colorName, material, sort, limit, page } = query
 
   const { success: sizeParseSuccess, data: sizeParseData } =
     singleNumberQuerySchema.safeParse(size ?? [])
@@ -93,6 +110,9 @@ export function parseProductFiltersQuery(
   const { success: limitParseSuccess, data: limitParseData } =
     limitQuerySchema.safeParse(limit ?? [])
 
+  const { success: pageParseSuccess, data: pageParseData } =
+    pageQuerySchema.safeParse(page ?? [])
+
   return {
     size: sizeParseSuccess ? sizeParseData : undefined,
     price: priceParseSuccess ? priceParseData : undefined,
@@ -100,6 +120,7 @@ export function parseProductFiltersQuery(
     material: materialParseSuccess ? materialParseData : undefined,
     sort: sortParseSuccess ? sortParseData : undefined,
     limit: limitParseSuccess ? limitParseData : undefined,
+    page: pageParseSuccess ? pageParseData : undefined,
   }
 }
 
@@ -113,5 +134,6 @@ export function parseProductFiltersSearchParams(
     material: searchParams.getAll('material'),
     sort: searchParams.get('sort'),
     limit: searchParams.getAll('limit'),
+    page: searchParams.getAll('page'),
   })
 }

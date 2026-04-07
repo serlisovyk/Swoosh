@@ -40,5 +40,6 @@ These rules apply to `client`.
 
 - Reuse shared UI from `src/shared/ui` before creating new primitives
 - Keep components reasonably small and split them when they become hard to scan or combine too many responsibilities
+- Move pure helper logic such as pagination math, URL shaping, and display transformations into feature-local `utils/` or dedicated hooks when it starts to crowd components or hooks
 - Prefer simple, readable UI logic over clever abstractions
 - Avoid introducing new UI libraries unless clearly justified

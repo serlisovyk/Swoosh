@@ -5,7 +5,8 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useProductFilterParams } from '@features/filters'
 import { API_QUERY_KEYS } from '@shared/api'
 import { productService } from '../services'
-import { PRICE_QUERY_DEBOUNCE_MS } from '../constants'
+import { DEFAULT_PRODUCTS_LIMIT, PRICE_QUERY_DEBOUNCE_MS } from '../constants'
+import { normalizeProductsPage } from '../utils'
 import type { ProductPriceRange } from '../types'
 
 export function useGetProductsQuery() {
@@ -18,6 +19,7 @@ export function useGetProductsQuery() {
   const queryParams = {
     ...productParams,
     price: parsePriceRange(debouncedPriceValue),
+    page: normalizeProductsPage(productParams.page),
   }
 
   const { data, error, isLoading, isFetching } = useQuery({
@@ -28,10 +30,15 @@ export function useGetProductsQuery() {
 
   const products = data?.products ?? []
   const total = data?.total ?? 0
+  const currentPage = queryParams.page ?? 1
+  const limit = queryParams.limit ?? DEFAULT_PRODUCTS_LIMIT
+  const totalPages = total ? Math.ceil(total / limit) : 0
 
   return {
     products,
     total,
+    currentPage,
+    totalPages,
     isLoading,
     isFetching,
     error,

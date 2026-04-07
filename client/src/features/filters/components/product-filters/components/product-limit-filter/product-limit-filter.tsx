@@ -1,9 +1,7 @@
 import cn from 'clsx'
+import { DEFAULT_PRODUCTS_LIMIT } from '@features/product/constants'
 import { useProductFiltersContext } from '../../../../context'
-import {
-  PRODUCT_DEFAULT_LIMIT,
-  PRODUCT_LIMIT_OPTIONS,
-} from '../../../../constants'
+import { PRODUCT_LIMIT_OPTIONS } from '../../../../constants'
 import styles from './product-limit-filter.module.css'
 
 export function ProductLimitFilter() {
@@ -18,7 +16,7 @@ export function ProductLimitFilter() {
           const isButtonActive = selectedLimit === option
 
           const handleClick = () => {
-            setLimit(option === PRODUCT_DEFAULT_LIMIT ? undefined : option)
+            setLimit(option === DEFAULT_PRODUCTS_LIMIT ? undefined : option)
           }
 
           return (

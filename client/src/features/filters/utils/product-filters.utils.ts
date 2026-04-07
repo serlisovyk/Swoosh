@@ -1,9 +1,12 @@
 import {
   createProductsSearchParams,
-  type GetProductsParams,
-  type ProductPriceRange,
-  type ProductSortOption,
-} from '@features/product'
+  normalizeProductsPage,
+} from '@features/product/utils'
+import type {
+  GetProductsParams,
+  ProductPriceRange,
+  ProductSortOption,
+} from '@features/product/types'
 import {
   EMPTY_PRODUCT_FILTERS_METADATA,
   PRODUCT_FILTER_QUERY_KEYS,
@@ -26,6 +29,7 @@ export function buildProductQueryParams(
     material: filters.material ? [filters.material] : undefined,
     sort: filters.sort,
     limit: filters.limit,
+    page: normalizeProductsPage(filters.page),
   }
 }
 
@@ -107,4 +111,15 @@ export function isProductLimitOption(
   value: number,
 ): value is (typeof PRODUCT_LIMIT_OPTIONS)[number] {
   return PRODUCT_LIMIT_OPTIONS.some((option) => option === value)
+}
+
+export function resetProductFiltersPage(
+  filters: ProductFiltersState,
+): ProductFiltersState {
+  if (!filters.page) return filters
+
+  return {
+    ...filters,
+    page: undefined,
+  }
 }
