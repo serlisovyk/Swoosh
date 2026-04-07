@@ -1,0 +1,135 @@
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.media {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 20px;
+}
+
+.badge {
+  width: 84px;
+  height: 24px;
+  margin-bottom: 0;
+}
+
+.favoriteButton {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 0;
+  border-radius: 50%;
+}
+
+.image {
+  height: 272px;
+  margin-bottom: 16px;
+  border-radius: 0;
+}
+
+.sliderDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 40px;
+  height: 4px;
+  margin-bottom: 0;
+  border-radius: 999px;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.category {
+  width: 96px;
+  height: 12px;
+  margin-bottom: 0;
+}
+
+.title {
+  width: 80%;
+  height: 26px;
+  margin-bottom: 0;
+}
+
+.colorsRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.colorsLabel {
+  width: 56px;
+  height: 18px;
+  margin-bottom: 0;
+}
+
+.colorsList {
+  display: flex;
+  gap: 8px;
+}
+
+.color {
+  width: 16px;
+  height: 16px;
+  margin-bottom: 0;
+  border-radius: 50%;
+}
+
+.bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.price {
+  width: 88px;
+  height: 26px;
+  margin-bottom: 0;
+}
+
+.oldPrice {
+  width: 72px;
+  height: 20px;
+  margin-bottom: 0;
+}
+
+.cartButton {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0;
+  border-radius: 50%;
+}

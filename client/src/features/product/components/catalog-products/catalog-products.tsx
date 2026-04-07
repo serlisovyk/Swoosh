@@ -1,9 +1,10 @@
 'use client'
 
 import { ProductFilters } from '@features/filters'
-import { Breadcrumbs, Heading, List, Pagination, Skeleton } from '@shared/ui'
+import { Breadcrumbs, Heading, List, Pagination } from '@shared/ui'
 import { useCatalogPagination } from '../../hooks/use-catalog-pagination.hook'
 import { ProductCard } from '../product-card'
+import { ProductCardSkeleton } from '../product-card-skeleton'
 import { useGetProductsQuery } from '../../queries'
 import { CATALOG_BREADCRUMBS } from '../../constants'
 import styles from './catalog-products.module.css'
@@ -49,7 +50,9 @@ export function CatalogProducts() {
             <div className={styles.error}>Не удалось загрузить каталог.</div>
           )}
 
-          {isLoading && <Skeleton count={6} />}
+          {isLoading && (
+            <ProductCardSkeleton className={styles.grid} count={6} />
+          )}
 
           {isEmpty && <div className={styles.empty}>Ничего не найдено</div>}
 

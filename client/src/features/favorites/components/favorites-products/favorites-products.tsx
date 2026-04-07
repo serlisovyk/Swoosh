@@ -1,7 +1,7 @@
 'use client'
 
-import { ProductCard } from '@features/product'
-import { Breadcrumbs, Heading, List, Skeleton } from '@shared/ui'
+import { ProductCard, ProductCardSkeleton } from '@features/product'
+import { Breadcrumbs, Heading, List } from '@shared/ui'
 import { FavoritesEmpty } from '../favorites-empty'
 import { useFavoriteProductsQuery } from '../../queries'
 import { useFavoriteProductIds, useFavoritesHydrated } from '../../store'
@@ -34,7 +34,9 @@ export function FavoritesProducts() {
           </div>
         )}
 
-        {isInitialLoading && <Skeleton count={6} />}
+        {isInitialLoading && (
+          <ProductCardSkeleton className={styles.grid} count={6} />
+        )}
 
         {isEmpty && <FavoritesEmpty />}
 

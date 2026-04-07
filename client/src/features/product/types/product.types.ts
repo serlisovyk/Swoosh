@@ -61,6 +61,11 @@ export interface ProductCardProps {
   product: Product
 }
 
+export interface ProductCardSkeletonProps {
+  count?: number
+  className?: string
+}
+
 export interface ProductDetailsProps {
   productId: string
 }
