@@ -4,11 +4,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Heart, ListCollapse, Search, ShoppingBasket } from 'lucide-react'
 import { useFavoritesCount } from '@features/favorites'
+import { useGetProductFiltersQuery } from '@features/filters'
+import { serializeProductsParams } from '@features/product/utils'
 import { ROUTES } from '@shared/config'
 import styles from './header-bottom.module.css'
 
 export function HeaderBottom() {
   const favoritesCount = useFavoritesCount()
+
+  const { filterMetadata } = useGetProductFiltersQuery()
 
   return (
     <div className={styles.headerBottom}>
@@ -22,10 +26,27 @@ export function HeaderBottom() {
       </Link>
 
       <div className={styles.links}>
-        <Link href={ROUTES.CATALOG} className={styles.link}>
+        <Link href={ROUTES.CATALOG} className={styles.catalogLink}>
           <ListCollapse size={20} />
           Каталог
         </Link>
+
+        {!!filterMetadata.categories.length && (
+          <nav aria-label="Категории каталога" className={styles.categories}>
+            <ul className={styles.categoryList}>
+              {filterMetadata.categories.map(({ _id, name }) => (
+                <li key={_id}>
+                  <Link
+                    href={createCatalogHref(_id)}
+                    className={styles.categoryLink}
+                  >
+                    {name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </div>
 
       <div className={styles.icons}>
@@ -47,4 +68,10 @@ export function HeaderBottom() {
       </div>
     </div>
   )
+}
+
+function createCatalogHref(categoryId: string) {
+  const queryString = serializeProductsParams({ category: [categoryId] })
+
+  return `${ROUTES.CATALOG}?${queryString}`
 }

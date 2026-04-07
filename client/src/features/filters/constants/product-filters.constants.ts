@@ -42,6 +42,7 @@ export const PRODUCT_FILTER_QUERY_KEYS = [
   'size',
   'price',
   'colorName',
+  'category',
   'material',
   'sort',
   'limit',
@@ -52,5 +53,6 @@ export const EMPTY_PRODUCT_FILTERS_METADATA: ProductFiltersMetadata = {
   sizes: [],
   materials: [],
   colors: [],
+  categories: [],
   priceRange: PRODUCT_DEFAULT_PRICE_RANGE,
 }

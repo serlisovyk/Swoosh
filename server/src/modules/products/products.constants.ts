@@ -31,7 +31,8 @@ export const PRODUCT_SIZES_MIN_SIZE_ERROR =
   'Нужно указать хотя бы один размер товара'
 export const PRODUCT_SIZES_ITEM_NUMBER_ERROR =
   'Каждый размер товара должен быть числом'
-export const PRODUCT_SIZES_UNIQUE_ERROR = 'Размеры товара не должны повторяться'
+export const PRODUCT_SIZES_UNIQUE_ERROR =
+  'Размеры товара не должны повторяться'
 export const PRODUCT_MATERIAL_STRING_ERROR = 'Материал должен быть строкой'
 export const PRODUCT_MATERIAL_EMPTY_ERROR = 'Материал не должен быть пустым'
 export const PRODUCT_IS_HIT_BOOLEAN_ERROR =
@@ -63,6 +64,10 @@ export const PRODUCT_QUERY_COLOR_NAME_ARRAY_ERROR =
   'Фильтр цвета должен быть массивом'
 export const PRODUCT_QUERY_COLOR_NAME_STRING_ERROR =
   'Фильтр цвета должен содержать строки'
+export const PRODUCT_QUERY_CATEGORY_ARRAY_ERROR =
+  'Фильтр категории должен быть массивом'
+export const PRODUCT_QUERY_CATEGORY_FORMAT_ERROR =
+  'Фильтр категории должен содержать валидные MongoDB ObjectId'
 export const PRODUCT_QUERY_MATERIAL_ARRAY_ERROR =
   'Фильтр материала должен быть массивом'
 export const PRODUCT_QUERY_MATERIAL_STRING_ERROR =

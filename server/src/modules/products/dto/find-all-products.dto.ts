@@ -13,6 +13,7 @@ import {
 } from 'class-validator'
 import { toNumberArrayQueryParam, toStringArrayQueryParam } from '@shared/utils'
 import {
+  ProductsQueryCategoryPropertyDocs,
   ProductsQueryColorNamePropertyDocs,
   ProductsQueryIdsPropertyDocs,
   ProductsQueryLimitPropertyDocs,
@@ -23,6 +24,8 @@ import {
   ProductsQuerySortPropertyDocs,
 } from '../products.swagger'
 import {
+  PRODUCT_QUERY_CATEGORY_ARRAY_ERROR,
+  PRODUCT_QUERY_CATEGORY_FORMAT_ERROR,
   PRODUCT_QUERY_COLOR_NAME_ARRAY_ERROR,
   PRODUCT_QUERY_COLOR_NAME_STRING_ERROR,
   PRODUCT_QUERY_IDS_ARRAY_ERROR,
@@ -75,6 +78,14 @@ export class FindAllProductsDto {
   @IsString({ each: true, message: PRODUCT_QUERY_COLOR_NAME_STRING_ERROR })
   @ArrayUnique()
   colorName?: string[]
+
+  @ProductsQueryCategoryPropertyDocs()
+  @IsOptional()
+  @Transform(({ value }) => toStringArrayQueryParam(value))
+  @IsArray({ message: PRODUCT_QUERY_CATEGORY_ARRAY_ERROR })
+  @IsMongoId({ each: true, message: PRODUCT_QUERY_CATEGORY_FORMAT_ERROR })
+  @ArrayUnique()
+  category?: string[]
 
   @ProductsQueryMaterialPropertyDocs()
   @IsOptional()

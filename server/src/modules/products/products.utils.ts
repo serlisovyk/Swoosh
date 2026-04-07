@@ -12,7 +12,17 @@ import {
 export function buildProductListQueryOptions(
   dto: FindAllProductsDto,
 ): ProductListQueryOptions {
-  const { ids, size, price, colorName, material, sort, limit, page } = dto
+  const {
+    ids,
+    size,
+    price,
+    colorName,
+    category,
+    material,
+    sort,
+    limit,
+    page,
+  } = dto
 
   const filters: Record<string, unknown> = {}
 
@@ -43,6 +53,10 @@ export function buildProductListQueryOptions(
     filters.material = {
       $in: material.map((value) => createExactRegex(value)),
     }
+  }
+
+  if (category?.length) {
+    filters.category = { $in: category }
   }
 
   const sortOption = sort

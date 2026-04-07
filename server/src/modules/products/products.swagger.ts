@@ -168,6 +168,14 @@ export const ProductsQueryColorNamePropertyDocs =
     type: [String],
   })
 
+export const ProductsQueryCategoryPropertyDocs =
+  createOptionalPropertyDocsDecorator({
+    description:
+      'Filter by category ids. Accepts repeated query params or a comma-separated string.',
+    example: [PRODUCT_CATEGORY_ID_EXAMPLE],
+    type: [String],
+  })
+
 export const ProductsQueryMaterialPropertyDocs =
   createOptionalPropertyDocsDecorator({
     description:
@@ -224,6 +232,13 @@ export const ProductsFilterColorsPropertyDocs = createPropertyDocsDecorator({
   example: ['Black', 'White', 'Gray'],
   type: [String],
 })
+
+export function ProductsFilterCategoriesPropertyDocs(model: Type<unknown>) {
+  return ApiProperty({
+    description: 'Available product categories for the catalog filters.',
+    type: [model],
+  })
+}
 
 export const ProductsFilterPriceRangePropertyDocs = createPropertyDocsDecorator(
   {
@@ -314,6 +329,14 @@ export class ProductsColorResponseDocs {
   hex!: string
 }
 
+export class ProductsFilterCategoryResponseDocs {
+  @ProductsCategoryResponseIdPropertyDocs()
+  _id!: string
+
+  @ProductsCategoryNamePropertyDocs()
+  name!: string
+}
+
 export class ProductsResponseDocs {
   @ProductsResponseIdPropertyDocs()
   _id!: string
@@ -378,6 +401,9 @@ export class ProductsFiltersMetadataResponseDocs {
 
   @ProductsFilterColorsPropertyDocs()
   colors!: string[]
+
+  @ProductsFilterCategoriesPropertyDocs(ProductsFilterCategoryResponseDocs)
+  categories!: ProductsFilterCategoryResponseDocs[]
 
   @ProductsFilterPriceRangePropertyDocs()
   priceRange!: [number, number]

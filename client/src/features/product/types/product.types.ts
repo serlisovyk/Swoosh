@@ -51,6 +51,7 @@ export interface GetProductsParams {
   size?: number[]
   price?: ProductPriceRange
   colorName?: string[]
+  category?: string[]
   material?: string[]
   limit?: number
   page?: number

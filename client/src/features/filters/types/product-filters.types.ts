@@ -12,6 +12,7 @@ export interface ProductFiltersState {
   size?: number
   price?: ProductPriceRange
   colorName?: string
+  category?: string
   material?: string
   sort?: ProductSortOption
   limit?: number
@@ -22,6 +23,7 @@ export interface ProductFiltersQueryInput {
   size?: string[]
   price?: string[]
   colorName?: string[]
+  category?: string[]
   material?: string[]
   sort?: string | null
   limit?: string[]
@@ -49,6 +51,7 @@ export interface ProductFiltersMetadata {
   sizes: number[]
   materials: string[]
   colors: string[]
+  categories: ProductFilterCategory[]
   priceRange: ProductPriceRange
 }
 
@@ -56,5 +59,11 @@ export interface ProductFiltersMetadataResponse {
   sizes: number[]
   materials: string[]
   colors: string[]
+  categories: ProductFilterCategory[]
   priceRange: ProductPriceRange
+}
+
+export interface ProductFilterCategory {
+  _id: string
+  name: string
 }

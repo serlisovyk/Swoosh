@@ -89,7 +89,16 @@ const pageQuerySchema = queryArrayValueSchema.transform((values, context) => {
 export function parseProductFiltersQuery(
   query: ProductFiltersQueryInput,
 ): ProductFiltersState {
-  const { size, price, colorName, material, sort, limit, page } = query
+  const {
+    size,
+    price,
+    colorName,
+    category,
+    material,
+    sort,
+    limit,
+    page,
+  } = query
 
   const { success: sizeParseSuccess, data: sizeParseData } =
     singleNumberQuerySchema.safeParse(size ?? [])
@@ -99,6 +108,9 @@ export function parseProductFiltersQuery(
 
   const { success: colorNameParseSuccess, data: colorNameParseData } =
     singleStringQuerySchema.safeParse(colorName ?? [])
+
+  const { success: categoryParseSuccess, data: categoryParseData } =
+    singleStringQuerySchema.safeParse(category ?? [])
 
   const { success: materialParseSuccess, data: materialParseData } =
     singleStringQuerySchema.safeParse(material ?? [])
@@ -117,6 +129,7 @@ export function parseProductFiltersQuery(
     size: sizeParseSuccess ? sizeParseData : undefined,
     price: priceParseSuccess ? priceParseData : undefined,
     colorName: colorNameParseSuccess ? colorNameParseData : undefined,
+    category: categoryParseSuccess ? categoryParseData : undefined,
     material: materialParseSuccess ? materialParseData : undefined,
     sort: sortParseSuccess ? sortParseData : undefined,
     limit: limitParseSuccess ? limitParseData : undefined,
@@ -131,6 +144,7 @@ export function parseProductFiltersSearchParams(
     size: searchParams.getAll('size'),
     price: searchParams.getAll('price'),
     colorName: searchParams.getAll('colorName'),
+    category: searchParams.getAll('category'),
     material: searchParams.getAll('material'),
     sort: searchParams.get('sort'),
     limit: searchParams.getAll('limit'),

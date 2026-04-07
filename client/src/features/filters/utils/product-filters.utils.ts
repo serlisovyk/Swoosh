@@ -26,6 +26,7 @@ export function buildProductQueryParams(
     size: filters.size !== undefined ? [filters.size] : undefined,
     price: filters.price,
     colorName: filters.colorName ? [filters.colorName] : undefined,
+    category: filters.category ? [filters.category] : undefined,
     material: filters.material ? [filters.material] : undefined,
     sort: filters.sort,
     limit: filters.limit,
@@ -57,7 +58,8 @@ export function mapProductFiltersMetadata(
   if (
     !metadata.sizes.length &&
     !metadata.materials.length &&
-    !metadata.colors.length
+    !metadata.colors.length &&
+    !metadata.categories.length
   ) {
     return EMPTY_PRODUCT_FILTERS_METADATA
   }
@@ -66,6 +68,7 @@ export function mapProductFiltersMetadata(
     sizes: [...new Set(metadata.sizes)].sort((left, right) => left - right),
     materials: createSortedValues(metadata.materials),
     colors: createSortedValues(metadata.colors),
+    categories: createSortedCategories(metadata.categories),
     priceRange: normalizeRange(metadata.priceRange),
   }
 }
@@ -96,6 +99,12 @@ function createSortedValues<T extends string | number>(values: T[]) {
     }
 
     return String(left).localeCompare(String(right))
+  })
+}
+
+function createSortedCategories(categories: ProductFiltersMetadata['categories']) {
+  return [...categories].sort((left, right) => {
+    return left.name.localeCompare(right.name)
   })
 }
 

@@ -17,7 +17,13 @@ export interface ProductFiltersMetadata {
   sizes: number[]
   materials: string[]
   colors: string[]
+  categories: ProductFiltersCategory[]
   priceRange: [number, number]
+}
+
+export interface ProductFiltersCategory {
+  _id: string
+  name: string
 }
 
 export interface ProductPricingState {

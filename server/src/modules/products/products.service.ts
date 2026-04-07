@@ -71,6 +71,10 @@ export class ProductsService {
       'colors.name': { $nin: ['', null] },
     })
 
+    const getCategoryIds = this.productModel.distinct('category', {
+      category: { $ne: null },
+    })
+
     const getPriceStats = this.productModel.aggregate<ProductPriceRangeStats>([
       {
         $group: {
@@ -88,20 +92,29 @@ export class ProductsService {
       },
     ])
 
-    const [sizes, materials, colors, [priceStats]] = await Promise.all([
-      getSizes,
-      getMaterials,
-      getColors,
-      getPriceStats,
-    ])
+    const [sizes, materials, colors, categoryIds, [priceStats]] =
+      await Promise.all([
+        getSizes,
+        getMaterials,
+        getColors,
+        getCategoryIds,
+        getPriceStats,
+      ])
 
     const minPrice = priceStats?.minPrice ?? 0
     const maxPrice = priceStats?.maxPrice ?? minPrice
+
+    const categories = await this.categoryModel
+      .find({ _id: { $in: categoryIds } })
+      .select('_id name')
+      .sort({ name: 1 })
+      .lean()
 
     return {
       sizes,
       materials,
       colors,
+      categories,
       priceRange: [minPrice, maxPrice],
     }
   }

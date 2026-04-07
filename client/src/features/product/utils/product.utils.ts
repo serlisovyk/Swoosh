@@ -87,6 +87,7 @@ export function createProductsSearchParams(params?: GetProductsParams) {
   appendQueryArrayParam(searchParams, 'size', params.size)
   appendQueryArrayParam(searchParams, 'price', params.price)
   appendQueryArrayParam(searchParams, 'colorName', params.colorName)
+  appendQueryArrayParam(searchParams, 'category', params.category)
   appendQueryArrayParam(searchParams, 'material', params.material)
 
   if (params.limit !== undefined) {
