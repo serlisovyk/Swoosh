@@ -15,15 +15,17 @@ export function FooterInfo() {
       />
 
       <div className={styles.socials}>
-        {FOOTER_SOCIALS.map(({ name, link, icon }) => (
+        {FOOTER_SOCIALS.map(({ name, link, icon: Icon }) => (
           <Link
             key={name}
             href={link}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.link}
+            aria-label={name}
+            title={name}
           >
-            <Image src={icon} alt={name} width={40} height={40} />
+            <Icon size={24} className={styles.icon} aria-hidden="true" />
           </Link>
         ))}
       </div>

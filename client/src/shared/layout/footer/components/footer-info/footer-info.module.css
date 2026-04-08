@@ -9,5 +9,7 @@
 
 .link {
   background: var(--lighter-black);
+  color: var(--white);
   padding: 12px;
+  border-radius: 4px;
 }

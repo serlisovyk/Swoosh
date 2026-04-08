@@ -1,20 +1,21 @@
+import { Facebook, Instagram, Youtube } from 'lucide-react'
 import { ROUTES } from '@shared/config'
 
 export const FOOTER_SOCIALS = [
   {
-    name: 'Facebook',
+    name: 'Фейсбук',
     link: 'https://www.facebook.com',
-    icon: '/images/icons/facebook.svg',
+    icon: Facebook,
   },
   {
-    name: 'Google',
-    link: 'https://www.google.com',
-    icon: '/images/icons/google.svg',
+    name: 'Инстаграм',
+    link: 'https://www.instagram.com',
+    icon: Instagram,
   },
   {
-    name: 'Instagram',
-    link: 'https://www.instagram.com/yourprofile',
-    icon: '/images/icons/instagram.svg',
+    name: 'Ютуб',
+    link: 'https://www.youtube.com',
+    icon: Youtube,
   },
 ]
 
