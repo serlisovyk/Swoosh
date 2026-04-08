@@ -1,6 +1,6 @@
 'use client'
 
-import { ProductFilters } from '@features/filters'
+import { ProductFilters, useProductFilterParams } from '@features/filters'
 import { Breadcrumbs, Heading, List, Pagination } from '@shared/ui'
 import { useCatalogPagination } from '../../hooks/use-catalog-pagination.hook'
 import { ProductCard } from '../product-card'
@@ -10,6 +10,8 @@ import { CATALOG_BREADCRUMBS } from '../../constants'
 import styles from './catalog-products.module.css'
 
 export function CatalogProducts() {
+  const productParams = useProductFilterParams()
+
   const {
     products,
     total,
@@ -18,7 +20,7 @@ export function CatalogProducts() {
     isLoading,
     isFetching,
     error,
-  } = useGetProductsQuery()
+  } = useGetProductsQuery(productParams)
 
   const { getPageHref } = useCatalogPagination({
     currentPage,

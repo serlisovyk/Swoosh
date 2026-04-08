@@ -3,6 +3,7 @@ import {
   ArrayMaxSize,
   ArrayUnique,
   IsArray,
+  IsBoolean,
   IsEnum,
   IsInt,
   IsMongoId,
@@ -11,11 +12,19 @@ import {
   Max,
   Min,
 } from 'class-validator'
-import { toNumberArrayQueryParam, toStringArrayQueryParam } from '@shared/utils'
+import {
+  toBooleanQueryParam,
+  toNumberArrayQueryParam,
+  toStringArrayQueryParam,
+} from '@shared/utils'
 import {
   ProductsQueryCategoryPropertyDocs,
   ProductsQueryColorNamePropertyDocs,
+  ProductsQueryExcludeIdsPropertyDocs,
+  ProductsQueryHasDiscountPropertyDocs,
   ProductsQueryIdsPropertyDocs,
+  ProductsQueryIsHitPropertyDocs,
+  ProductsQueryIsNewArrivalPropertyDocs,
   ProductsQueryLimitPropertyDocs,
   ProductsQueryMaterialPropertyDocs,
   ProductsQueryPagePropertyDocs,
@@ -28,8 +37,11 @@ import {
   PRODUCT_QUERY_CATEGORY_FORMAT_ERROR,
   PRODUCT_QUERY_COLOR_NAME_ARRAY_ERROR,
   PRODUCT_QUERY_COLOR_NAME_STRING_ERROR,
+  PRODUCT_QUERY_HAS_DISCOUNT_BOOLEAN_ERROR,
   PRODUCT_QUERY_IDS_ARRAY_ERROR,
   PRODUCT_QUERY_IDS_FORMAT_ERROR,
+  PRODUCT_QUERY_IS_HIT_BOOLEAN_ERROR,
+  PRODUCT_QUERY_IS_NEW_ARRIVAL_BOOLEAN_ERROR,
   PRODUCT_QUERY_LIMIT_MAX_ERROR,
   PRODUCT_QUERY_LIMIT_MIN_ERROR,
   PRODUCT_QUERY_LIMIT_NUMBER_ERROR,
@@ -54,6 +66,14 @@ export class FindAllProductsDto {
   @IsMongoId({ each: true, message: PRODUCT_QUERY_IDS_FORMAT_ERROR })
   @ArrayUnique()
   ids?: string[]
+
+  @ProductsQueryExcludeIdsPropertyDocs()
+  @IsOptional()
+  @Transform(({ value }) => toStringArrayQueryParam(value))
+  @IsArray({ message: PRODUCT_QUERY_IDS_ARRAY_ERROR })
+  @IsMongoId({ each: true, message: PRODUCT_QUERY_IDS_FORMAT_ERROR })
+  @ArrayUnique()
+  excludeIds?: string[]
 
   @ProductsQuerySizePropertyDocs()
   @IsOptional()
@@ -94,6 +114,24 @@ export class FindAllProductsDto {
   @IsString({ each: true, message: PRODUCT_QUERY_MATERIAL_STRING_ERROR })
   @ArrayUnique()
   material?: string[]
+
+  @ProductsQueryIsHitPropertyDocs()
+  @IsOptional()
+  @Transform(({ value }) => toBooleanQueryParam(value))
+  @IsBoolean({ message: PRODUCT_QUERY_IS_HIT_BOOLEAN_ERROR })
+  isHit?: boolean
+
+  @ProductsQueryIsNewArrivalPropertyDocs()
+  @IsOptional()
+  @Transform(({ value }) => toBooleanQueryParam(value))
+  @IsBoolean({ message: PRODUCT_QUERY_IS_NEW_ARRIVAL_BOOLEAN_ERROR })
+  isNewArrival?: boolean
+
+  @ProductsQueryHasDiscountPropertyDocs()
+  @IsOptional()
+  @Transform(({ value }) => toBooleanQueryParam(value))
+  @IsBoolean({ message: PRODUCT_QUERY_HAS_DISCOUNT_BOOLEAN_ERROR })
+  hasDiscount?: boolean
 
   @ProductsQueryLimitPropertyDocs()
   @IsOptional()

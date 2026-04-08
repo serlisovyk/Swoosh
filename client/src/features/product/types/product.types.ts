@@ -48,11 +48,16 @@ export type ProductSortOption = 'newest' | 'oldest' | 'priceAsc' | 'priceDesc'
 export type ProductPriceRange = [number, number]
 
 export interface GetProductsParams {
+  ids?: string[]
+  excludeIds?: string[]
   size?: number[]
   price?: ProductPriceRange
   colorName?: string[]
   category?: string[]
   material?: string[]
+  isHit?: boolean
+  isNewArrival?: boolean
+  hasDiscount?: boolean
   limit?: number
   page?: number
   sort?: ProductSortOption
@@ -69,6 +74,10 @@ export interface ProductCardSkeletonProps {
 
 export interface ProductDetailsProps {
   productId: string
+}
+
+export interface GetProductsQueryOptions {
+  enabled?: boolean
 }
 
 export interface ProductSizeTableRow {
@@ -137,6 +146,23 @@ export interface ProductDetailsTabsProps {
 
 export interface ProductBadgeProps {
   product: Product
+}
+
+export interface ProductDetailsRecommendationsProps {
+  product: Product
+}
+
+export interface ProductDetailsProductsCarouselSectionProps {
+  title: string
+  products: Product[]
+  isLoading: boolean
+  error: unknown
+}
+
+export interface ProductDetailsRecommendationCarouselProps {
+  products: Product[]
+  isLoading: boolean
+  error: unknown
 }
 
 export interface SingleProductPageProps {

@@ -1,0 +1,32 @@
+.errorSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.errorHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.errorTitle {
+  max-width: 12ch;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.errorMessage {
+  margin: 0;
+  color: var(--error);
+}
+
+@media (width <= 767px) {
+  .errorTitle {
+    font-size: 20px;
+    line-height: 150%;
+  }
+}

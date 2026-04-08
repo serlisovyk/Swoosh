@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+  padding: 88px 0 80px;
+}
+
+.wrapper > * + * {
+  padding-top: 72px;
+  border-top: 1px solid var(--border-color);
+}
+
+@media (width <= 991px) {
+  .wrapper {
+    gap: 56px;
+    padding: 72px 0 60px;
+  }
+
+  .wrapper > * + * {
+    padding-top: 56px;
+  }
+}
+
+@media (width <= 767px) {
+  .wrapper {
+    gap: 44px;
+    padding: 56px 0 48px;
+  }
+
+  .wrapper > * + * {
+    padding-top: 44px;
+  }
+}

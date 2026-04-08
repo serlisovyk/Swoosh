@@ -38,15 +38,22 @@ export class ProductsService {
   private readonly categorySelectFields = '-__v'
 
   async findAll(dto: FindAllProductsDto) {
-    const { filters, ids, limit, skip, sort } =
+    const { excludeIds, filters, ids, limit, skip, sort } =
       buildProductListQueryOptions(dto)
 
     if (ids?.length) {
-      return this.findAllByIds(ids, filters)
+      return this.findAllByIds(ids, filters, excludeIds)
     }
 
+    const queryFilters = excludeIds?.length
+      ? {
+          ...filters,
+          _id: { $nin: excludeIds },
+        }
+      : filters
+
     const data = this.productModel
-      .find(filters)
+      .find(queryFilters)
       .sort(sort)
       .skip(skip)
       .limit(limit)
@@ -54,7 +61,7 @@ export class ProductsService {
       .populate('category', this.categorySelectFields)
       .lean()
 
-    const count = this.productModel.countDocuments(filters)
+    const count = this.productModel.countDocuments(queryFilters)
 
     const [products, total] = await Promise.all([data, count])
 
@@ -238,11 +245,16 @@ export class ProductsService {
   private async findAllByIds(
     productIds: string[],
     filters: Record<string, unknown>,
+    excludeIds?: string[],
   ) {
+    const filteredProductIds = excludeIds?.length
+      ? productIds.filter((productId) => !excludeIds.includes(productId))
+      : productIds
+
     const products = await this.productModel
       .find({
         ...filters,
-        _id: { $in: productIds },
+        _id: { $in: filteredProductIds },
       })
       .select(this.productSelectFields)
       .populate('category', this.categorySelectFields)
@@ -252,7 +264,7 @@ export class ProductsService {
       products.map((product) => [String(product._id), product]),
     )
 
-    const orderedProducts = productIds.flatMap((productId) => {
+    const orderedProducts = filteredProductIds.flatMap((productId) => {
       const product = productsMap.get(productId)
       return product ? [product] : []
     })

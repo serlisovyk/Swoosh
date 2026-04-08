@@ -31,8 +31,7 @@ export const PRODUCT_SIZES_MIN_SIZE_ERROR =
   'Нужно указать хотя бы один размер товара'
 export const PRODUCT_SIZES_ITEM_NUMBER_ERROR =
   'Каждый размер товара должен быть числом'
-export const PRODUCT_SIZES_UNIQUE_ERROR =
-  'Размеры товара не должны повторяться'
+export const PRODUCT_SIZES_UNIQUE_ERROR = 'Размеры товара не должны повторяться'
 export const PRODUCT_MATERIAL_STRING_ERROR = 'Материал должен быть строкой'
 export const PRODUCT_MATERIAL_EMPTY_ERROR = 'Материал не должен быть пустым'
 export const PRODUCT_IS_HIT_BOOLEAN_ERROR =
@@ -72,6 +71,12 @@ export const PRODUCT_QUERY_MATERIAL_ARRAY_ERROR =
   'Фильтр материала должен быть массивом'
 export const PRODUCT_QUERY_MATERIAL_STRING_ERROR =
   'Фильтр материала должен содержать строки'
+export const PRODUCT_QUERY_IS_HIT_BOOLEAN_ERROR =
+  'Фильтр isHit должен быть булевым значением'
+export const PRODUCT_QUERY_IS_NEW_ARRIVAL_BOOLEAN_ERROR =
+  'Фильтр isNewArrival должен быть булевым значением'
+export const PRODUCT_QUERY_HAS_DISCOUNT_BOOLEAN_ERROR =
+  'Фильтр hasDiscount должен быть булевым значением'
 export const PRODUCT_QUERY_PRICE_ARRAY_ERROR =
   'Фильтр цены должен быть массивом'
 export const PRODUCT_QUERY_PRICE_NUMBER_ERROR =

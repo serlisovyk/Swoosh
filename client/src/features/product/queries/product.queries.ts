@@ -2,29 +2,35 @@
 
 import { useEffect, useState } from 'react'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { useProductFilterParams } from '@features/filters'
 import { API_QUERY_KEYS } from '@shared/api'
 import { productService } from '../services'
 import { DEFAULT_PRODUCTS_LIMIT, PRICE_QUERY_DEBOUNCE_MS } from '../constants'
 import { normalizeProductsPage } from '../utils'
-import type { ProductPriceRange } from '../types'
+import type {
+  GetProductsParams,
+  GetProductsQueryOptions,
+  ProductPriceRange,
+} from '../types'
 
-export function useGetProductsQuery() {
-  const productParams = useProductFilterParams()
+export function useGetProductsQuery(
+  params?: GetProductsParams,
+  options?: GetProductsQueryOptions,
+) {
   const debouncedPriceValue = useDebouncedValue(
-    stringifyPriceRange(productParams.price),
+    stringifyPriceRange(params?.price),
     PRICE_QUERY_DEBOUNCE_MS,
   )
 
   const queryParams = {
-    ...productParams,
+    ...params,
     price: parsePriceRange(debouncedPriceValue),
-    page: normalizeProductsPage(productParams.page),
+    page: normalizeProductsPage(params?.page),
   }
 
   const { data, error, isLoading, isFetching } = useQuery({
     queryKey: [API_QUERY_KEYS.PRODUCTS, queryParams],
     queryFn: () => productService.getProducts(queryParams),
+    enabled: options?.enabled ?? true,
     placeholderData: keepPreviousData,
   })
 

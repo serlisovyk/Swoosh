@@ -8,6 +8,19 @@ export function toNumberArrayQueryParam(value: unknown): number[] | undefined {
   return values?.map((item) => Number(item))
 }
 
+export function toBooleanQueryParam(value: unknown): unknown {
+  if (typeof value === 'boolean') return value
+
+  if (typeof value === 'string') {
+    const normalizedValue = value.trim().toLowerCase()
+
+    if (normalizedValue === 'true') return true
+    if (normalizedValue === 'false') return false
+  }
+
+  return value
+}
+
 function toQueryArray(value: unknown): string[] | undefined {
   if (value === undefined || value === null || value === '') return undefined
 

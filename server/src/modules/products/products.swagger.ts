@@ -184,6 +184,27 @@ export const ProductsQueryMaterialPropertyDocs =
     type: [String],
   })
 
+export const ProductsQueryIsHitPropertyDocs =
+  createOptionalPropertyDocsDecorator({
+    description: 'Filter by products marked as hits.',
+    example: true,
+    type: Boolean,
+  })
+
+export const ProductsQueryIsNewArrivalPropertyDocs =
+  createOptionalPropertyDocsDecorator({
+    description: 'Filter by products marked as new arrivals.',
+    example: true,
+    type: Boolean,
+  })
+
+export const ProductsQueryHasDiscountPropertyDocs =
+  createOptionalPropertyDocsDecorator({
+    description: 'Filter by products with or without a discount.',
+    example: true,
+    type: Boolean,
+  })
+
 export const ProductsQueryLimitPropertyDocs =
   createOptionalPropertyDocsDecorator({
     description: 'Maximum number of products returned.',
@@ -212,6 +233,14 @@ export const ProductsQueryIdsPropertyDocs =
     description:
       'Specific product ids to load. Accepts repeated query params or a comma-separated string.',
     example: [PRODUCT_ID_EXAMPLE, PRODUCT_CATEGORY_ID_EXAMPLE],
+    type: [String],
+  })
+
+export const ProductsQueryExcludeIdsPropertyDocs =
+  createOptionalPropertyDocsDecorator({
+    description:
+      'Product ids to exclude from the result. Accepts repeated query params or a comma-separated string.',
+    example: [PRODUCT_ID_EXAMPLE],
     type: [String],
   })
 

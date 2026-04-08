@@ -84,11 +84,16 @@ export function createProductsSearchParams(params?: GetProductsParams) {
 
   if (!params) return searchParams
 
+  appendQueryArrayParam(searchParams, 'ids', params.ids)
+  appendQueryArrayParam(searchParams, 'excludeIds', params.excludeIds)
   appendQueryArrayParam(searchParams, 'size', params.size)
   appendQueryArrayParam(searchParams, 'price', params.price)
   appendQueryArrayParam(searchParams, 'colorName', params.colorName)
   appendQueryArrayParam(searchParams, 'category', params.category)
   appendQueryArrayParam(searchParams, 'material', params.material)
+  appendBooleanQueryParam(searchParams, 'isHit', params.isHit)
+  appendBooleanQueryParam(searchParams, 'isNewArrival', params.isNewArrival)
+  appendBooleanQueryParam(searchParams, 'hasDiscount', params.hasDiscount)
 
   if (params.limit !== undefined) {
     searchParams.set('limit', String(params.limit))
@@ -119,6 +124,16 @@ export function normalizeProductsPage(page?: number) {
 function normalizeSalePercent(value: number) {
   if (value > 0 && value < 1) return Math.round(value * 100)
   return Math.round(value)
+}
+
+function appendBooleanQueryParam(
+  searchParams: URLSearchParams,
+  key: string,
+  value?: boolean,
+) {
+  if (value === undefined) return
+
+  searchParams.set(key, String(value))
 }
 
 export function prepareDescriptionText(description: string) {

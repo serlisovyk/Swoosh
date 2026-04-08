@@ -2,6 +2,7 @@ export { CatalogProducts } from './components/catalog-products'
 export { ProductDetails } from './components/product-details'
 export { ProductCard } from './components/product-card'
 export { ProductCardSkeleton } from './components/product-card-skeleton'
+export { useGetProductsQuery } from './queries'
 export {
   createProductsSearchParams,
   normalizeProductsPage,

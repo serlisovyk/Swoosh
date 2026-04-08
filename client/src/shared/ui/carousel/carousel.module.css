@@ -1,0 +1,126 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.headerContainer {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+.heading {
+  flex: 1 1 auto;
+  max-width: 12ch;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
+  gap: 8px;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--dark-black);
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    border-color: var(--dark-black);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.bodyContained {
+  width: 100%;
+}
+
+.bodyBleedRight {
+  overflow: hidden;
+  padding-left: max(15px, calc((100vw - 1360px) / 2 + 15px));
+}
+
+.viewport {
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.track {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+.trackBleedRight {
+  padding-right: 15px;
+}
+
+.slide {
+  flex: 0 0 clamp(280px, 30vw, 390px);
+  min-width: 0;
+}
+
+.slide > * {
+  height: 100%;
+}
+
+@media (width <= 1024px) {
+  .slide {
+    flex-basis: clamp(260px, 42vw, 340px);
+  }
+}
+
+@media (width <= 767px) {
+  .section {
+    gap: 20px;
+  }
+
+  .header {
+    align-items: flex-end;
+    gap: 16px;
+  }
+
+  .controls {
+    gap: 6px;
+  }
+
+  .control {
+    width: 40px;
+    height: 40px;
+  }
+
+  .track {
+    gap: 16px;
+  }
+
+  .slide {
+    flex-basis: min(82vw, 320px);
+  }
+}

@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { ROUTES } from '@shared/config'
 import { useGetProductByIdQuery } from '../../queries'
 import { ProductDetailsSkeleton } from './components/product-details-skeleton'
+import { ProductDetailsRecommendations } from './components/product-details-recommendations'
 import { ProductDetailsGallery } from './components/product-details-gallery'
 import { ProductDetailsInfo } from './components/product-details-info'
 import type { ProductDetailsProps } from '../../types'
@@ -37,11 +38,15 @@ export function ProductDetails({ productId }: ProductDetailsProps) {
   }
 
   return (
-    <div className={cn(styles.wrapper, 'container')}>
-      <div className={styles.layout}>
-        <ProductDetailsGallery product={product} />
-        <ProductDetailsInfo product={product} />
+    <>
+      <div className={cn(styles.wrapper, 'container')}>
+        <div className={styles.layout}>
+          <ProductDetailsGallery product={product} />
+          <ProductDetailsInfo product={product} />
+        </div>
       </div>
-    </div>
+
+      <ProductDetailsRecommendations product={product} />
+    </>
   )
 }

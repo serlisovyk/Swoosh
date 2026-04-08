@@ -14,11 +14,15 @@ export function buildProductListQueryOptions(
 ): ProductListQueryOptions {
   const {
     ids,
+    excludeIds,
     size,
     price,
     colorName,
     category,
     material,
+    isHit,
+    isNewArrival,
+    hasDiscount,
     sort,
     limit,
     page,
@@ -59,6 +63,18 @@ export function buildProductListQueryOptions(
     filters.category = { $in: category }
   }
 
+  if (isHit !== undefined) {
+    filters.isHit = isHit
+  }
+
+  if (isNewArrival !== undefined) {
+    filters.isNewArrival = isNewArrival
+  }
+
+  if (hasDiscount !== undefined) {
+    filters.saleCF = hasDiscount ? { $gt: 0 } : { $lte: 0 }
+  }
+
   const sortOption = sort
     ? PRODUCT_SORT_MAP[sort]
     : PRODUCT_SORT_MAP[PRODUCT_SORT_OPTIONS.NEWEST]
@@ -70,6 +86,7 @@ export function buildProductListQueryOptions(
   return {
     filters,
     ids,
+    excludeIds,
     sort: sortOption,
     limit: limitOption,
     skip,

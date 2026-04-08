@@ -1,0 +1,19 @@
+.showcase {
+  padding-block: 56px 24px;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+
+@media (width <= 767px) {
+  .showcase {
+    padding-block: 40px 12px;
+  }
+
+  .sections {
+    gap: 48px;
+  }
+}
