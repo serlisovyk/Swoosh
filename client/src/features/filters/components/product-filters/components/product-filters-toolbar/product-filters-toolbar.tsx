@@ -4,7 +4,7 @@ import cn from 'clsx'
 import { useProductFiltersContext } from '../../../../context'
 import { ProductLimitFilter } from '../product-limit-filter'
 import { ProductSortFilter } from '../product-sort-filter'
-import { ProductFiltersToolbarProps } from '../../../../types'
+import type { ProductFiltersToolbarProps } from '../../../../types'
 import styles from './product-filters-toolbar.module.css'
 
 export function ProductFiltersToolbar({
@@ -19,8 +19,9 @@ export function ProductFiltersToolbar({
       className={cn(styles.wrapper, {
         [styles.wrapperPending]: isUpdating || isPending,
       })}
+      aria-busy={isUpdating || isPending}
     >
-      <div className={styles.total}>
+      <div className={styles.total} aria-live="polite" aria-atomic="true">
         Показано {shownCount} из {totalCount} товаров
       </div>
 

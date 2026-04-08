@@ -116,44 +116,6 @@ export function normalizeProductsPage(page?: number) {
   return page
 }
 
-export function createProductsPaginationHref(
-  pathname: string,
-  rawSearchParams: string,
-  page?: number,
-) {
-  const nextSearchParams = new URLSearchParams(rawSearchParams)
-  const normalizedPage = normalizeProductsPage(page)
-
-  if (normalizedPage === undefined) {
-    nextSearchParams.delete('page')
-  } else {
-    nextSearchParams.set('page', String(normalizedPage))
-  }
-
-  const nextQueryString = nextSearchParams.toString()
-
-  return nextQueryString ? `${pathname}?${nextQueryString}` : pathname
-}
-
-export function getProductsPaginationCorrectionHref(
-  pathname: string,
-  rawSearchParams: string,
-  currentPage: number,
-  totalPages: number,
-) {
-  const lastAvailablePage = totalPages > 0 ? totalPages : 1
-
-  if (currentPage <= lastAvailablePage) {
-    return null
-  }
-
-  return createProductsPaginationHref(
-    pathname,
-    rawSearchParams,
-    lastAvailablePage,
-  )
-}
-
 function normalizeSalePercent(value: number) {
   if (value > 0 && value < 1) return Math.round(value * 100)
   return Math.round(value)

@@ -2,11 +2,6 @@ import type {
   ProductPriceRange,
   ProductSortOption,
 } from '@features/product/types'
-import { useProductFilters } from '../hooks'
-
-export type ProductFiltersContextValue = ReturnType<
-  typeof useProductFilters
-> | null
 
 export interface ProductFiltersState {
   size?: number
@@ -19,15 +14,23 @@ export interface ProductFiltersState {
   page?: number
 }
 
-export interface ProductFiltersQueryInput {
-  size?: string[]
-  price?: string[]
-  colorName?: string[]
-  category?: string[]
-  material?: string[]
-  sort?: string | null
-  limit?: string[]
-  page?: string[]
+export interface ProductFiltersContextValue {
+  filters: ProductFiltersState
+  filterMetadata: ProductFiltersMetadata
+  selectedLimit: number
+  selectedSort: ProductSortOption
+  isPending: boolean
+  hasMetadataError: boolean
+  areMetadataFiltersDisabled: boolean
+  hasActiveFilters: boolean
+  setSize: (size?: number) => void
+  setPrice: (price: ProductPriceRange, bounds: ProductPriceRange) => void
+  setColorName: (colorName?: string) => void
+  setMaterial: (material?: string) => void
+  setSort: (sort?: ProductSortOption) => void
+  setLimit: (limit?: number) => void
+  setPage: (page?: number) => void
+  resetFilters: () => void
 }
 
 export interface ProductFiltersProps {
@@ -55,13 +58,7 @@ export interface ProductFiltersMetadata {
   priceRange: ProductPriceRange
 }
 
-export interface ProductFiltersMetadataResponse {
-  sizes: number[]
-  materials: string[]
-  colors: string[]
-  categories: ProductFilterCategory[]
-  priceRange: ProductPriceRange
-}
+export type ProductFiltersMetadataResponse = ProductFiltersMetadata
 
 export interface ProductFilterCategory {
   _id: string

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Heart, ListCollapse, Search, ShoppingBasket } from 'lucide-react'
 import { useFavoritesCount } from '@features/favorites'
 import { useGetProductFiltersQuery } from '@features/filters'
-import { serializeProductsParams } from '@features/product/utils'
+import { createProductFiltersHref } from '@features/filters/utils'
 import { ROUTES } from '@shared/config'
 import styles from './header-bottom.module.css'
 
@@ -71,7 +71,7 @@ export function HeaderBottom() {
 }
 
 function createCatalogHref(categoryId: string) {
-  const queryString = serializeProductsParams({ category: [categoryId] })
-
-  return `${ROUTES.CATALOG}?${queryString}`
+  return createProductFiltersHref(ROUTES.CATALOG, '', {
+    category: categoryId,
+  })
 }

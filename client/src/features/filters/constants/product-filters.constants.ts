@@ -8,6 +8,8 @@ export const PRODUCT_FILTER_ALL_VALUE = '__all__'
 
 export const PRODUCT_DEFAULT_PRICE_RANGE: ProductPriceRange = [0, 1000]
 
+export const PRODUCT_FILTERS_STALE_TIME_MS = 5 * 60 * 1000 // 5 minutes
+
 export const PRODUCT_LIMIT_OPTIONS = [9, 12, 18, 24] as const
 
 export const PRODUCT_DEFAULT_SORT: ProductSortOption = 'newest'
@@ -37,17 +39,6 @@ export const PRODUCT_SORT_OPTIONS: ProductFilterOption[] = [
     value: 'priceDesc',
   },
 ]
-
-export const PRODUCT_FILTER_QUERY_KEYS = [
-  'size',
-  'price',
-  'colorName',
-  'category',
-  'material',
-  'sort',
-  'limit',
-  'page',
-] as const
 
 export const EMPTY_PRODUCT_FILTERS_METADATA: ProductFiltersMetadata = {
   sizes: [],

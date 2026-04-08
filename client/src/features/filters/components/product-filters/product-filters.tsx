@@ -1,7 +1,7 @@
 import { ProductFiltersProvider } from '../../context'
 import { ProductFiltersBar } from './components/product-filters-bar'
 import { ProductFiltersToolbar } from './components/product-filters-toolbar'
-import { ProductFiltersProps } from '../../types'
+import type { ProductFiltersProps } from '../../types'
 import styles from './product-filters.module.css'
 
 export function ProductFilters({
@@ -11,7 +11,7 @@ export function ProductFilters({
 }: ProductFiltersProps) {
   return (
     <ProductFiltersProvider>
-      <section className={styles.wrapper}>
+      <section className={styles.wrapper} aria-label="Фильтры каталога">
         <ProductFiltersBar />
 
         <ProductFiltersToolbar

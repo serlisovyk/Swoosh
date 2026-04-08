@@ -1,92 +1,111 @@
 'use client'
 
-import { useCallback, useEffect, useTransition } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useRef, useTransition } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useQueryStates } from 'nuqs'
 import { DEFAULT_PRODUCTS_LIMIT } from '@features/product/constants'
 import { normalizeProductsPage } from '@features/product/utils'
-import type { ProductPriceRange, ProductSortOption } from '@features/product/types'
+import type {
+  ProductPriceRange,
+  ProductSortOption,
+} from '@features/product/types'
 import { PRODUCT_DEFAULT_SORT } from '../constants'
-import { parseProductFiltersSearchParams } from '../schemas'
 import {
-  createProductFiltersUrl,
+  buildProductFiltersSearchParamsUpdate,
+  createProductFiltersHref,
+  hasActiveProductFilters,
+  normalizeProductLimitValue,
+  normalizeProductFiltersSearchState,
   normalizeProductPriceRange,
-  resetProductFiltersPage,
+  productFiltersSearchParams,
 } from '../utils'
-import type { ProductFiltersState } from '../types'
 
 export function useProductFilters() {
-  const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const hasResolvedInitialUrlRef = useRef(false)
 
   const [isPending, startTransition] = useTransition()
 
-  const rawSearchParams = searchParams.toString()
+  const [queryFilters, setQueryFilters] = useQueryStates(
+    productFiltersSearchParams,
+    {
+      scroll: false,
+      shallow: true,
+      startTransition,
+    },
+  )
 
+  const rawSearchParams = searchParams.toString()
   const currentUrl = rawSearchParams
     ? `${pathname}?${rawSearchParams}`
     : pathname
 
-  const filters = parseProductFiltersSearchParams(searchParams)
-
-  const replaceUrl = useCallback(
-    (nextUrl: string) => {
-      if (nextUrl === currentUrl) return
-      startTransition(() => router.replace(nextUrl, { scroll: false }))
-    },
-    [currentUrl, router, startTransition],
+  const filters = normalizeProductFiltersSearchState(queryFilters)
+  const canonicalQueryFilters = buildProductFiltersSearchParamsUpdate(filters)
+  const canonicalUrl = createProductFiltersHref(
+    pathname,
+    rawSearchParams,
+    filters,
   )
 
-  const updateUrl = (nextFilters: ProductFiltersState) => {
-    replaceUrl(createProductFiltersUrl(pathname, rawSearchParams, nextFilters))
-  }
-
   useEffect(() => {
-    replaceUrl(createProductFiltersUrl(pathname, rawSearchParams, filters))
-  }, [filters, pathname, rawSearchParams, replaceUrl])
+    if (hasResolvedInitialUrlRef.current) {
+      return
+    }
+
+    hasResolvedInitialUrlRef.current = true
+
+    if (canonicalUrl === currentUrl) {
+      return
+    }
+
+    void setQueryFilters(canonicalQueryFilters)
+  }, [canonicalQueryFilters, canonicalUrl, currentUrl, setQueryFilters])
 
   const setSize = (size?: number) =>
-    updateUrl(resetProductFiltersPage({ ...filters, size }))
+    void setQueryFilters({ size: size ?? null, page: null })
 
   const setMaterial = (material?: string) =>
-    updateUrl(resetProductFiltersPage({ ...filters, material }))
+    void setQueryFilters({ material: material ?? null, page: null })
 
   const setSort = (sort?: ProductSortOption) =>
-    updateUrl(resetProductFiltersPage({ ...filters, sort }))
+    void setQueryFilters({ sort: sort ?? null, page: null })
 
   const setLimit = (limit?: number) =>
-    updateUrl(resetProductFiltersPage({ ...filters, limit }))
+    void setQueryFilters({
+      limit: normalizeProductLimitValue(limit) ?? null,
+      page: null,
+    })
 
   const setColorName = (colorName?: string) => {
-    updateUrl(resetProductFiltersPage({ ...filters, colorName }))
+    void setQueryFilters({ colorName: colorName ?? null, page: null })
   }
 
   const setPrice = (price: ProductPriceRange, bounds: ProductPriceRange) => {
-    updateUrl(
-      resetProductFiltersPage({
-        ...filters,
-        price: normalizeProductPriceRange(price, bounds),
-      }),
-    )
+    void setQueryFilters({
+      price: normalizeProductPriceRange(price, bounds) ?? null,
+      page: null,
+    })
   }
 
   const setPage = (page?: number) =>
-    updateUrl({ ...filters, page: normalizeProductsPage(page) })
+    void setQueryFilters({ page: normalizeProductsPage(page) ?? null })
 
   const resetFilters = () => {
-    updateUrl({})
+    void setQueryFilters(null)
   }
 
   const selectedLimit = filters.limit ?? DEFAULT_PRODUCTS_LIMIT
-  const selectedPage = filters.page ?? 1
   const selectedSort = filters.sort ?? PRODUCT_DEFAULT_SORT
+  const hasActiveFilters = hasActiveProductFilters(filters)
 
   return {
     filters,
     selectedLimit,
-    selectedPage,
     selectedSort,
     isPending,
+    hasActiveFilters,
     setSize,
     setColorName,
     setMaterial,

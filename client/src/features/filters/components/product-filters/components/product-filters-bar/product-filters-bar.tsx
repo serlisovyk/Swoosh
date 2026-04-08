@@ -10,29 +10,36 @@ import { ResetFiltersButton } from '../reset-filters-button'
 import styles from './product-filters-bar.module.css'
 
 export function ProductFiltersBar() {
-  const { isPending } = useProductFiltersContext()
-
-  const filters = [
-    <ProductSizeFilter key="size" />,
-    <ProductPriceFilter key="price" />,
-    <ProductColorFilter key="color" />,
-    <ProductMaterialFilter key="material" />,
-  ]
+  const { hasMetadataError, isPending } = useProductFiltersContext()
 
   return (
-    <section className={cn(styles.bar, { [styles.pending]: isPending })}>
-      {filters.map((filter) => (
-        <div
-          key={filter.key}
-          className={cn(styles.item, {
-            [styles.priceItem]: filter.key === 'price',
-          })}
-        >
-          {filter}
-        </div>
-      ))}
+    <div
+      className={cn(styles.bar, { [styles.pending]: isPending })}
+      aria-busy={isPending}
+    >
+      <div className={styles.item}>
+        <ProductSizeFilter />
+      </div>
+
+      <div className={cn(styles.item, styles.priceItem)}>
+        <ProductPriceFilter />
+      </div>
+
+      <div className={styles.item}>
+        <ProductColorFilter />
+      </div>
+
+      <div className={styles.item}>
+        <ProductMaterialFilter />
+      </div>
 
       <ResetFiltersButton />
-    </section>
+
+      {hasMetadataError && (
+        <div className={styles.message} role="status" aria-live="polite">
+          Часть фильтров временно недоступна
+        </div>
+      )}
+    </div>
   )
 }

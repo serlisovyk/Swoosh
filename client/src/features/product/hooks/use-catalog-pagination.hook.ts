@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import {
   createProductsPaginationHref,
   getProductsPaginationCorrectionHref,
-} from '../utils'
+} from '@features/filters/utils'
 
 interface UseCatalogPaginationParams {
   currentPage: number

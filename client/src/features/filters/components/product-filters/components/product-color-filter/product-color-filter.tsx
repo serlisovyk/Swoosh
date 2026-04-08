@@ -1,12 +1,14 @@
 import { Select } from '@shared/form'
 import { useProductFiltersContext } from '../../../../context'
-import { useGetProductFiltersQuery } from '../../../../queries'
 import { PRODUCT_FILTER_ALL_VALUE } from '../../../../constants'
 
 export function ProductColorFilter() {
-  const { filters, setColorName } = useProductFiltersContext()
-
-  const { filterMetadata } = useGetProductFiltersQuery()
+  const {
+    filters,
+    filterMetadata,
+    areMetadataFiltersDisabled,
+    setColorName,
+  } = useProductFiltersContext()
 
   const colorOptions = [
     { label: 'Все цвета', value: PRODUCT_FILTER_ALL_VALUE },
@@ -33,6 +35,7 @@ export function ProductColorFilter() {
       label="Цвет"
       options={colorOptions}
       value={selectedColor}
+      disabled={areMetadataFiltersDisabled}
       onValueChange={handleColorChange}
     />
   )

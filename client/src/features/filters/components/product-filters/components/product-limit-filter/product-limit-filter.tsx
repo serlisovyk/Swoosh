@@ -11,7 +11,7 @@ export function ProductLimitFilter() {
     <div className={styles.wrapper}>
       <span className={styles.label}>Показывать по:</span>
 
-      <div className={styles.buttons}>
+      <div className={styles.buttons} role="group" aria-label="Количество товаров на странице">
         {PRODUCT_LIMIT_OPTIONS.map((option) => {
           const isButtonActive = selectedLimit === option
 
@@ -24,6 +24,7 @@ export function ProductLimitFilter() {
               key={option}
               type="button"
               onClick={handleClick}
+              aria-pressed={isButtonActive}
               className={cn(styles.button, {
                 [styles.buttonActive]: isButtonActive,
               })}

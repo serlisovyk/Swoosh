@@ -19,6 +19,7 @@ export function RangeSlider({
   step = 1,
   label,
   className,
+  disabled = false,
   value,
   defaultValue,
   onValueChange,
@@ -131,9 +132,12 @@ export function RangeSlider({
           min={min}
           max={max}
           step={step}
+          disabled={disabled}
           minStepsBetweenThumbs={0}
           value={selectedValue}
-          className={styles.slider}
+          className={cn(styles.slider, {
+            [styles.sliderDisabled]: disabled,
+          })}
           onValueChange={handleSliderChange}
         >
           <SliderPrimitive.Track className={styles.track}>
@@ -141,29 +145,42 @@ export function RangeSlider({
           </SliderPrimitive.Track>
 
           <SliderPrimitive.Thumb
-            className={styles.thumb}
+            className={cn(styles.thumb, {
+              [styles.thumbDisabled]: disabled,
+            })}
             aria-label="Минимальная цена"
           />
           <SliderPrimitive.Thumb
-            className={styles.thumb}
+            className={cn(styles.thumb, {
+              [styles.thumbDisabled]: disabled,
+            })}
             aria-label="Максимальная цена"
           />
         </SliderPrimitive.Root>
 
         <div className={styles.inputs}>
           {sliderInputs.map(({ field, value, ariaLabel }) => {
-            const id = `id-${field}`
+            const inputId = `${id}-${field}`
 
             return (
-              <label key={id} htmlFor={id} className={styles.inputWrapper}>
+              <label
+                key={inputId}
+                htmlFor={inputId}
+                className={cn(styles.inputWrapper, {
+                  [styles.inputWrapperDisabled]: disabled,
+                })}
+              >
                 <input
                   key={field}
-                  id={id}
+                  id={inputId}
                   type="text"
                   inputMode="numeric"
+                  disabled={disabled}
                   value={value}
                   aria-label={ariaLabel}
-                  className={styles.input}
+                  className={cn(styles.input, {
+                    [styles.inputDisabled]: disabled,
+                  })}
                   onChange={handleInputChange(field)}
                   onBlur={handleInputBlur(field)}
                   onKeyDown={handleInputKeyDown}

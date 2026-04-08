@@ -1,12 +1,14 @@
 import { Select, type SelectOption } from '@shared/form'
 import { useProductFiltersContext } from '../../../../context'
-import { useGetProductFiltersQuery } from '../../../../queries'
 import { PRODUCT_FILTER_ALL_VALUE } from '../../../../constants'
 
 export function ProductSizeFilter() {
-  const { filters, setSize } = useProductFiltersContext()
-
-  const { filterMetadata } = useGetProductFiltersQuery()
+  const {
+    filters,
+    filterMetadata,
+    areMetadataFiltersDisabled,
+    setSize,
+  } = useProductFiltersContext()
 
   const sizeOptions = [
     { label: 'Все размеры', value: PRODUCT_FILTER_ALL_VALUE },
@@ -33,6 +35,7 @@ export function ProductSizeFilter() {
       label="Размер"
       options={sizeOptions}
       value={sizeValue}
+      disabled={areMetadataFiltersDisabled}
       onValueChange={handleValueChange}
     />
   )

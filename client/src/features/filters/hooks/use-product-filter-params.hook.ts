@@ -1,10 +1,13 @@
-import { useSearchParams } from 'next/navigation'
-import { parseProductFiltersSearchParams } from '../schemas'
-import { buildProductQueryParams } from '../utils'
+import { useQueryStates } from 'nuqs'
+import {
+  buildProductQueryParams,
+  normalizeProductFiltersSearchState,
+  productFiltersSearchParams,
+} from '../utils'
 
 export function useProductFilterParams() {
-  const searchParams = useSearchParams()
-  const filters = parseProductFiltersSearchParams(searchParams)
+  const [queryFilters] = useQueryStates(productFiltersSearchParams)
+  const filters = normalizeProductFiltersSearchState(queryFilters)
 
   return buildProductQueryParams(filters)
 }

@@ -48,6 +48,7 @@ export interface RangeSliderProps {
   step?: number
   label?: string
   className?: string
+  disabled?: boolean
   value?: RangeSliderValue
   defaultValue?: RangeSliderValue
   onValueChange?: (value: RangeSliderValue) => void

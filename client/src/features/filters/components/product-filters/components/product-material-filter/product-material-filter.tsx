@@ -1,12 +1,14 @@
 import { Select } from '@shared/form'
 import { useProductFiltersContext } from '../../../../context'
-import { useGetProductFiltersQuery } from '../../../../queries'
 import { PRODUCT_FILTER_ALL_VALUE } from '../../../../constants'
 
 export function ProductMaterialFilter() {
-  const { filters, setMaterial } = useProductFiltersContext()
-
-  const { filterMetadata } = useGetProductFiltersQuery()
+  const {
+    filters,
+    filterMetadata,
+    areMetadataFiltersDisabled,
+    setMaterial,
+  } = useProductFiltersContext()
 
   const materialOptions = [
     { label: 'Все материалы', value: PRODUCT_FILTER_ALL_VALUE },
@@ -33,6 +35,7 @@ export function ProductMaterialFilter() {
       label="Материал:"
       options={materialOptions}
       value={materialValue}
+      disabled={areMetadataFiltersDisabled}
       onValueChange={handleMaterialChange}
     />
   )

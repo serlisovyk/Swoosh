@@ -1,7 +1,4 @@
-import {
-  createProductsSearchParams,
-  normalizeProductsPage,
-} from '@features/product/utils'
+import { normalizeProductsPage } from '@features/product/utils'
 import type {
   GetProductsParams,
   ProductPriceRange,
@@ -9,8 +6,6 @@ import type {
 } from '@features/product/types'
 import {
   EMPTY_PRODUCT_FILTERS_METADATA,
-  PRODUCT_FILTER_QUERY_KEYS,
-  PRODUCT_LIMIT_OPTIONS,
   PRODUCT_SORT_VALUES,
 } from '../constants'
 import type {
@@ -34,22 +29,16 @@ export function buildProductQueryParams(
   }
 }
 
-export function createProductFiltersUrl(
-  pathname: string,
-  rawSearchParams: string,
-  filters: ProductFiltersState,
-) {
-  const nextSearchParams = new URLSearchParams(rawSearchParams)
-
-  PRODUCT_FILTER_QUERY_KEYS.forEach((key) => nextSearchParams.delete(key))
-
-  createProductsSearchParams(buildProductQueryParams(filters)).forEach(
-    (value, key) => nextSearchParams.append(key, value),
+export function hasActiveProductFilters(filters: ProductFiltersState) {
+  return (
+    filters.size !== undefined ||
+    filters.price !== undefined ||
+    filters.colorName !== undefined ||
+    filters.category !== undefined ||
+    filters.material !== undefined ||
+    filters.sort !== undefined ||
+    filters.limit !== undefined
   )
-
-  const nextQueryString = nextSearchParams.toString()
-
-  return nextQueryString ? `${pathname}?${nextQueryString}` : pathname
 }
 
 export function mapProductFiltersMetadata(
@@ -114,21 +103,4 @@ function normalizeRange([start, end]: ProductPriceRange): ProductPriceRange {
 
 export function isProductSortOption(value: string): value is ProductSortOption {
   return PRODUCT_SORT_VALUES.some((option) => option === value)
-}
-
-export function isProductLimitOption(
-  value: number,
-): value is (typeof PRODUCT_LIMIT_OPTIONS)[number] {
-  return PRODUCT_LIMIT_OPTIONS.some((option) => option === value)
-}
-
-export function resetProductFiltersPage(
-  filters: ProductFiltersState,
-): ProductFiltersState {
-  if (!filters.page) return filters
-
-  return {
-    ...filters,
-    page: undefined,
-  }
 }

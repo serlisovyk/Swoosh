@@ -2,12 +2,23 @@
 
 import { createContext, useContext, type PropsWithChildren } from 'react'
 import { useProductFilters } from '../hooks'
-import { ProductFiltersContextValue } from '../types'
+import { useGetProductFiltersQuery } from '../queries'
+import type { ProductFiltersContextValue } from '../types'
 
-const ProductFiltersContext = createContext<ProductFiltersContextValue>(null)
+const ProductFiltersContext = createContext<ProductFiltersContextValue | null>(
+  null,
+)
 
 export function ProductFiltersProvider({ children }: PropsWithChildren) {
-  const value = useProductFilters()
+  const filtersState = useProductFilters()
+  const { filterMetadata, isLoading, error } = useGetProductFiltersQuery()
+
+  const value: ProductFiltersContextValue = {
+    ...filtersState,
+    filterMetadata,
+    hasMetadataError: Boolean(error),
+    areMetadataFiltersDisabled: isLoading || Boolean(error),
+  }
 
   return (
     <ProductFiltersContext.Provider value={value}>

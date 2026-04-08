@@ -1,11 +1,13 @@
 import { RangeSlider, type RangeSliderValue } from '@shared/form'
 import { useProductFiltersContext } from '../../../../context'
-import { useGetProductFiltersQuery } from '../../../../queries'
 
 export function ProductPriceFilter() {
-  const { filters, setPrice } = useProductFiltersContext()
-
-  const { filterMetadata } = useGetProductFiltersQuery()
+  const {
+    filters,
+    filterMetadata,
+    areMetadataFiltersDisabled,
+    setPrice,
+  } = useProductFiltersContext()
 
   const handleValueChange = (value: RangeSliderValue) => {
     setPrice(value, filterMetadata.priceRange)
@@ -20,6 +22,7 @@ export function ProductPriceFilter() {
       min={filterMetadata.priceRange[0]}
       max={filterMetadata.priceRange[1]}
       value={selectedPrice}
+      disabled={areMetadataFiltersDisabled}
       onValueChange={handleValueChange}
     />
   )
