@@ -77,6 +77,8 @@ export const PRODUCT_QUERY_IS_NEW_ARRIVAL_BOOLEAN_ERROR =
   'Фильтр isNewArrival должен быть булевым значением'
 export const PRODUCT_QUERY_HAS_DISCOUNT_BOOLEAN_ERROR =
   'Фильтр hasDiscount должен быть булевым значением'
+export const PRODUCT_QUERY_SEARCH_STRING_ERROR =
+  'Поисковый запрос должен быть строкой'
 export const PRODUCT_QUERY_PRICE_ARRAY_ERROR =
   'Фильтр цены должен быть массивом'
 export const PRODUCT_QUERY_PRICE_NUMBER_ERROR =

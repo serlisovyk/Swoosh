@@ -3,14 +3,17 @@
 import { ProductFilters, useProductFilterParams } from '@features/filters'
 import { Breadcrumbs, Heading, List, Pagination } from '@shared/ui'
 import { useCatalogPagination } from '../../hooks/use-catalog-pagination.hook'
-import { ProductCard } from '../product-card'
-import { ProductCardSkeleton } from '../product-card-skeleton'
 import { useGetProductsQuery } from '../../queries'
 import { CATALOG_BREADCRUMBS } from '../../constants'
+import { createCatalogSearchHref } from '../../utils'
+import { CatalogSearchEmptyState } from '../catalog-search-empty-state'
+import { ProductCard } from '../product-card'
+import { ProductCardSkeleton } from '../product-card-skeleton'
 import styles from './catalog-products.module.css'
 
 export function CatalogProducts() {
   const productParams = useProductFilterParams()
+  const searchQuery = productParams.search
 
   const {
     products,
@@ -30,22 +33,32 @@ export function CatalogProducts() {
     hasError: Boolean(error),
   })
 
-  const isEmpty = !isLoading && !error && !products.length
+  const isSearchEmptyState =
+    Boolean(searchQuery) && !isLoading && !error && !products.length
+  const isEmpty = !searchQuery && !isLoading && !error && !products.length
+  const breadcrumbs = searchQuery
+    ? [{ label: 'Поиск по каталогу', href: createCatalogSearchHref(searchQuery) }]
+    : CATALOG_BREADCRUMBS
+  const heading = searchQuery
+    ? `Результаты поиска “${searchQuery}”`
+    : 'Каталог'
 
   return (
     <div className="container">
-      <Breadcrumbs items={CATALOG_BREADCRUMBS} />
+      <Breadcrumbs items={breadcrumbs} />
 
       <div className={styles.wrapper}>
         <Heading className={styles.heading} as="h1">
-          Каталог
+          {heading}
         </Heading>
 
-        <ProductFilters
-          isUpdating={isFetching}
-          shownCount={products.length}
-          totalCount={total}
-        />
+        {!isSearchEmptyState && (
+          <ProductFilters
+            isUpdating={isFetching}
+            shownCount={products.length}
+            totalCount={total}
+          />
+        )}
 
         <div className={styles.content}>
           {error && (
@@ -57,6 +70,10 @@ export function CatalogProducts() {
           )}
 
           {isEmpty && <div className={styles.empty}>Ничего не найдено</div>}
+
+          {isSearchEmptyState && (
+            <CatalogSearchEmptyState searchQuery={searchQuery ?? ''} />
+          )}
 
           {!isLoading && !error && !!products.length && (
             <List

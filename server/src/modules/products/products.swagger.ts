@@ -205,6 +205,12 @@ export const ProductsQueryHasDiscountPropertyDocs =
     type: Boolean,
   })
 
+export const ProductsQuerySearchPropertyDocs =
+  createOptionalPropertyDocsDecorator({
+    description: 'Free-text search by product title or description.',
+    example: 'Air Max',
+  })
+
 export const ProductsQueryLimitPropertyDocs =
   createOptionalPropertyDocsDecorator({
     description: 'Maximum number of products returned.',
@@ -443,7 +449,7 @@ export function ProductsFindAllDocs() {
     ApiOperation({
       summary: 'Get products list',
       description:
-        'Returns a filtered list of products with the total count. When ids are provided, the response preserves the same order as in the query.',
+        'Returns a filtered list of products with the total count. Supports catalog filters and free-text search. When ids are provided, the response preserves the same order as in the query.',
       security: [],
     }),
     ApiOkResponse({

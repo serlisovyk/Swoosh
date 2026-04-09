@@ -2,6 +2,7 @@ import {
   appendQueryArrayParam,
   createDollarPriceFormatter,
 } from '@shared/utils'
+import { ROUTES } from '@shared/config'
 import { DESCRIPTION_PREVIEW_LIMIT } from '../constants'
 import type {
   GetProductsParams,
@@ -79,6 +80,25 @@ export function getProductCharacteristics(
   ]
 }
 
+export function normalizeProductSearch(search?: string | null) {
+  const normalizedSearch = search?.trim()
+
+  return normalizedSearch ? normalizedSearch : undefined
+}
+
+export function createCatalogSearchHref(search?: string | null) {
+  const normalizedSearch = normalizeProductSearch(search)
+
+  if (!normalizedSearch) {
+    return ROUTES.CATALOG
+  }
+
+  const searchParams = new URLSearchParams()
+  searchParams.set('search', normalizedSearch)
+
+  return `${ROUTES.CATALOG}?${searchParams.toString()}`
+}
+
 export function createProductsSearchParams(params?: GetProductsParams) {
   const searchParams = new URLSearchParams()
 
@@ -94,6 +114,12 @@ export function createProductsSearchParams(params?: GetProductsParams) {
   appendBooleanQueryParam(searchParams, 'isHit', params.isHit)
   appendBooleanQueryParam(searchParams, 'isNewArrival', params.isNewArrival)
   appendBooleanQueryParam(searchParams, 'hasDiscount', params.hasDiscount)
+
+  const normalizedSearch = normalizeProductSearch(params.search)
+
+  if (normalizedSearch) {
+    searchParams.set('search', normalizedSearch)
+  }
 
   if (params.limit !== undefined) {
     searchParams.set('limit', String(params.limit))

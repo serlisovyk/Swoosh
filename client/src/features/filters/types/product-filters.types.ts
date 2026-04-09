@@ -9,6 +9,7 @@ export interface ProductFiltersState {
   colorName?: string
   category?: string
   material?: string
+  search?: string
   sort?: ProductSortOption
   limit?: number
   page?: number

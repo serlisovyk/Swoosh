@@ -23,6 +23,7 @@ export function buildProductQueryParams(
     colorName: filters.colorName ? [filters.colorName] : undefined,
     category: filters.category ? [filters.category] : undefined,
     material: filters.material ? [filters.material] : undefined,
+    search: filters.search,
     sort: filters.sort,
     limit: filters.limit,
     page: normalizeProductsPage(filters.page),
@@ -36,6 +37,7 @@ export function hasActiveProductFilters(filters: ProductFiltersState) {
     filters.colorName !== undefined ||
     filters.category !== undefined ||
     filters.material !== undefined ||
+    filters.search !== undefined ||
     filters.sort !== undefined ||
     filters.limit !== undefined
   )

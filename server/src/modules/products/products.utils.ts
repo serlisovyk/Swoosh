@@ -23,6 +23,7 @@ export function buildProductListQueryOptions(
     isHit,
     isNewArrival,
     hasDiscount,
+    search,
     sort,
     limit,
     page,
@@ -75,6 +76,12 @@ export function buildProductListQueryOptions(
     filters.saleCF = hasDiscount ? { $gt: 0 } : { $lte: 0 }
   }
 
+  if (search) {
+    const regex = createContainsRegex(search)
+
+    filters.$or = [{ title: regex }, { description: regex }]
+  }
+
   const sortOption = sort
     ? PRODUCT_SORT_MAP[sort]
     : PRODUCT_SORT_MAP[PRODUCT_SORT_OPTIONS.NEWEST]
@@ -95,6 +102,10 @@ export function buildProductListQueryOptions(
 
 function createExactRegex(value: string): RegExp {
   return new RegExp(`^${escapeRegExp(value)}$`, 'i')
+}
+
+function createContainsRegex(value: string): RegExp {
+  return new RegExp(escapeRegExp(value), 'i')
 }
 
 function escapeRegExp(value: string): string {

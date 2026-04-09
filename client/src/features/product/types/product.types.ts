@@ -58,6 +58,7 @@ export interface GetProductsParams {
   isHit?: boolean
   isNewArrival?: boolean
   hasDiscount?: boolean
+  search?: string
   limit?: number
   page?: number
   sort?: ProductSortOption
@@ -78,6 +79,17 @@ export interface ProductDetailsProps {
 
 export interface GetProductsQueryOptions {
   enabled?: boolean
+}
+
+export interface CatalogSearchFormProps {
+  defaultValue?: string
+  className?: string
+  placeholder?: string
+  autoFocus?: boolean
+}
+
+export interface CatalogSearchEmptyStateProps {
+  searchQuery: string
 }
 
 export interface ProductSizeTableRow {

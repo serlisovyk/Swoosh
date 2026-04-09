@@ -1,0 +1,60 @@
+.form {
+  width: 100%;
+}
+
+.field {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  min-width: 0;
+  padding: 18px 64px 18px 20px;
+  border: 1px solid var(--border-color);
+  font: inherit;
+  color: var(--dark-black);
+  background-color: var(--white);
+  outline: none;
+  transition: var(--transition);
+
+  &::placeholder {
+    color: var(--input-text);
+  }
+
+  &:focus {
+    border-color: var(--primary);
+  }
+}
+
+.input::-webkit-search-decoration,
+.input::-webkit-search-cancel-button,
+.input::-webkit-search-results-button,
+.input::-webkit-search-results-decoration {
+  display: none;
+}
+
+.input::-ms-clear,
+.input::-ms-reveal {
+  display: none;
+}
+
+.submitButton {
+  position: absolute;
+  inset-block: 1px;
+  right: 1px;
+  width: 56px;
+  border: none;
+  background: transparent;
+  color: var(--gray);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--primary);
+  }
+}

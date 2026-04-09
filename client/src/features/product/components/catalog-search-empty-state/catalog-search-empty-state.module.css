@@ -1,0 +1,46 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding-bottom: 16px;
+}
+
+.notice {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border: 1px solid var(--border-color);
+  background-color: #fafafa;
+  color: var(--gray);
+}
+
+.noticeIcon {
+  flex-shrink: 0;
+  color: var(--input-text);
+}
+
+.noticeText {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.search {
+  width: 100%;
+}
+
+.button {
+  align-self: center;
+}
+
+@media (width <= 767px) {
+  .notice {
+    align-items: flex-start;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

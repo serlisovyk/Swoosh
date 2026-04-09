@@ -13,6 +13,7 @@ import {
   Min,
 } from 'class-validator'
 import {
+  trimStringValue,
   toBooleanQueryParam,
   toNumberArrayQueryParam,
   toStringArrayQueryParam,
@@ -29,6 +30,7 @@ import {
   ProductsQueryMaterialPropertyDocs,
   ProductsQueryPagePropertyDocs,
   ProductsQueryPricePropertyDocs,
+  ProductsQuerySearchPropertyDocs,
   ProductsQuerySizePropertyDocs,
   ProductsQuerySortPropertyDocs,
 } from '../products.swagger'
@@ -52,6 +54,7 @@ import {
   PRODUCT_QUERY_PRICE_ARRAY_ERROR,
   PRODUCT_QUERY_PRICE_MAX_SIZE_ERROR,
   PRODUCT_QUERY_PRICE_NUMBER_ERROR,
+  PRODUCT_QUERY_SEARCH_STRING_ERROR,
   PRODUCT_QUERY_SIZE_ARRAY_ERROR,
   PRODUCT_QUERY_SIZE_NUMBER_ERROR,
   PRODUCT_QUERY_SORT_ERROR,
@@ -132,6 +135,12 @@ export class FindAllProductsDto {
   @Transform(({ value }) => toBooleanQueryParam(value))
   @IsBoolean({ message: PRODUCT_QUERY_HAS_DISCOUNT_BOOLEAN_ERROR })
   hasDiscount?: boolean
+
+  @ProductsQuerySearchPropertyDocs()
+  @IsOptional()
+  @Transform(({ value }) => trimStringValue(value))
+  @IsString({ message: PRODUCT_QUERY_SEARCH_STRING_ERROR })
+  search?: string
 
   @ProductsQueryLimitPropertyDocs()
   @IsOptional()
