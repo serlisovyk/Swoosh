@@ -16,12 +16,21 @@ export const FIELD_VARIANTS = {
 export type FieldVariant =
   (typeof FIELD_VARIANTS)[keyof typeof FIELD_VARIANTS]
 
+export const FIELD_APPEARANCES = {
+  DEFAULT: 'default',
+  UNDERLINE: 'underline',
+} as const
+
+export type FieldAppearance =
+  (typeof FIELD_APPEARANCES)[keyof typeof FIELD_APPEARANCES]
+
 export interface BaseFormFields {
   id: string
   label?: string
   placeholder?: string
   required: boolean
   variant?: FieldVariant
+  appearance?: FieldAppearance
   type?: HTMLInputTypeAttribute
 }
 
@@ -38,6 +47,7 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   isVisibleLabel?: boolean
+  appearance?: FieldAppearance
   error?: string
 }
 
@@ -87,9 +97,11 @@ export interface SelectOption {
   disabled?: boolean
 }
 
-export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string
   isVisibleLabel?: boolean
+  appearance?: FieldAppearance
   error?: string
 }
 

@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.underlineWrapper {
+  gap: 6px;
+}
+
 .textarea {
   font-family: inherit;
   font-size: 16px;
@@ -39,9 +43,31 @@
   }
 }
 
+.underlineTextarea {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--gray-light);
+  padding: 10px 0 12px;
+  border-radius: 0;
+  min-height: 120px;
+
+  &:focus {
+    border-color: var(--dark-black);
+  }
+}
+
+.underlineTextarea[aria-invalid='true'] {
+  border-color: var(--error);
+}
+
 .label {
   line-height: 180%;
   color: var(--dark-black);
+}
+
+.underlineLabel {
+  font-size: 15px;
+  line-height: 160%;
 }
 
 .required {

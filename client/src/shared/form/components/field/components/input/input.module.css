@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.underlineWrapper {
+  gap: 6px;
+}
+
 .inputWrapper {
   position: relative;
   display: flex;
@@ -44,9 +48,30 @@
   }
 }
 
+.underlineInput {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--gray-light);
+  padding: 10px 0 12px;
+  border-radius: 0;
+
+  &:focus {
+    border-color: var(--dark-black);
+  }
+}
+
+.underlineInput[aria-invalid='true'] {
+  border-color: var(--error);
+}
+
 .label {
   line-height: 180%;
   color: var(--dark-black);
+}
+
+.underlineLabel {
+  font-size: 15px;
+  line-height: 160%;
 }
 
 .required {
@@ -66,6 +91,11 @@
   justify-content: center;
   color: var(--input-text);
   transition: var(--transition);
+}
+
+.underlineToggleButton {
+  right: 0;
+  padding-right: 0;
 }
 
 .toggleButton:hover {

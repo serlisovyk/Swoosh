@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import cn from 'clsx'
 import { Eye, EyeOff } from 'lucide-react'
-import { InputProps } from '../../../../types'
+import { FIELD_APPEARANCES, InputProps } from '../../../../types'
 import styles from './input.module.css'
 
 export function Input({
@@ -13,6 +13,7 @@ export function Input({
   error,
   id,
   isVisibleLabel = false,
+  appearance = FIELD_APPEARANCES.DEFAULT,
   type = 'text',
   ...props
 }: InputProps) {
@@ -20,15 +21,23 @@ export function Input({
 
   const isPassword = type === 'password'
   const inputType = isPassword && isPasswordVisible ? 'text' : type
+  const isUnderlineAppearance = appearance === FIELD_APPEARANCES.UNDERLINE
 
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev)
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={cn(styles.wrapper, {
+        [styles.underlineWrapper]: isUnderlineAppearance,
+      })}
+    >
       {label && (
         <label
           htmlFor={id}
-          className={cn(styles.label, { visuallyHidden: isVisibleLabel })}
+          className={cn(styles.label, {
+            [styles.underlineLabel]: isUnderlineAppearance,
+            visuallyHidden: isVisibleLabel,
+          })}
         >
           {label}
 
@@ -42,13 +51,17 @@ export function Input({
           type={inputType}
           required={required}
           aria-invalid={!!error}
-          className={cn(styles.input, className)}
+          className={cn(styles.input, className, {
+            [styles.underlineInput]: isUnderlineAppearance,
+          })}
           {...props}
         />
         {isPassword && (
           <button
             type="button"
-            className={styles.toggleButton}
+            className={cn(styles.toggleButton, {
+              [styles.underlineToggleButton]: isUnderlineAppearance,
+            })}
             onClick={togglePasswordVisibility}
             aria-label={isPasswordVisible ? 'Скрыть пароль' : 'Показать пароль'}
           >

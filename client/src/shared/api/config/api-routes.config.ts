@@ -23,6 +23,7 @@ class ApiRoutes {
   private readonly FORMS = '/forms'
 
   readonly INDIVIDUAL_ORDERS = `${this.FORMS}/individual-orders`
+  readonly NEWSLETTER_SUBSCRIPTIONS = `${this.FORMS}/newsletter-subscriptions`
 }
 
 export const API_ROUTES = new ApiRoutes()

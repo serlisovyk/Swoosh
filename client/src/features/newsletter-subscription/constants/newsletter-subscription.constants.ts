@@ -1,0 +1,3 @@
+export const NEWSLETTER_SUBSCRIPTION_FORM_DEFAULT_VALUES = {
+  email: '',
+}

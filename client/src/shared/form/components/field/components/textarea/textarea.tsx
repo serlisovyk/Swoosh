@@ -1,5 +1,5 @@
 import cn from 'clsx'
-import { TextareaProps } from '../../../../types'
+import { FIELD_APPEARANCES, TextareaProps } from '../../../../types'
 import styles from './textarea.module.css'
 
 export function Textarea({
@@ -9,14 +9,24 @@ export function Textarea({
   error,
   id,
   isVisibleLabel = false,
+  appearance = FIELD_APPEARANCES.DEFAULT,
   ...props
 }: TextareaProps) {
+  const isUnderlineAppearance = appearance === FIELD_APPEARANCES.UNDERLINE
+
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={cn(styles.wrapper, {
+        [styles.underlineWrapper]: isUnderlineAppearance,
+      })}
+    >
       {label && (
         <label
           htmlFor={id}
-          className={cn(styles.label, { visuallyHidden: isVisibleLabel })}
+          className={cn(styles.label, {
+            [styles.underlineLabel]: isUnderlineAppearance,
+            visuallyHidden: isVisibleLabel,
+          })}
         >
           {label}
 
@@ -28,7 +38,9 @@ export function Textarea({
         id={id}
         required={required}
         aria-invalid={!!error}
-        className={cn(styles.textarea, className)}
+        className={cn(styles.textarea, className, {
+          [styles.underlineTextarea]: isUnderlineAppearance,
+        })}
         {...props}
       />
 

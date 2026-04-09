@@ -20,6 +20,24 @@ These rules apply across the whole repository.
 - Prefer narrowing over assertions
 - Keep types explicit and easy to follow
 
+## Import order
+
+- Keep import groups stable and easy to scan instead of mixing local and shared imports randomly
+- In frontend files, prefer this top-to-bottom order when those groups exist: external libraries, imports from other project parts such as `@shared` or `@features`, local `components`, local `queries`, local `hooks`, local `config`, local `constants`, other local declarative helpers such as `schemas` or `services`, local `types`, and local styles
+- Keep CSS Module imports last
+
+## Import order
+
+- Keep import groups stable and easy to scan instead of mixing local and shared imports randomly
+- In frontend files, prefer this top-to-bottom order when those groups exist: external libraries, imports from other project parts such as `@shared` or `@features`, local `components`, local `queries`, local `hooks`, local `config`, local `constants`, other local declarative helpers such as `schemas` or `services`, local `types`, and local styles
+- Keep CSS Module imports last
+
+## Import order
+
+- Keep import groups stable and easy to scan instead of mixing local and shared imports randomly
+- In frontend files, prefer this top-to-bottom order when those groups exist: external libraries, imports from other project parts such as `@shared` or `@features`, local `components`, local `queries`, local `hooks`, local `config`, local `constants`, other local declarative helpers such as `schemas` or `services`, local `types`, and local styles
+- Keep CSS Module imports last
+
 ## Naming
 
 - Use PascalCase for components and exported interfaces or types
