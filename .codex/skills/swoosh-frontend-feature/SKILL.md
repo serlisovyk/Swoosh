@@ -31,6 +31,7 @@ Use `docs/rules/frontend-architecture.md` for the stable frontend architecture r
 3. Follow the existing naming and export style.
 - Feature-local files keep the feature prefix, such as `profile.queries.ts` or `product.services.ts`.
 - `index.ts` and `index.tsx` files are used for clean exports when the surrounding feature already follows that pattern.
+- When a slice grows multiple constants, types, or utility files, prefer dedicated `constants/`, `types/`, and `utils/` folders with local `index.ts` barrels and explicit filenames such as `server.constants.ts` or `server.types.ts`.
 - Keep frontend import order aligned with `docs/rules/code-conventions.md`: external libs first, then other project imports, then local feature imports, with local `types` near the bottom and CSS Module imports last.
 
 4. Keep reuse decisions grounded.

@@ -34,6 +34,9 @@ These rules apply to `client`.
 - Keep CSS Modules colocated with the component they style
 - Use `index.ts` or `index.tsx` only when the surrounding feature already follows that export pattern
 - Prefer dedicated `types.ts` files or a `types/` folder for component and feature contracts
+- When a slice grows separate constants, types, or utils concerns, prefer dedicated folders such as `constants/`, `types/`, and `utils/` with local `index.ts` barrels instead of piling flat sibling files together
+- When a shared slice is primarily server-only, prefer a dedicated `server/` subfolder that owns its own `constants/`, `types/`, and `utils/` folders instead of mixing server files at the slice root
+- Inside those folders, keep filenames scoped and explicit, such as `server.constants.ts` or `server.types.ts`
 - Do not define interfaces or types next to components unless there is a strong local-only reason
 
 ## UI conventions

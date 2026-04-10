@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useContext, useEffect } from 'react'
+import { ROLE } from '@shared/types'
 import { ROUTES } from '@shared/config'
 import { SOCIAL_AUTH_STATUS } from '../constants'
 import { CaptchaContext } from '../context'
@@ -10,7 +11,6 @@ import {
   emailVerificationTokenSchema,
   resetPasswordTokenSchema,
 } from '../schemas'
-import { ROLE } from '../types'
 
 export function useParseResetPasswordToken() {
   const searchParams = useSearchParams()

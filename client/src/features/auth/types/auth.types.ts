@@ -1,6 +1,7 @@
 import type { Dispatch, RefObject, SetStateAction } from 'react'
 import type { TurnstileInstance } from '@marsidev/react-turnstile'
 import z from 'zod'
+import { type ROLE } from '@shared/types'
 import { BaseFormFields, FIELD_VARIANTS } from '@shared/form'
 import {
   forgotPasswordSchema,
@@ -81,13 +82,6 @@ export interface UserAddress {
   zip: string
   buildingNumber: string
 }
-
-export const ROLE = {
-  USER: 'USER',
-  ADMIN: 'ADMIN',
-} as const
-
-export type ROLE = (typeof ROLE)[keyof typeof ROLE]
 
 interface FavoritesSyncPayload {
   favoriteProductIds?: string[]

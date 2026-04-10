@@ -1,1 +1,1 @@
-export { clientEnvSchema } from './env.schemas'
+export * from './env.schemas'

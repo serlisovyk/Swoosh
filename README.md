@@ -52,9 +52,12 @@ Create local `.env` files from the provided samples (`.env.sample`) in both `cli
 The frontend requires:
 
 ```env
+JWT_SECRET=jwt_secret
 NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=turnstile_site_key
 ```
+
+`JWT_SECRET` in the frontend must match the backend access-token secret so Next.js can protect private App Router routes on the server.
 
 The backend requires app, auth, social-auth, captcha, MongoDB, email, and throttling settings. Login, register, request-password-reset, and reset-password expect a valid Cloudflare Turnstile token from the client. Social login also needs Google/GitHub OAuth credentials plus a public `SERVER_URL` that includes the backend global prefix such as `http://localhost:4000/api/v1`. See `server/.env.sample` for the full list.
 

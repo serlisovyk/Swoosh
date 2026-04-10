@@ -19,11 +19,12 @@ Create a local `.env` file from `.env.sample`.
 Required variables:
 
 ```env
+JWT_SECRET=jwt_secret
 NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=turnstile_site_key
 ```
 
-These values should point to the backend API base URL and Cloudflare Turnstile site key. Client env values are validated through `src/shared/env`.
+`JWT_SECRET` must match the backend access-token secret so Next.js can validate the auth cookie during server-side route protection. The public values should point to the backend API base URL and Cloudflare Turnstile site key. Client env values are validated through `src/shared/env`.
 
 ### 3. Start the app
 

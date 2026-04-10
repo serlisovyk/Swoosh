@@ -43,6 +43,8 @@ Use `docs/rules/auth-and-api-contracts.md` for the stable auth and public-contra
 3. Keep frontend auth honest.
 - Keep auth requests in feature `services/` and mutation or query orchestration in feature `queries/`.
 - Keep redirects, toasts, and cache updates close to the auth mutation that needs them.
+- For App Router route protection, prefer reusable server-side helpers such as `requireAuth()`, `requireAnonymous()`, and `requireRole()` instead of client-side guard providers.
+- Keep login, register, forgot-password, and reset-password inaccessible to already-authenticated users through server-side route checks rather than redirecting after client render.
 - Keep social-auth entry points on login and register screens aligned with the backend provider routes and the public API base URL used by the browser redirect.
 - Keep social-auth callback pages focused on cookie-aware redirect handling and cache warmup, not on storing access tokens in the browser.
 - When auth forms use Turnstile, keep the site key in validated `shared/env`, keep captcha state in the auth provider layer, reserve layout space for the widget, and send the token through the same `cf-turnstile-token` header the backend validates.

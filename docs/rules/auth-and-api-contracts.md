@@ -8,6 +8,9 @@ These rules apply to auth behavior, Swagger, public request and response contrac
 
 - The project uses cookie-based auth
 - Keep frontend auth state derived from backend auth state, the shared API behavior, and the `me` query
+- Prefer server-side App Router access checks for protected and auth-only pages instead of client guard wrappers or proxy-centered auth logic
+- Keep private route protection in reusable helpers such as `requireAuth()`, `requireAnonymous()`, and `requireRole()` so profile and future restricted sections follow the same rule set
+- For role-restricted frontend sections, redirect unauthenticated users to login but return `404` for authenticated users without the required role
 - Keep email-verification state derived from the backend user shape such as `isEmailVerified`, not from ad-hoc client flags
 - Do not reintroduce local token storage or a separate client-side token source of truth
 - Keep frontend and backend auth assumptions aligned when changing login, register, logout, refresh, `me`, email verification, or password reset behavior

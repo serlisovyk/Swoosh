@@ -12,3 +12,9 @@ export const clientEnvSchema = z.object({
     .string({ error: 'NEXT_PUBLIC_TURNSTILE_SITE_KEY is required' })
     .min(1, 'NEXT_PUBLIC_TURNSTILE_SITE_KEY is required'),
 })
+
+export const serverEnvSchema = z.object({
+  JWT_SECRET: z
+    .string({ error: 'JWT_SECRET is required' })
+    .min(1, 'JWT_SECRET is required'),
+})
