@@ -1,0 +1,45 @@
+.section {
+  padding: 32px 0 64px;
+}
+
+.box {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.title {
+  margin: 0;
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 120%;
+  text-align: center;
+}
+
+.description {
+  margin: 16px auto 0;
+  font-size: 18px;
+  line-height: 170%;
+  color: var(--gray);
+  text-align: center;
+}
+
+@media (width <= 991px) {
+  .title {
+    font-size: 36px;
+  }
+}
+
+@media (width <= 767px) {
+  .section {
+    padding: 20px 0 48px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .description {
+    margin-top: 12px;
+    font-size: 16px;
+  }
+}
