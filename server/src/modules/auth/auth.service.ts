@@ -5,6 +5,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common'
+import { randomUUID } from 'crypto'
 import { JwtService } from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
@@ -14,6 +15,7 @@ import { isDev, noop } from '@shared/utils'
 import { FavoritesService } from '@modules/favorites/favorites.service'
 import { UserService } from '../user/user.service'
 import { AuthAccountService } from './auth-account/auth-account.service'
+import { AuthSessionService } from './auth-session/auth-session.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import {
@@ -26,11 +28,14 @@ import {
 } from './auth.constants'
 import { ONE_DAY_IN_MS, ONE_HOUR_IN_MS } from '@shared/constants'
 import {
+  AccessTokenPayload,
   AuthFavoriteAwareUser,
+  PreparedRequest,
+  RefreshTokenPayload,
   AuthSocialProfile,
-  AuthTokenData,
   UserWithoutPassword,
 } from './auth.types'
+import { extractAuthSessionMetadata } from './auth.utils'
 
 @Injectable()
 export class AuthService {
@@ -40,9 +45,10 @@ export class AuthService {
     private readonly favoritesService: FavoritesService,
     private readonly configService: ConfigService,
     private readonly authAccountService: AuthAccountService,
+    private readonly authSessionService: AuthSessionService,
   ) {}
 
-  async register(dto: RegisterDto) {
+  async register(dto: RegisterDto, request: PreparedRequest) {
     const createdUser = await this.userService.create(dto)
 
     if (!createdUser) {
@@ -56,10 +62,10 @@ export class AuthService {
 
     await this.authAccountService.requestEmailVerification(user)
 
-    return this.createSession(user)
+    return this.createSession(user, request)
   }
 
-  async login(dto: LoginDto) {
+  async login(dto: LoginDto, request: PreparedRequest) {
     const validatedUser = await this.validateUser(dto)
 
     const user = await this.mergeAuthFavorites(
@@ -67,7 +73,7 @@ export class AuthService {
       dto.favoriteProductIds,
     )
 
-    return this.createSession(user)
+    return this.createSession(user, request)
   }
 
   async socialLogin(profile: AuthSocialProfile) {
@@ -78,6 +84,21 @@ export class AuthService {
     }
 
     return user
+  }
+
+  async logout(refreshToken?: string) {
+    if (!refreshToken) return true
+
+    const verifiedRefreshToken = await this.verifyRefreshToken(refreshToken)
+
+    if (!verifiedRefreshToken) return true
+
+    await this.authSessionService.deleteByUserIdAndSessionId(
+      verifiedRefreshToken.id,
+      verifiedRefreshToken.jti,
+    )
+
+    return true
   }
 
   setAuthTokens(
@@ -119,32 +140,96 @@ export class AuthService {
     })
   }
 
-  async getNewTokens(refreshToken: string) {
-    const verifiedUser = await this.verifyRefreshToken(refreshToken)
+  async getNewTokens(refreshToken: string, request: PreparedRequest) {
+    const verifiedRefreshToken = await this.verifyRefreshToken(refreshToken)
 
-    if (!verifiedUser) {
+    if (!verifiedRefreshToken) {
       throw new BadRequestException(INVALID_REFRESH_TOKEN_ERROR)
     }
 
-    const user = await this.userService.getById(verifiedUser.id)
+    const authSession = await this.authSessionService.findByUserIdAndSessionId(
+      verifiedRefreshToken.id,
+      verifiedRefreshToken.jti,
+    )
 
-    if (!user) throw new NotFoundException(USER_NOT_FOUND_ERROR)
+    if (!authSession) {
+      return this.handleTrustedInvalidRefreshToken(verifiedRefreshToken.id)
+    }
 
-    return this.createSession(user)
+    if (authSession.expiresAt.getTime() <= Date.now()) {
+      await this.authSessionService.deleteByUserIdAndSessionId(
+        verifiedRefreshToken.id,
+        verifiedRefreshToken.jti,
+      )
+
+      throw new BadRequestException(INVALID_REFRESH_TOKEN_ERROR)
+    }
+
+    const isRefreshTokenValid = await this.authSessionService.matchesRefreshToken(
+      authSession,
+      refreshToken,
+    )
+
+    if (!isRefreshTokenValid) {
+      return this.handleTrustedInvalidRefreshToken(verifiedRefreshToken.id)
+    }
+
+    const user = await this.userService.getById(verifiedRefreshToken.id)
+
+    if (!user) {
+      await this.authSessionService.deleteAllByUserId(verifiedRefreshToken.id)
+
+      throw new NotFoundException(USER_NOT_FOUND_ERROR)
+    }
+
+    const sessionTokens = this.generateSessionTokens(
+      user,
+      verifiedRefreshToken.jti,
+    )
+
+    const didRotateSession =
+      await this.authSessionService.rotateIfRefreshTokenHashMatches({
+        userId: verifiedRefreshToken.id,
+        sessionId: verifiedRefreshToken.jti,
+        refreshToken: sessionTokens.refreshToken,
+        expiresAt: sessionTokens.refreshTokenExpiresAt,
+        currentRefreshTokenHash: authSession.refreshTokenHash,
+        ...extractAuthSessionMetadata(request),
+      })
+
+    if (!didRotateSession) {
+      return this.handleTrustedInvalidRefreshToken(verifiedRefreshToken.id)
+    }
+
+    return {
+      user,
+      accessToken: sessionTokens.accessToken,
+      refreshToken: sessionTokens.refreshToken,
+    }
   }
 
-  createSession(user: UserWithoutPassword) {
-    const tokens = this.generateTokens({
-      id: String(user._id),
-      role: user.role,
+  async createSession(user: UserWithoutPassword, request: PreparedRequest) {
+    const sessionId = randomUUID()
+    const sessionTokens = this.generateSessionTokens(user, sessionId)
+
+    await this.authSessionService.create({
+      userId: String(user._id),
+      sessionId,
+      refreshToken: sessionTokens.refreshToken,
+      expiresAt: sessionTokens.refreshTokenExpiresAt,
+      ...extractAuthSessionMetadata(request),
     })
 
-    return { user, ...tokens }
+    return {
+      user,
+      accessToken: sessionTokens.accessToken,
+      refreshToken: sessionTokens.refreshToken,
+    }
   }
 
   private async verifyRefreshToken(refreshToken: string) {
     return this.jwt
-      .verifyAsync<Pick<AuthTokenData, 'id'>>(refreshToken, {
+      .verifyAsync<RefreshTokenPayload>(refreshToken, {
         secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
       })
       .catch(() => null)
@@ -216,20 +301,51 @@ export class AuthService {
     }
   }
 
-  private generateTokens(data: AuthTokenData) {
-    const accessToken = this.jwt.sign(data, {
+  private generateSessionTokens(
+    user: UserWithoutPassword,
+    sessionId: string,
+  ) {
+    const accessTokenPayload: AccessTokenPayload = {
+      id: String(user._id),
+      role: user.role,
+    }
+
+    const refreshTokenPayload: RefreshTokenPayload = {
+      id: String(user._id),
+      jti: sessionId,
+    }
+
+    const accessToken = this.jwt.sign(accessTokenPayload, {
       expiresIn: this.configService.get<StringValue>(
         'JWT_ACCESS_TOKEN_EXPIRES_IN',
       ),
     })
 
-    const refreshToken = this.jwt.sign(data, {
+    const refreshToken = this.jwt.sign(refreshTokenPayload, {
       secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
       expiresIn: this.configService.get<StringValue>(
         'JWT_REFRESH_TOKEN_EXPIRES_IN',
       ),
     })
 
-    return { accessToken, refreshToken }
+    return {
+      accessToken,
+      refreshToken,
+      refreshTokenExpiresAt: this.getRefreshTokenExpiresAt(),
+    }
+  }
+
+  private getRefreshTokenExpiresAt() {
+    const refreshTokenExpiresDays = this.configService.getOrThrow<number>(
+      'JWT_REFRESH_TOKEN_EXPIRES_DAYS',
+    )
+
+    return new Date(Date.now() + refreshTokenExpiresDays * ONE_DAY_IN_MS)
+  }
+
+  private async handleTrustedInvalidRefreshToken(userId: string): Promise<never> {
+    await this.authSessionService.deleteAllByUserId(userId)
+
+    throw new BadRequestException(INVALID_REFRESH_TOKEN_ERROR)
   }
 }

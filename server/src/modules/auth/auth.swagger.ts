@@ -99,7 +99,7 @@ export function AuthRegisterDocs() {
     ApiOperation({
       summary: 'Register a new user',
       description:
-        'Creates a new user account, sends an email verification link, validates Cloudflare Turnstile, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
+        'Creates a new user account, sends an email verification link, validates Cloudflare Turnstile, optionally merges guest favorite ids, creates a server-side auth session for refresh rotation, and sets access/refresh tokens in HttpOnly cookies.',
       security: [],
     }),
     ApiCreatedResponse({
@@ -121,7 +121,7 @@ export function AuthLoginDocs() {
     ApiOperation({
       summary: 'Log in user',
       description:
-        'Authenticates a user, validates Cloudflare Turnstile, optionally merges guest favorite ids, and sets access/refresh tokens in HttpOnly cookies.',
+        'Authenticates a user, validates Cloudflare Turnstile, optionally merges guest favorite ids, creates a server-side auth session for refresh rotation, and sets access/refresh tokens in HttpOnly cookies.',
       security: [],
     }),
     ApiCreatedResponse({
@@ -142,7 +142,7 @@ export function AuthNewTokensDocs() {
     ApiOperation({
       summary: 'Refresh auth tokens',
       description:
-        'Reads the refresh token from cookies, rotates tokens and sets new HttpOnly cookies.',
+        'Reads the refresh token from cookies, validates it against the stored auth session, rotates the current refresh token inside that session, and sets new HttpOnly cookies.',
       security: [{ [SWAGGER_REFRESH_TOKEN_AUTH_NAME]: [] }],
     }),
     ApiCreatedResponse({
@@ -162,7 +162,8 @@ export function AuthLogoutDocs() {
   return applyDecorators(
     ApiOperation({
       summary: 'Log out user',
-      description: 'Clears auth cookies for the current client session.',
+      description:
+        'Clears auth cookies and revokes the current refresh session when it can be resolved from the refresh-token cookie.',
       security: [{ [SWAGGER_REFRESH_TOKEN_AUTH_NAME]: [] }],
     }),
     ApiOkResponse({
@@ -209,7 +210,7 @@ function createSocialAuthCallbackDocs(providerLabel: string) {
     ApiOperation({
       summary: `${providerLabel} auth callback`,
       description:
-        'Processes the OAuth callback, sets auth cookies on success and redirects the browser to the frontend social-auth callback page.',
+        'Processes the OAuth callback, creates a server-side auth session on success, sets auth cookies, and redirects the browser to the frontend social-auth callback page.',
       security: [],
     }),
     ApiFoundResponse({

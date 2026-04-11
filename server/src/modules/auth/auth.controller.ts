@@ -40,11 +40,12 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   @Post('register')
   async register(
+    @Req() req: PreparedRequest,
     @Body() dto: RegisterDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { refreshToken, accessToken, ...response } =
-      await this.authService.register(dto)
+      await this.authService.register(dto, req)
 
     this.authService.setAuthTokens(res, accessToken, refreshToken)
 
@@ -57,11 +58,12 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   @Post('login')
   async login(
+    @Req() req: PreparedRequest,
     @Body() dto: LoginDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { refreshToken, accessToken, ...response } =
-      await this.authService.login(dto)
+      await this.authService.login(dto, req)
 
     this.authService.setAuthTokens(res, accessToken, refreshToken)
 
@@ -83,7 +85,7 @@ export class AuthController {
     }
 
     const { refreshToken, accessToken, ...response } =
-      await this.authService.getNewTokens(initialRefreshToken)
+      await this.authService.getNewTokens(initialRefreshToken, req)
 
     this.authService.setAuthTokens(res, accessToken, refreshToken)
 
@@ -93,7 +95,12 @@ export class AuthController {
   @AuthLogoutDocs()
   @HttpCode(HttpStatus.OK)
   @Post('logout')
-  logout(@Res({ passthrough: true }) res: Response) {
+  async logout(
+    @Req() req: PreparedRequest,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    await this.authService.logout(req.cookies?.[REFRESH_TOKEN_COOKIE_NAME])
+
     this.authService.setAuthTokens(res, null, null)
 
     return true

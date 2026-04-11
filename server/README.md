@@ -4,6 +4,8 @@ Backend API for the Swoosh project.
 
 Built with NestJS, TypeScript, MongoDB, Mongoose, JWT auth, Swagger, and Resend.
 
+Access tokens stay stateless, while refresh-token rotation is backed by server-side `auth_sessions` records so logout and future device/session management can revoke refresh access reliably.
+
 ## Setup
 
 ### 1. Install dependencies

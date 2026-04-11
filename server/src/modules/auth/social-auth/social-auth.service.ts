@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import type { Response } from 'express'
 import { AuthService } from '../auth.service'
 import { SOCIAL_AUTH_REDIRECT_URL, SOCIAL_AUTH_STATUS } from '../auth.constants'
-import type { UserWithoutPassword } from '../auth.types'
+import type { PreparedRequest, UserWithoutPassword } from '../auth.types'
 
 @Injectable()
 export class SocialAuthService {
@@ -12,14 +12,21 @@ export class SocialAuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  handleCallback(user: UserWithoutPassword | undefined, response: Response) {
+  async handleCallback(
+    user: UserWithoutPassword | undefined,
+    request: PreparedRequest,
+    response: Response,
+  ) {
     this.authService.setAuthTokens(response, null, null)
 
     if (!user) {
       return response.redirect(this.getRedirectUrl(SOCIAL_AUTH_STATUS.ERROR))
     }
 
-    const { accessToken, refreshToken } = this.authService.createSession(user)
+    const { accessToken, refreshToken } = await this.authService.createSession(
+      user,
+      request,
+    )
 
     this.authService.setAuthTokens(response, accessToken, refreshToken)
 

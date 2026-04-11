@@ -28,7 +28,7 @@ export class SocialAuthController {
   @GoogleAuth()
   @Get('google/callback')
   googleCallback(@Req() req: PreparedRequest, @Res() res: Response) {
-    return this.socialAuthService.handleCallback(req.user, res)
+    return this.socialAuthService.handleCallback(req.user, req, res)
   }
 
   @AuthGithubLoginDocs()
@@ -42,6 +42,6 @@ export class SocialAuthController {
   @GithubAuth()
   @Get('github/callback')
   githubCallback(@Req() req: PreparedRequest, @Res() res: Response) {
-    return this.socialAuthService.handleCallback(req.user, res)
+    return this.socialAuthService.handleCallback(req.user, req, res)
   }
 }

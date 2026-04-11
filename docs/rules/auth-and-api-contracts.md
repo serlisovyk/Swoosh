@@ -10,6 +10,8 @@ These rules apply to auth behavior, Swagger, public request and response contrac
 - Keep frontend auth state derived from backend auth state, the shared API behavior, and the `me` query
 - Prefer server-side App Router access checks for protected and auth-only pages instead of client guard wrappers or proxy-centered auth logic
 - Keep private route protection in reusable helpers such as `requireAuth()`, `requireAnonymous()`, and `requireRole()` so profile and future restricted sections follow the same rule set
+- Keep access tokens stateless, but back refresh-token rotation with server-side auth sessions so logout, device management, and refresh reuse handling stay enforceable
+- If a refresh token passes JWT validation but no longer matches the stored server session, treat it as a trusted reuse incident and revoke all refresh sessions for that user
 - For role-restricted frontend sections, redirect unauthenticated users to login but return `404` for authenticated users without the required role
 - Keep email-verification state derived from the backend user shape such as `isEmailVerified`, not from ad-hoc client flags
 - Do not reintroduce local token storage or a separate client-side token source of truth
@@ -20,6 +22,7 @@ These rules apply to auth behavior, Swagger, public request and response contrac
 
 - Reuse the shared API instance with credentials and the existing refresh-token behavior
 - Keep auth request and response handling aligned with the actual cookie and refresh flow
+- Keep `POST /auth/new-tokens` and `POST /auth/logout` wire contracts stable unless the task explicitly changes the frontend refresh interceptor contract
 - When auth flows use Cloudflare Turnstile, keep the client site key in validated env handling and send the token through the `cf-turnstile-token` header the backend validates
 - Keep auth-specific throttling aligned with the current backend auth flow when changing login, register, email-verification, or password-recovery endpoints
 
@@ -35,6 +38,7 @@ These rules apply to auth behavior, Swagger, public request and response contrac
 ## Social auth
 
 - Treat Google and GitHub OAuth start routes, callbacks, cookie issuance, and frontend entry buttons as one auth flow
+- Keep social-auth callbacks creating the same server-side refresh session records as regular login and register flows
 - For stable auth guard combinations, prefer feature-local decorators such as `@Auth()`, `@GoogleAuth()`, or `@GithubAuth()` over repeating raw `@UseGuards(...)` in controllers
 - Keep backend provider callback URLs aligned with the actual public API base URL and global prefix the app exposes
 - For browser-initiated OAuth start routes in the Next.js client, prefer frontend rewrite entry points such as `/auth/google` or `/auth/github` over hardcoding backend origins in UI links

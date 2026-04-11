@@ -33,6 +33,8 @@ Use `docs/rules/auth-and-api-contracts.md` for the stable auth and public-contra
 - Keep auth-specific throttling tighter on login, register, email-verification, and password-recovery endpoints than the global default so brute-force protection lives with the auth flow instead of relying only on app-wide limits.
 - Keep auth cookie naming, expiry, and response behavior consistent with the existing auth service pattern.
 - Keep access-token and refresh-token signing separated the way the backend already does it: access uses the main JWT secret, refresh uses the refresh secret.
+- Keep access tokens stateless, but back refresh-token rotation with server-side auth-session records so logout, device management, and trusted reuse handling are enforceable.
+- When a refresh token passes JWT validation but no longer matches the stored session state, revoke all refresh sessions for that user instead of silently issuing another pair.
 - Keep current-user and role-aware behavior aligned with the real JWT payload and runtime user lookup.
 - Keep verification-email and password-reset tokens generated server-side and stored hashed before persistence.
 - If Google or GitHub login succeeds with a verified provider email, keep the resulting user marked as email-verified and do not force the regular verification-email flow on that account.
@@ -47,6 +49,7 @@ Use `docs/rules/auth-and-api-contracts.md` for the stable auth and public-contra
 - Keep login, register, forgot-password, and reset-password inaccessible to already-authenticated users through server-side route checks rather than redirecting after client render.
 - Keep social-auth entry points on login and register screens aligned with the backend provider routes and the public API base URL used by the browser redirect.
 - Keep social-auth callback pages focused on cookie-aware redirect handling and cache warmup, not on storing access tokens in the browser.
+- Keep social-auth callbacks creating the same server-side refresh session records as regular login and register, not a separate shortcut flow.
 - When auth forms use Turnstile, keep the site key in validated `shared/env`, keep captcha state in the auth provider layer, reserve layout space for the widget, and send the token through the same `cf-turnstile-token` header the backend validates.
 - Keep email-verification UI state derived from `me` data such as `isEmailVerified` instead of separate client-only flags.
 - Keep verify-email token parsing, resend mutations, and profile gating explicit and easy to trace from the auth feature.
