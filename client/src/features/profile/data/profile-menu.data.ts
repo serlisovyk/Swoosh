@@ -5,6 +5,7 @@ import {
   MapPinHouse,
   Heart,
   LockKeyholeIcon,
+  MonitorSmartphone,
 } from 'lucide-react'
 import { ROUTES } from '@shared/config'
 
@@ -44,5 +45,11 @@ export const profileMenuItems = [
     text: 'Сменить пароль',
     href: ROUTES.CHANGE_PASSWORD,
     icon: LockKeyholeIcon,
+  },
+  {
+    id: 'sessions',
+    text: 'Активные сессии',
+    href: ROUTES.SESSIONS,
+    icon: MonitorSmartphone,
   },
 ]

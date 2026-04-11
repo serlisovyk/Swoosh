@@ -35,6 +35,7 @@ Use `docs/rules/auth-and-api-contracts.md` for the stable auth and public-contra
 - Keep access-token and refresh-token signing separated the way the backend already does it: access uses the main JWT secret, refresh uses the refresh secret.
 - Keep access tokens stateless, but back refresh-token rotation with server-side auth-session records so logout, device management, and trusted reuse handling are enforceable.
 - When a refresh token passes JWT validation but no longer matches the stored session state, revoke all refresh sessions for that user instead of silently issuing another pair.
+- If the product adds a devices or sessions page, keep the current device on the normal logout endpoint and reserve dedicated revoke or logout-all endpoints for server-side refresh sessions.
 - Keep current-user and role-aware behavior aligned with the real JWT payload and runtime user lookup.
 - Keep verification-email and password-reset tokens generated server-side and stored hashed before persistence.
 - If Google or GitHub login succeeds with a verified provider email, keep the resulting user marked as email-verified and do not force the regular verification-email flow on that account.

@@ -14,6 +14,7 @@ import type {
   RegisterPayload,
   RequestPasswordResetDto,
   ResetPasswordDto,
+  AuthSessionsResponse,
   GetMeQueryOptions,
   User,
   VerifyEmailDto,
@@ -34,6 +35,24 @@ export function useGetMeQuery(options: GetMeQueryOptions = {}) {
   })
 
   return { user, isLoading, error }
+}
+
+export function useSessionsQuery() {
+  const {
+    data,
+    error,
+    isLoading,
+  } = useQuery<AuthSessionsResponse>({
+    queryKey: [API_QUERY_KEYS.AUTH_SESSIONS],
+    queryFn: () => authService.getSessions(),
+    retry: false,
+  })
+
+  return {
+    sessions: data?.sessions ?? [],
+    isLoading,
+    error,
+  }
 }
 
 export function useLoginMutation() {
@@ -112,6 +131,7 @@ export function useLogoutMutation() {
     mutationFn: () => authService.logout(),
     onSuccess: () => {
       queryClient.setQueryData<User | null>([API_QUERY_KEYS.ME], null)
+      queryClient.removeQueries({ queryKey: [API_QUERY_KEYS.AUTH_SESSIONS] })
       toast.success('Вы успешно вышли из системы!')
       router.replace(ROUTES.HOME)
     },
@@ -121,6 +141,43 @@ export function useLogoutMutation() {
   })
 
   return { logout: mutateAsync, isLoading: isPending }
+}
+
+export function useLogoutAllMutation() {
+  const router = useRouter()
+  const queryClient = useQueryClient()
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => authService.logoutAll(),
+    onSuccess: () => {
+      queryClient.setQueryData<User | null>([API_QUERY_KEYS.ME], null)
+      queryClient.removeQueries({ queryKey: [API_QUERY_KEYS.AUTH_SESSIONS] })
+      toast.success('Вы успешно вышли из системы!')
+      router.replace(ROUTES.HOME)
+    },
+    onError: (error: unknown) => {
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
+    },
+  })
+
+  return { logoutAll: mutateAsync, isLoading: isPending }
+}
+
+export function useRevokeSessionMutation() {
+  const queryClient = useQueryClient()
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (sessionId: string) => authService.revokeSession(sessionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [API_QUERY_KEYS.AUTH_SESSIONS] })
+      toast.success('Сессия завершена.')
+    },
+    onError: (error: unknown) => {
+      if (isAxiosError(error)) toast.error(getErrorMessage(error))
+    },
+  })
+
+  return { revokeSession: mutateAsync, isLoading: isPending }
 }
 
 export function useRequestPasswordResetMutation() {

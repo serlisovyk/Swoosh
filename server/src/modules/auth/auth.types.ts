@@ -50,6 +50,19 @@ export interface RotateAuthSessionData extends CreateAuthSessionData {
   currentRefreshTokenHash: string
 }
 
+export interface AuthSessionItem {
+  sessionId: string
+  deviceLabel: string
+  ip: string | null
+  lastUsedAt: Date
+  createdAt: Date
+  isCurrent: boolean
+}
+
+export interface AuthSessionsResponse {
+  sessions: AuthSessionItem[]
+}
+
 export interface PreparedRequest extends Request {
   cookies: Record<string, string | undefined>
   user?: UserWithoutPassword
@@ -60,6 +73,11 @@ export type AuthSessionModel = Model<AuthSession>
 export type StoredAuthSession = Pick<
   AuthSession,
   'userId' | 'sessionId' | 'refreshTokenHash' | 'expiresAt' | 'userAgent' | 'ip' | 'lastUsedAt'
+>
+
+export type ActiveAuthSession = Pick<
+  AuthSession,
+  'userId' | 'sessionId' | 'expiresAt' | 'userAgent' | 'ip' | 'lastUsedAt' | 'createdAt'
 >
 
 export type UserWithoutPassword = Omit<User, UserPasswordAndSensitiveFields>

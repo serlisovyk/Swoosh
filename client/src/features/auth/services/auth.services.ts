@@ -2,6 +2,7 @@ import type { AxiosRequestConfig } from 'axios'
 import { API_ROUTES, BaseService } from '@shared/api'
 import type {
   AuthResponse,
+  AuthSessionsResponse,
   LoginPayload,
   RequestPasswordResetDto,
   RegisterPayload,
@@ -27,6 +28,18 @@ class AuthService extends BaseService {
 
   async logout(): Promise<boolean> {
     return this.post(API_ROUTES.LOGOUT)
+  }
+
+  async logoutAll(): Promise<boolean> {
+    return this.post(API_ROUTES.LOGOUT_ALL)
+  }
+
+  async getSessions(): Promise<AuthSessionsResponse> {
+    return this.get(API_ROUTES.AUTH_SESSIONS)
+  }
+
+  async revokeSession(sessionId: string): Promise<boolean> {
+    return this.delete(API_ROUTES.AUTH_SESSION(sessionId))
   }
 
   async getMe(): Promise<User> {

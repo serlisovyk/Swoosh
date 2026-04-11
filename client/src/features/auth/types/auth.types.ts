@@ -63,6 +63,19 @@ export interface AuthResponse {
   user: User
 }
 
+export interface AuthSessionItem {
+  sessionId: string
+  deviceLabel: string
+  ip: string | null
+  lastUsedAt: string
+  createdAt: string
+  isCurrent: boolean
+}
+
+export interface AuthSessionsResponse {
+  sessions: AuthSessionItem[]
+}
+
 export interface User {
   _id: string
   email: string

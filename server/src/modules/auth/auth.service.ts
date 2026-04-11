@@ -20,6 +20,7 @@ import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import {
   ACCESS_TOKEN_COOKIE_NAME,
+  CURRENT_SESSION_REVOKE_ERROR,
   FAILED_TO_CREATE_USER_ERROR,
   INVALID_CREDENTIALS_ERROR,
   INVALID_REFRESH_TOKEN_ERROR,
@@ -29,6 +30,8 @@ import {
 import { ONE_DAY_IN_MS, ONE_HOUR_IN_MS } from '@shared/constants'
 import {
   AccessTokenPayload,
+  AuthSessionItem,
+  AuthSessionsResponse,
   AuthFavoriteAwareUser,
   PreparedRequest,
   RefreshTokenPayload,
@@ -36,6 +39,7 @@ import {
   UserWithoutPassword,
 } from './auth.types'
 import { extractAuthSessionMetadata } from './auth.utils'
+import { getAuthSessionDeviceLabel } from './auth-session/auth-session.utils'
 
 @Injectable()
 export class AuthService {
@@ -87,8 +91,6 @@ export class AuthService {
   }
 
   async logout(refreshToken?: string) {
-    if (!refreshToken) return true
-
     const verifiedRefreshToken = await this.verifyRefreshToken(refreshToken)
 
     if (!verifiedRefreshToken) return true
@@ -97,6 +99,54 @@ export class AuthService {
       verifiedRefreshToken.id,
       verifiedRefreshToken.jti,
     )
+
+    return true
+  }
+
+  async getSessions(
+    userId: string,
+    refreshToken?: string,
+  ): Promise<AuthSessionsResponse> {
+    const currentSessionId = await this.getCurrentSessionId(refreshToken)
+
+    const authSessions = await this.authSessionService.findActiveByUserId(userId)
+
+    const sessions = authSessions
+      .map<AuthSessionItem>((authSession) => ({
+        sessionId: authSession.sessionId,
+        deviceLabel: getAuthSessionDeviceLabel(authSession.userAgent),
+        ip: authSession.ip,
+        lastUsedAt: authSession.lastUsedAt ?? authSession.createdAt,
+        createdAt: authSession.createdAt,
+        isCurrent: authSession.sessionId === currentSessionId,
+      }))
+      .sort(
+        (firstSession, secondSession) =>
+          Number(secondSession.isCurrent) - Number(firstSession.isCurrent) ||
+          secondSession.lastUsedAt.getTime() - firstSession.lastUsedAt.getTime(),
+      )
+
+    return { sessions }
+  }
+
+  async revokeSession(
+    userId: string,
+    sessionId: string,
+    refreshToken?: string,
+  ) {
+    const currentSessionId = await this.getCurrentSessionId(refreshToken)
+
+    if (currentSessionId === sessionId) {
+      throw new BadRequestException(CURRENT_SESSION_REVOKE_ERROR)
+    }
+
+    await this.authSessionService.deleteByUserIdAndSessionId(userId, sessionId)
+
+    return true
+  }
+
+  async logoutAll(userId: string) {
+    await this.authSessionService.deleteAllByUserId(userId)
 
     return true
   }
@@ -227,7 +277,9 @@ export class AuthService {
     }
   }
 
-  private async verifyRefreshToken(refreshToken: string) {
+  private async verifyRefreshToken(refreshToken?: string | null) {
+    if (!refreshToken) return null
+
     return this.jwt
       .verifyAsync<RefreshTokenPayload>(refreshToken, {
         secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
@@ -347,5 +399,11 @@ export class AuthService {
     await this.authSessionService.deleteAllByUserId(userId)
 
     throw new BadRequestException(INVALID_REFRESH_TOKEN_ERROR)
+  }
+
+  private async getCurrentSessionId(refreshToken?: string) {
+    const verifiedRefreshToken = await this.verifyRefreshToken(refreshToken)
+
+    return verifiedRefreshToken?.jti ?? null
   }
 }

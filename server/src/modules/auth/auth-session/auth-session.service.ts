@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose'
 import { hash, verify } from 'argon2'
 import { AuthSession } from './models/auth-session.model'
 import type {
+  ActiveAuthSession,
   AuthSessionModel,
   CreateAuthSessionData,
   RotateAuthSessionData,
@@ -65,8 +66,27 @@ export class AuthSessionService {
     return Boolean(updatedSession)
   }
 
+  async findActiveByUserId(userId: string) {
+    await this.deleteExpiredByUserId(userId)
+
+    return this.authSessionModel
+      .find({
+        userId,
+        expiresAt: { $gt: new Date() },
+      })
+      .sort({ lastUsedAt: -1, createdAt: -1 })
+      .lean<ActiveAuthSession[]>()
+  }
+
   deleteByUserIdAndSessionId(userId: string, sessionId: string) {
     return this.authSessionModel.deleteOne({ userId, sessionId })
+  }
+
+  deleteExpiredByUserId(userId: string) {
+    return this.authSessionModel.deleteMany({
+      userId,
+      expiresAt: { $lte: new Date() },
+    })
   }
 
   deleteAllByUserId(userId: string) {

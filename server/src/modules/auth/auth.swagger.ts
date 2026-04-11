@@ -1,5 +1,6 @@
 import { applyDecorators, Type } from '@nestjs/common'
 import {
+  ApiParam,
   ApiBadRequestResponse,
   ApiConflictResponse,
   ApiCreatedResponse,
@@ -26,6 +27,9 @@ import {
   AUTH_PASSWORD_EXAMPLE,
   AUTH_PHONE_EXAMPLE,
   AUTH_RESET_TOKEN_EXAMPLE,
+  AUTH_SESSION_DEVICE_LABEL_EXAMPLE,
+  AUTH_SESSION_ID_EXAMPLE,
+  AUTH_SESSION_IP_EXAMPLE,
 } from './auth.constants'
 
 export function AuthTagDocs() {
@@ -83,6 +87,55 @@ export function AuthUserPropertyDocs(model: Type<unknown>) {
 export class AuthSessionResponseDocs {
   @AuthUserPropertyDocs(UserResponseDocs)
   user!: UserResponseDocs
+}
+
+export class AuthSessionItemResponseDocs {
+  @ApiProperty({
+    description: 'Auth session identifier.',
+    example: AUTH_SESSION_ID_EXAMPLE,
+  })
+  sessionId!: string
+
+  @ApiProperty({
+    description: 'Heuristic browser and device label derived from user-agent.',
+    example: AUTH_SESSION_DEVICE_LABEL_EXAMPLE,
+  })
+  deviceLabel!: string
+
+  @ApiProperty({
+    description: 'Last known client IP for the session.',
+    example: AUTH_SESSION_IP_EXAMPLE,
+    nullable: true,
+  })
+  ip!: string | null
+
+  @ApiProperty({
+    description: 'Approximate last session activity timestamp.',
+    example: '2026-04-11T11:22:33.000Z',
+    format: 'date-time',
+  })
+  lastUsedAt!: string
+
+  @ApiProperty({
+    description: 'Session creation timestamp.',
+    example: '2026-04-09T08:10:00.000Z',
+    format: 'date-time',
+  })
+  createdAt!: string
+
+  @ApiProperty({
+    description: 'Whether this session belongs to the current client.',
+    example: true,
+  })
+  isCurrent!: boolean
+}
+
+export class AuthSessionsResponseDocs {
+  @ApiProperty({
+    description: 'Active refresh sessions for the current user.',
+    type: [AuthSessionItemResponseDocs],
+  })
+  sessions!: AuthSessionItemResponseDocs[]
 }
 
 export function AuthCaptchaHeaderDocs() {
@@ -188,6 +241,65 @@ export function AuthRequestPasswordResetDocs() {
     }),
     ApiBadRequestResponse({
       description: 'Request body validation failed.',
+    }),
+  )
+}
+
+export function AuthSessionsDocs() {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Get active auth sessions',
+      description:
+        'Returns the current user refresh sessions, hides expired records, and marks the current session when the refresh-token cookie can be resolved.',
+    }),
+    ApiOkResponse({
+      description: 'Active sessions returned successfully.',
+      type: AuthSessionsResponseDocs,
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Authentication is required.',
+    }),
+  )
+}
+
+export function AuthRevokeSessionDocs() {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Revoke another auth session',
+      description:
+        'Deletes one active refresh session of the current user. The current session must be terminated via the logout endpoint instead.',
+    }),
+    ApiParam({
+      name: 'sessionId',
+      description: 'Session identifier to revoke.',
+      example: AUTH_SESSION_ID_EXAMPLE,
+    }),
+    ApiOkResponse({
+      description: 'Session revoked successfully.',
+      schema: { type: 'boolean', example: true },
+    }),
+    ApiBadRequestResponse({
+      description: 'The current session cannot be revoked through this endpoint.',
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Authentication is required.',
+    }),
+  )
+}
+
+export function AuthLogoutAllDocs() {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Log out from all devices',
+      description:
+        'Deletes all refresh sessions for the current user, clears auth cookies, and signs out the current device as well.',
+    }),
+    ApiOkResponse({
+      description: 'All sessions revoked successfully.',
+      schema: { type: 'boolean', example: true },
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Authentication is required.',
     }),
   )
 }

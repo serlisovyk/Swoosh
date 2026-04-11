@@ -9,7 +9,11 @@ class ApiRoutes {
   readonly REQUEST_EMAIL_VERIFICATION = `${this.AUTH}/request-email-verification`
   readonly VERIFY_EMAIL = `${this.AUTH}/verify-email`
   readonly LOGOUT = `${this.AUTH}/logout`
+  readonly LOGOUT_ALL = `${this.AUTH}/logout-all`
   readonly REFRESH = `${this.AUTH}/new-tokens`
+  readonly AUTH_SESSIONS = `${this.AUTH}/sessions`
+  readonly AUTH_SESSION = (sessionId: string) =>
+    `${this.AUTH_SESSIONS}/${sessionId}`
 
   readonly PRODUCTS = '/products'
   readonly PRODUCT = (id: string) => `${this.PRODUCTS}/${id}`

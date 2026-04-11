@@ -12,6 +12,7 @@ These rules apply to auth behavior, Swagger, public request and response contrac
 - Keep private route protection in reusable helpers such as `requireAuth()`, `requireAnonymous()`, and `requireRole()` so profile and future restricted sections follow the same rule set
 - Keep access tokens stateless, but back refresh-token rotation with server-side auth sessions so logout, device management, and refresh reuse handling stay enforceable
 - If a refresh token passes JWT validation but no longer matches the stored server session, treat it as a trusted reuse incident and revoke all refresh sessions for that user
+- For device and session management, keep the current device on the normal logout flow and use dedicated revoke or logout-all endpoints only for server-side refresh sessions
 - For role-restricted frontend sections, redirect unauthenticated users to login but return `404` for authenticated users without the required role
 - Keep email-verification state derived from the backend user shape such as `isEmailVerified`, not from ad-hoc client flags
 - Do not reintroduce local token storage or a separate client-side token source of truth

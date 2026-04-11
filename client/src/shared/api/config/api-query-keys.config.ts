@@ -2,6 +2,7 @@ class ApiQueryKeys {
   private readonly AUTH = 'auth'
 
   readonly ME = `${this.AUTH}/me`
+  readonly AUTH_SESSIONS = `${this.AUTH}/sessions`
 
   readonly PRODUCTS = 'products'
   readonly PRODUCT = 'product'

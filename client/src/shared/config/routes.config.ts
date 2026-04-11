@@ -17,6 +17,7 @@ class Routes {
   readonly EDIT_PROFILE = this.PROFILE + '/edit'
   readonly ORDERS = this.PROFILE + '/orders'
   readonly CHANGE_PASSWORD = this.PROFILE + '/change-password'
+  readonly SESSIONS = this.PROFILE + '/sessions'
 
   readonly ADDRESS = this.PROFILE + '/address'
   readonly ADDRESS_EDIT = this.ADDRESS + '/edit'

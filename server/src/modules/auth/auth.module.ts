@@ -17,6 +17,7 @@ import { SocialAuthService } from './social-auth/social-auth.service'
 import { AuthAccountController } from './auth-account/auth-account.controller'
 import { AuthAccountService } from './auth-account/auth-account.service'
 import { AuthController } from './auth.controller'
+import { AuthSessionController } from './auth-session.controller'
 import { AuthService } from './auth.service'
 import {
   AuthSession,
@@ -38,7 +39,12 @@ import { AuthSessionService } from './auth-session/auth-session.service'
     FavoritesModule,
     EmailModule,
   ],
-  controllers: [AuthController, AuthAccountController, SocialAuthController],
+  controllers: [
+    AuthController,
+    AuthSessionController,
+    AuthAccountController,
+    SocialAuthController,
+  ],
   providers: [
     AuthService,
     JwtStrategy,
